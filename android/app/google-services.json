@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "193867110649",
+    "project_id": "wc2026-dfb10",
+    "storage_bucket": "wc2026-dfb10.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193867110649:android:dae8058556d0a71a6e2a28",
+        "android_client_info": {
+          "package_name": "com.sedhamza.wc2026"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Cu4e2qhBcS7yvWMjOnjtPaxjQ6m3oWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
