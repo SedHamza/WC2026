@@ -1,0 +1,40 @@
+{
+  "appName": "كأس العالم 2026",
+  "login": "تسجيل الدخول",
+  "register": "إنشاء حساب",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "firstName": "الاسم الأول",
+  "lastName": "اسم العائلة",
+  "continueWith": "أو تابع باستخدام",
+  "noAccount": "ليس لديك حساب؟ ",
+  "alreadyAccount": "لديك حساب بالفعل؟ ",
+  "welcomeBack": "مرحباً بعودتك 👋",
+  "createAccount": "إنشاء حساب",
+  "joinCompetition": "انضم إلى مسابقة التوقعات",
+  "signIn": "تسجيل الدخول",
+  "signInGoogle": "جوجل",
+  "signInFacebook": "فيسبوك",
+  "terms": "شروط الاستخدام",
+  "privacy": "سياسة الخصوصية",
+  "termsText": "بإنشاء حساب، فإنك توافق على {terms} و{privacy}",
+  "@termsText": {
+    "placeholders": {
+      "terms": {},
+      "privacy": {}
+    }
+  },
+  "networkError": "تحقق من اتصالك بالإنترنت",
+  "serverError": "خطأ في الخادم، حاول مرة أخرى",
+  "unknownError": "حدث خطأ ما",
+  "sessionExpired": "انتهت الجلسة، سجل دخولك مجدداً",
+  "invalidEmail": "بريد إلكتروني غير صالح",
+  "weakPassword": "كلمة المرور ضعيفة جداً",
+  "emailInUse": "البريد الإلكتروني مستخدم بالفعل",
+  "wrongPassword": "كلمة المرور خاطئة",
+  "userNotFound": "لا يوجد حساب لهذا البريد الإلكتروني",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "passwordMismatch": "كلمات المرور غير متطابقة"
+}

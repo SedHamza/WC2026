@@ -1,0 +1,40 @@
+{
+  "appName": "WC 2026",
+  "login": "Connexion",
+  "register": "Inscription",
+  "email": "Email",
+  "password": "Mot de passe",
+  "confirmPassword": "Confirmer le mot de passe",
+  "forgotPassword": "Mot de passe oublié ?",
+  "firstName": "Prénom",
+  "lastName": "Nom",
+  "continueWith": "ou continuer avec",
+  "noAccount": "Pas de compte ? ",
+  "alreadyAccount": "Déjà un compte ? ",
+  "welcomeBack": "Bon retour 👋",
+  "createAccount": "Créer un compte",
+  "joinCompetition": "Rejoignez la compétition de pronostics",
+  "signIn": "Se connecter",
+  "signInGoogle": "Google",
+  "signInFacebook": "Facebook",
+  "terms": "Conditions d'utilisation",
+  "privacy": "Politique de confidentialité",
+  "termsText": "En créant un compte, vous acceptez nos {terms} et notre {privacy}",
+  "@termsText": {
+    "placeholders": {
+      "terms": {},
+      "privacy": {}
+    }
+  },
+  "networkError": "Vérifiez votre connexion internet",
+  "serverError": "Erreur serveur, réessayez plus tard",
+  "unknownError": "Une erreur est survenue",
+  "sessionExpired": "Session expirée, reconnectez-vous",
+  "invalidEmail": "Adresse email invalide",
+  "weakPassword": "Mot de passe trop faible",
+  "emailInUse": "Email déjà utilisé",
+  "wrongPassword": "Mot de passe incorrect",
+  "userNotFound": "Aucun compte trouvé pour cet email",
+  "fieldRequired": "Ce champ est obligatoire",
+  "passwordMismatch": "Les mots de passe ne correspondent pas"
+}

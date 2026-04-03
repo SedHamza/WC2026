@@ -1,0 +1,34 @@
+class AppStrings {
+  static const String appName = 'appName';
+  static const String login = 'login';
+  static const String register = 'register';
+  static const String email = 'email';
+  static const String password = 'password';
+  static const String confirmPassword = 'confirmPassword';
+  static const String forgotPassword = 'forgotPassword';
+  static const String firstName = 'firstName';
+  static const String lastName = 'lastName';
+  static const String continueWith = 'continueWith';
+  static const String noAccount = 'noAccount';
+  static const String alreadyAccount = 'alreadyAccount';
+  static const String welcomeBack = 'welcomeBack';
+  static const String createAccount = 'createAccount';
+  static const String joinCompetition = 'joinCompetition';
+  static const String signIn = 'signIn';
+  static const String signInGoogle = 'signInGoogle';
+  static const String signInFacebook = 'signInFacebook';
+  static const String terms = 'terms';
+  static const String privacy = 'privacy';
+  static const String termsText = 'termsText';
+  static const String networkError = 'networkError';
+  static const String serverError = 'serverError';
+  static const String unknownError = 'unknownError';
+  static const String sessionExpired = 'sessionExpired';
+  static const String invalidEmail = 'invalidEmail';
+  static const String weakPassword = 'weakPassword';
+  static const String emailInUse = 'emailInUse';
+  static const String wrongPassword = 'wrongPassword';
+  static const String userNotFound = 'userNotFound';
+  static const String fieldRequired = 'fieldRequired';
+  static const String passwordMismatch = 'passwordMismatch';
+}

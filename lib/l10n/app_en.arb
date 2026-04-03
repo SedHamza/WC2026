@@ -1,0 +1,40 @@
+{
+  "appName": "WC 2026",
+  "login": "Login",
+  "register": "Register",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "forgotPassword": "Forgot password?",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "continueWith": "or continue with",
+  "noAccount": "Don't have an account? ",
+  "alreadyAccount": "Already have an account? ",
+  "welcomeBack": "Welcome back 👋",
+  "createAccount": "Create account",
+  "joinCompetition": "Join the predictions competition",
+  "signIn": "Sign in",
+  "signInGoogle": "Google",
+  "signInFacebook": "Facebook",
+  "terms": "Terms of use",
+  "privacy": "Privacy policy",
+  "termsText": "By creating an account, you agree to our {terms} and {privacy}",
+  "@termsText": {
+    "placeholders": {
+      "terms": {},
+      "privacy": {}
+    }
+  },
+  "networkError": "Check your internet connection",
+  "serverError": "Server error, please try again",
+  "unknownError": "An error occurred",
+  "sessionExpired": "Session expired, please sign in again",
+  "invalidEmail": "Invalid email address",
+  "weakPassword": "Password is too weak",
+  "emailInUse": "Email already in use",
+  "wrongPassword": "Wrong password",
+  "userNotFound": "No account found for this email",
+  "fieldRequired": "This field is required",
+  "passwordMismatch": "Passwords do not match"
+}
