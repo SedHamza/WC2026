@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/auth/presentation/screens/splash_screen.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -7,12 +10,20 @@ class AppRouter {
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const _SplashScreen(),
+        builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
         path: '/home',
         builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Home - Coming soon')),
+          body: Center(child: Text('Home — Coming soon')),
         ),
       ),
     ],
@@ -20,20 +31,4 @@ class AppRouter {
       body: Center(child: Text('Page introuvable')),
     ),
   );
-}
-
-class _SplashScreen extends StatelessWidget {
-  const _SplashScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF0A0E1A),
-      body: Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFF002868),
-        ),
-      ),
-    );
-  }
 }
