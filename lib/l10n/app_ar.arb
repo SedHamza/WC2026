@@ -36,5 +36,10 @@
   "wrongPassword": "كلمة المرور خاطئة",
   "userNotFound": "لا يوجد حساب لهذا البريد الإلكتروني",
   "fieldRequired": "هذا الحقل مطلوب",
-  "passwordMismatch": "كلمات المرور غير متطابقة"
+  "passwordMismatch": "كلمات المرور غير متطابقة",
+  "home": "الصفحة الرئيسية",
+  "matches": "المباريات",
+  "pronostics": "التوقعات",
+  "standings": "الترتيب",
+  "news": "الأخبار"
 }

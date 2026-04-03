@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wc2026/features/home/home_screen.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
@@ -23,7 +24,7 @@ class AppRouter {
       GoRoute(
         path: '/home',
         builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Home — Coming soon')),
+          body: Center(child: const HomeScreen()),
         ),
       ),
     ],

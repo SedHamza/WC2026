@@ -105,4 +105,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordMismatch => 'Passwords do not match';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get matches => 'Matches';
+
+  @override
+  String get pronostics => 'Predictions';
+
+  @override
+  String get standings => 'Standings';
+
+  @override
+  String get news => 'News';
 }

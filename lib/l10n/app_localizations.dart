@@ -291,6 +291,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordMismatch;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @matches.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches'**
+  String get matches;
+
+  /// No description provided for @pronostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictions'**
+  String get pronostics;
+
+  /// No description provided for @standings.
+  ///
+  /// In en, this message translates to:
+  /// **'Standings'**
+  String get standings;
+
+  /// No description provided for @news.
+  ///
+  /// In en, this message translates to:
+  /// **'News'**
+  String get news;
 }
 
 class _AppLocalizationsDelegate

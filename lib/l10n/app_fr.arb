@@ -36,5 +36,10 @@
   "wrongPassword": "Mot de passe incorrect",
   "userNotFound": "Aucun compte trouvé pour cet email",
   "fieldRequired": "Ce champ est obligatoire",
-  "passwordMismatch": "Les mots de passe ne correspondent pas"
+  "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "home": "Accueil",
+  "matches": "Matchs",
+  "pronostics": "Pronostics",
+  "standings": "Classement",
+  "news": "Actualités"
 }

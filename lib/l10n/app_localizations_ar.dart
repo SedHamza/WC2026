@@ -105,4 +105,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get passwordMismatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get home => 'الصفحة الرئيسية';
+
+  @override
+  String get matches => 'المباريات';
+
+  @override
+  String get pronostics => 'التوقعات';
+
+  @override
+  String get standings => 'الترتيب';
+
+  @override
+  String get news => 'الأخبار';
 }

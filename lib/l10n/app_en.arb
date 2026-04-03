@@ -36,5 +36,10 @@
   "wrongPassword": "Wrong password",
   "userNotFound": "No account found for this email",
   "fieldRequired": "This field is required",
-  "passwordMismatch": "Passwords do not match"
+  "passwordMismatch": "Passwords do not match",
+  "home": "Home",
+  "matches": "Matches",
+  "pronostics": "Predictions",
+  "standings": "Standings",
+  "news": "News"
 }
