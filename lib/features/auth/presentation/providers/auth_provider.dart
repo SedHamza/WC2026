@@ -1,27 +1,47 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../../pronostics/data/repositories/pronostic_repository_impl.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, User?>((ref) {
   return AuthNotifier();
 });
 
 class AuthNotifier extends StateNotifier<User?> {
+  final PronosticRepositoryImpl _pronosticRepo = PronosticRepositoryImpl();
+
   AuthNotifier() : super(FirebaseAuth.instance.currentUser) {
     FirebaseAuth.instance.authStateChanges().listen((user) {
       state = user;
     });
   }
 
+  // ── Crée le profil Firestore si pas encore existant ──────────────────────
+  Future<void> _createProfileIfNeeded(User user) async {
+    await _pronosticRepo.createUserProfile(
+      user.uid,
+      user.displayName ??
+          user.email?.split('@')[0] ??
+          'Utilisateur',
+      user.email ?? '',
+    );
+  }
+
+  // ── EMAIL / PASSWORD ──────────────────────────────────────────────────────
+
   Future<String?> signInWithEmail({
     required String email,
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (credential.user != null) {
+        await _createProfileIfNeeded(credential.user!);
+      }
       return null;
     } on FirebaseAuthException catch (e) {
       return _handleAuthError(e.code);
@@ -38,8 +58,22 @@ class AuthNotifier extends StateNotifier<User?> {
   }) async {
     try {
       final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       await credential.user?.updateDisplayName('$firstName $lastName');
+
+      if (credential.user != null) {
+        // Recharge l'user pour avoir le displayName mis à jour
+        await credential.user!.reload();
+        final updatedUser = FirebaseAuth.instance.currentUser;
+        await _pronosticRepo.createUserProfile(
+          updatedUser!.uid,
+          '$firstName $lastName',
+          email,
+        );
+      }
       return null;
     } on FirebaseAuthException catch (e) {
       return _handleAuthError(e.code);
@@ -47,6 +81,8 @@ class AuthNotifier extends StateNotifier<User?> {
       return 'Une erreur est survenue';
     }
   }
+
+  // ── GOOGLE ────────────────────────────────────────────────────────────────
 
   Future<String?> signInWithGoogle() async {
     try {
@@ -56,7 +92,12 @@ class AuthNotifier extends StateNotifier<User?> {
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        await _createProfileIfNeeded(userCredential.user!);
+      }
       return null;
     } on GoogleSignInException catch (e) {
       return 'Erreur Google: ${e.description}';
@@ -67,10 +108,14 @@ class AuthNotifier extends StateNotifier<User?> {
     }
   }
 
+  // ── SIGN OUT ──────────────────────────────────────────────────────────────
+
   Future<void> signOut() async {
     await GoogleSignIn.instance.signOut();
     await FirebaseAuth.instance.signOut();
   }
+
+  // ── ERROR HANDLER ─────────────────────────────────────────────────────────
 
   String _handleAuthError(String code) {
     switch (code) {
