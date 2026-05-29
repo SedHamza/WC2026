@@ -119,5 +119,415 @@ class AppLocalizationsEn extends AppLocalizations {
   String get standings => 'Standings';
 
   @override
+  String get rooms => 'Rooms';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
   String get news => 'News';
+
+  @override
+  String get todayMatches => 'Today\'s Matches';
+
+  @override
+  String get noMatchToday => 'No matches today';
+
+  @override
+  String get tournamentStarts => 'Tournament starts June 11, 2026';
+
+  @override
+  String get liveMatches => 'Live';
+
+  @override
+  String get upcomingMatches => 'Upcoming';
+
+  @override
+  String get finishedMatches => 'Finished';
+
+  @override
+  String get allGroups => 'All';
+
+  @override
+  String group(Object name) {
+    return 'Group $name';
+  }
+
+  @override
+  String get knockoutStage => 'Knockout stage';
+
+  @override
+  String get byDate => 'By date';
+
+  @override
+  String get searchTeam => 'Search a team...';
+
+  @override
+  String get noMatchFound => 'No match found';
+
+  @override
+  String get matchInfo => 'Match info';
+
+  @override
+  String get competition => 'Competition';
+
+  @override
+  String get stage => 'Stage';
+
+  @override
+  String matchday(Object number) {
+    return 'Matchday $number';
+  }
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get live => 'LIVE';
+
+  @override
+  String get finished => 'Finished';
+
+  @override
+  String get vs => 'VS';
+
+  @override
+  String get myPronostic => 'My Prediction';
+
+  @override
+  String get exactScore => 'Exact score';
+
+  @override
+  String get otherPronostics => 'Other predictions';
+
+  @override
+  String get exactScorePts => '25 pts';
+
+  @override
+  String get otherPtsMax => 'up to 23 pts';
+
+  @override
+  String get confirmPronostic => 'Confirm prediction';
+
+  @override
+  String get updatePronostic => 'Update';
+
+  @override
+  String get pronosticSaved => 'Prediction saved';
+
+  @override
+  String get clearPronostic => 'Clear';
+
+  @override
+  String get lockedMatch => 'Match started — prediction locked';
+
+  @override
+  String get whoWins => 'Who will win?';
+
+  @override
+  String get maxGoals => 'Max goals in the match';
+
+  @override
+  String get minGoals => 'Min goals in the match';
+
+  @override
+  String get draw => 'Draw';
+
+  @override
+  String potentialPts(Object pts) {
+    return '$pts pts';
+  }
+
+  @override
+  String totalEstimated(Object pts) {
+    return 'Estimated total → $pts points';
+  }
+
+  @override
+  String get exactResult => 'Exact score → 25 points';
+
+  @override
+  String get myRooms => 'My Rooms';
+
+  @override
+  String get createRoom => 'Create room';
+
+  @override
+  String get joinRoom => 'Join';
+
+  @override
+  String get joinWithCode => 'Join with a code';
+
+  @override
+  String get noRooms => 'No rooms yet';
+
+  @override
+  String get noRoomsSubtitle =>
+      'Create a room and invite your friends to play together!';
+
+  @override
+  String get roomName => 'Room name';
+
+  @override
+  String get roomNameHint => 'e.g. Friends, Family...';
+
+  @override
+  String get roomCode => 'Room code';
+
+  @override
+  String get roomCodeHint => 'WC26-XXXX';
+
+  @override
+  String get roomCreated => 'Room created! 🎉';
+
+  @override
+  String roomCreatedSuccess(Object name) {
+    return '$name was created successfully.';
+  }
+
+  @override
+  String get shareCode => 'Share this code with your friends:';
+
+  @override
+  String get great => 'Great!';
+
+  @override
+  String get leaveRoom => 'Leave room';
+
+  @override
+  String leaveRoomConfirm(Object name) {
+    return 'You are about to leave \"$name\".';
+  }
+
+  @override
+  String get leaveRoomTitle => 'Leave room?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get members => 'Members';
+
+  @override
+  String get myRank => 'My rank';
+
+  @override
+  String get myPoints => 'My points';
+
+  @override
+  String get memberPronostics => 'Members\' predictions';
+
+  @override
+  String get leaderboard => 'Leaderboard';
+
+  @override
+  String get codeCopied => 'Code copied!';
+
+  @override
+  String get noPronosticsYet => 'No predictions yet';
+
+  @override
+  String get beFirstToPronostic => 'Be the first to predict!';
+
+  @override
+  String get visibleAfterStart => 'Visible after kick-off';
+
+  @override
+  String get noPronostic => 'No prediction';
+
+  @override
+  String get didNotPronostic => 'Did not predict';
+
+  @override
+  String get modify => 'Edit →';
+
+  @override
+  String get invalidCode => 'Invalid code — room not found';
+
+  @override
+  String get askCodeFromAdmin => 'Ask the room admin for the code.';
+
+  @override
+  String get myProfile => 'Profile';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get totalPoints => 'Total points';
+
+  @override
+  String get totalPronostics => 'Predictions';
+
+  @override
+  String get avgPtsPerMatch => 'Avg pts/match';
+
+  @override
+  String get statistics => 'Statistics';
+
+  @override
+  String get exactScores => 'Exact scores';
+
+  @override
+  String get successRate => 'Success rate';
+
+  @override
+  String get bestMatch => 'Best match';
+
+  @override
+  String get correctWinners => 'Correct winners';
+
+  @override
+  String get pronosticHistory => 'Prediction history';
+
+  @override
+  String get noPronosticsHistory => 'No predictions yet';
+
+  @override
+  String get makeFirstPronostic => 'Make your first predictions!';
+
+  @override
+  String maxPts(Object pts, Object status) {
+    return 'Max: $pts pts · $status';
+  }
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get inProgress => 'Live';
+
+  @override
+  String get mode => 'Mode';
+
+  @override
+  String get predictedScore => 'Predicted score';
+
+  @override
+  String get whoWon => 'Who wins';
+
+  @override
+  String maxGoalsLabel(Object n) {
+    return 'Max goals (≤$n)';
+  }
+
+  @override
+  String minGoalsLabel(Object n) {
+    return 'Min goals (≥$n)';
+  }
+
+  @override
+  String get totalObtained => 'Total earned';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get exactScoreMode => 'Exact score';
+
+  @override
+  String get otherMode => 'Other predictions';
+
+  @override
+  String groupStandings(Object name) {
+    return 'Group $name';
+  }
+
+  @override
+  String get bestThirds => 'Best 3rds';
+
+  @override
+  String get bestThirdsSubtitle => '8 qualify from 12 groups — FIFA rules';
+
+  @override
+  String get qualifiedFor32 => 'Qualified for Round of 32';
+
+  @override
+  String get eliminated => 'Eliminated';
+
+  @override
+  String get availableAfterGroups => 'Available after the group stage';
+
+  @override
+  String get qualified => 'Qualified';
+
+  @override
+  String get possibleThird => 'Possible 3rd';
+
+  @override
+  String get played => 'P';
+
+  @override
+  String get won => 'W';
+
+  @override
+  String get drawnShort => 'D';
+
+  @override
+  String get lost => 'L';
+
+  @override
+  String get points => 'Pts';
+
+  @override
+  String get team => 'Team';
+
+  @override
+  String get groupShort => 'Grp';
+
+  @override
+  String get groupMatches => 'Group matches';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get connectionError => 'Connection error';
+
+  @override
+  String get loadingError => 'Loading error';
+
+  @override
+  String get me => 'Me';
+
+  @override
+  String get chooseDate => 'Choose a date';
+
+  @override
+  String get clearDate => 'Clear';
+
+  @override
+  String get last32 => 'Round of 32';
+
+  @override
+  String get last16 => 'Round of 16';
+
+  @override
+  String get quarterFinals => 'Quarter-finals';
+
+  @override
+  String get semiFinals => 'Semi-finals';
+
+  @override
+  String get thirdPlace => '3rd place';
+
+  @override
+  String get finalMatch => 'Final';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String joinedRoom(Object name) {
+    return 'You joined \"$name\"!';
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../matches/domain/entities/match_entity.dart';
 
 class MatchHeroBanner extends StatelessWidget {
@@ -13,7 +14,7 @@ class MatchHeroBanner extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF002868), Color(0xFF1a3a6b)],
+          colors: [AppColors.primary, const Color(0xFF1a3a6b)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -63,8 +64,19 @@ class MatchHeroBanner extends StatelessWidget {
   String _formatDateTime(DateTime date) {
     final local = date.toLocal();
     const months = [
-      '', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-      'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+      '',
+      'janvier',
+      'février',
+      'mars',
+      'avril',
+      'mai',
+      'juin',
+      'juillet',
+      'août',
+      'septembre',
+      'octobre',
+      'novembre',
+      'décembre'
     ];
     return '${local.day} ${months[local.month]} ${local.year} · '
         '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
@@ -113,7 +125,7 @@ class _TeamWidget extends StatelessWidget {
 
   Widget _buildImage() {
     if (crest == null || crest!.isEmpty) {
-      return const Icon(Icons.flag_rounded, color: Color(0xFF002868));
+      return const Icon(Icons.flag_rounded, color: AppColors.primary);
     }
     if (crest!.endsWith('.svg')) {
       return SvgPicture.network(crest!, fit: BoxFit.cover);
@@ -122,7 +134,7 @@ class _TeamWidget extends StatelessWidget {
       imageUrl: crest!,
       fit: BoxFit.cover,
       errorWidget: (_, __, ___) =>
-          const Icon(Icons.flag_rounded, color: Color(0xFF002868)),
+          const Icon(Icons.flag_rounded, color: AppColors.primary),
     );
   }
 }
@@ -145,7 +157,7 @@ class _ScoreWidget extends StatelessWidget {
                 fontSize: 32,
                 fontWeight: FontWeight.w800,
                 color: match.isLive
-                    ? const Color(0xFFFCA5A5)
+                    ? Colors.white.withOpacity(0.85)
                     : Colors.white,
               ),
             )
@@ -161,10 +173,9 @@ class _ScoreWidget extends StatelessWidget {
           if (match.isLive)
             Container(
               margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: const Color(0xFFC8102E),
+                color: AppColors.secondary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(

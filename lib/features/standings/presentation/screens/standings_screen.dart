@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wc2026/features/standings/presentation/screens/best_third_section.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
+import 'package:wc2026/features/standings/presentation/widgets/best_third_section.dart';
 import '../providers/standings_provider.dart';
 import '../widgets/group_standing_section.dart';
 import '../../../../shared/widgets/loading_widget.dart';
@@ -34,29 +36,28 @@ class _StandingsScreenState extends ConsumerState<StandingsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final standingsAsync = ref.watch(standingsProvider);
     final matchesAsync = ref.watch(matchesProvider);
     final bestThirds = ref.watch(bestThirdProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Classement'),
-        backgroundColor: const Color(0xFF002868),
-        foregroundColor: Colors.white,
+        title: Text(l10n.standings),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white60,
-          indicatorColor: const Color(0xFFC8102E),
+          indicatorColor: AppColors.secondary,
           indicatorWeight: 3,
           tabAlignment: TabAlignment.start,
           tabs: [
             ..._groups.map((g) => Tab(text: g)),
-            const Tab(
+            Tab(
               child: Text(
-                '3èmes',
-                style: TextStyle(color: Color(0xFF4ADE80)),
+                l10n.bestThirds,
+                style: const TextStyle(color: Color(0xFF4ADE80)),
               ),
             ),
           ],
@@ -65,24 +66,20 @@ class _StandingsScreenState extends ConsumerState<StandingsScreen>
       body: standingsAsync.when(
         loading: () => Column(
           children: [
-            // TabBarView vide pour éviter l'erreur
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: List.generate(
-                  13,
-                  (_) => const LoadingWidget(),
-                ),
+                children: List.generate(13, (_) => const LoadingWidget()),
               ),
             ),
           ],
         ),
         error: (e, _) => EmptyState(
           emoji: '❌',
-          message: 'Erreur de chargement',
+          message: l10n.loadingError,
           action: ElevatedButton(
             onPressed: () => ref.refresh(standingsProvider),
-            child: const Text('Réessayer'),
+            child: Text(l10n.retry),
           ),
         ),
         data: (standings) => TabBarView(

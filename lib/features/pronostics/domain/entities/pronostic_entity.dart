@@ -3,17 +3,11 @@ class PronosticEntity {
   final String matchId;
   final String userId;
   final PronosticType type;
-
-  // Mode 1 — Résultat exact
   final int? homeScore;
   final int? awayScore;
-
-  // Mode 2 — Autres pronostics
-  final int? winner;   // 0=nul, 1=home, 2=away, -1=non choisi
-  final int? maxGoals; // -1=non choisi
-  final int? minGoals; // -1=non choisi
-
-  // Points
+  final int? winner;
+  final int? maxGoals;
+  final int? minGoals;
   final int points;
   final bool isCalculated;
   final DateTime? createdAt;
@@ -36,22 +30,58 @@ class PronosticEntity {
   bool get isExactMode => type == PronosticType.exact;
   bool get isOtherMode => type == PronosticType.other;
 
-  // Points potentiels avant le match
   int get potentialPoints {
     if (isExactMode) return 25;
     int pts = 0;
     if (winner != null && winner != -1) pts += 5;
-    if (maxGoals != null && maxGoals != -1) pts += (7 - maxGoals!) * 2;
-    if (minGoals != null && minGoals != -1) pts += minGoals! * 2;
+    if (maxGoals != null && maxGoals != -1)
+      pts += ((7 - maxGoals!) * 2).clamp(0, 14);
+    if (minGoals != null && minGoals != -1) pts += (minGoals! * 2).clamp(0, 14);
     return pts;
   }
 
-  // Calcul réel — chaque option est indépendante
-  int calculatePoints(int realHome, int realAway) {
+  // Points provisoires live — jamais sauvegardés en Firestore
+  int livePoints(int currentHome, int currentAway) =>
+      calculatePoints(currentHome, currentAway);
+
+  // Détail par option pour affichage live
+  LivePointsDetail livePointsDetail(int currentHome, int currentAway) {
+    final totalGoals = currentHome + currentAway;
+    final currentWinner = currentHome > currentAway
+        ? 1
+        : currentAway > currentHome
+            ? 2
+            : 0;
+
     if (isExactMode) {
-      return (homeScore == realHome && awayScore == realAway) ? 25 : 0;
+      final correct = homeScore == currentHome && awayScore == currentAway;
+      return LivePointsDetail(
+          exactCorrect: correct, exactPoints: correct ? 25 : 0);
     }
 
+    bool? winnerCorrect, maxGoalsCorrect, minGoalsCorrect;
+    if (winner != null && winner != -1) winnerCorrect = winner == currentWinner;
+    if (maxGoals != null && maxGoals != -1)
+      maxGoalsCorrect = totalGoals <= maxGoals!;
+    if (minGoals != null && minGoals != -1)
+      minGoalsCorrect = totalGoals >= minGoals!;
+
+    return LivePointsDetail(
+      winnerCorrect: winnerCorrect,
+      winnerPoints: winnerCorrect == true ? 5 : 0,
+      maxGoalsCorrect: maxGoalsCorrect,
+      maxGoalsPoints:
+          maxGoalsCorrect == true ? ((7 - maxGoals!) * 2).clamp(0, 14) : 0,
+      minGoalsCorrect: minGoalsCorrect,
+      minGoalsPoints:
+          minGoalsCorrect == true ? (minGoals! * 2).clamp(0, 14) : 0,
+    );
+  }
+
+  // Calcul définitif — sauvegardé en Firestore
+  int calculatePoints(int realHome, int realAway) {
+    if (isExactMode)
+      return (homeScore == realHome && awayScore == realAway) ? 25 : 0;
     int pts = 0;
     final totalGoals = realHome + realAway;
     final realWinner = realHome > realAway
@@ -59,24 +89,37 @@ class PronosticEntity {
         : realAway > realHome
             ? 2
             : 0;
-
-    // Qui gagne — indépendant
-    if (winner != null && winner != -1) {
-      if (winner == realWinner) pts += 5;
-    }
-
-    // Max buts — indépendant
-    if (maxGoals != null && maxGoals != -1) {
-      if (totalGoals <= maxGoals!) pts += (7 - maxGoals!) * 2;
-    }
-
-    // Min buts — indépendant
-    if (minGoals != null && minGoals != -1) {
-      if (totalGoals >= minGoals!) pts += minGoals! * 2;
-    }
-
+    if (winner != null && winner != -1 && winner == realWinner) pts += 5;
+    if (maxGoals != null && maxGoals != -1 && totalGoals <= maxGoals!)
+      pts += ((7 - maxGoals!) * 2).clamp(0, 14);
+    if (minGoals != null && minGoals != -1 && totalGoals >= minGoals!)
+      pts += (minGoals! * 2).clamp(0, 14);
     return pts;
   }
+}
+
+class LivePointsDetail {
+  final bool? exactCorrect;
+  final int exactPoints;
+  final bool? winnerCorrect;
+  final int winnerPoints;
+  final bool? maxGoalsCorrect;
+  final int maxGoalsPoints;
+  final bool? minGoalsCorrect;
+  final int minGoalsPoints;
+
+  const LivePointsDetail({
+    this.exactCorrect,
+    this.exactPoints = 0,
+    this.winnerCorrect,
+    this.winnerPoints = 0,
+    this.maxGoalsCorrect,
+    this.maxGoalsPoints = 0,
+    this.minGoalsCorrect,
+    this.minGoalsPoints = 0,
+  });
+
+  int get total => exactPoints + winnerPoints + maxGoalsPoints + minGoalsPoints;
 }
 
 enum PronosticType { exact, other }

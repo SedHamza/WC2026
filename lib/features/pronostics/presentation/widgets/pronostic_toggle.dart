@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../domain/entities/pronostic_entity.dart';
 
 class PronosticToggle extends StatelessWidget {
@@ -15,9 +16,11 @@ class PronosticToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF3F4F6),
+        color: AppColors.bgSurface(isDark),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(3),
@@ -28,14 +31,16 @@ class PronosticToggle extends StatelessWidget {
             sublabel: '25 pts',
             isActive: selected == PronosticType.exact,
             onTap: enabled ? () => onChanged(PronosticType.exact) : null,
-            activeColor: const Color(0xFF002868),
+            activeColor: AppColors.primary,
+            isDark: isDark,
           ),
           _ToggleItem(
             label: 'Autres pronostics',
             sublabel: 'jusqu\'à 23 pts',
             isActive: selected == PronosticType.other,
             onTap: enabled ? () => onChanged(PronosticType.other) : null,
-            activeColor: const Color(0xFF006847),
+            activeColor: AppColors.accent,
+            isDark: isDark,
           ),
         ],
       ),
@@ -49,13 +54,15 @@ class _ToggleItem extends StatelessWidget {
   final bool isActive;
   final VoidCallback? onTap;
   final Color activeColor;
+  final bool isDark;
 
   const _ToggleItem({
     required this.label,
     required this.sublabel,
     required this.isActive,
-    this.onTap,
     required this.activeColor,
+    required this.isDark,
+    this.onTap,
   });
 
   @override
@@ -67,10 +74,13 @@ class _ToggleItem extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: isActive ? Colors.white : Colors.transparent,
+            color: isActive ? AppColors.bgCard(isDark) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             boxShadow: isActive
-                ? [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 4)]
+                ? [BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 4,
+                  )]
                 : null,
           ),
           child: Column(
@@ -80,7 +90,9 @@ class _ToggleItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: isActive ? activeColor : const Color(0xFF6B7280),
+                  color: isActive
+                      ? activeColor
+                      : AppColors.textSecondary(isDark),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -90,7 +102,7 @@ class _ToggleItem extends StatelessWidget {
                   fontSize: 10,
                   color: isActive
                       ? activeColor.withOpacity(0.7)
-                      : const Color(0xFF9CA3AF),
+                      : AppColors.textHint(isDark),
                 ),
                 textAlign: TextAlign.center,
               ),

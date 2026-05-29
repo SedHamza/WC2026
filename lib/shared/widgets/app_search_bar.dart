@@ -31,12 +31,6 @@ class AppSearchBar extends StatelessWidget {
                   },
                 )
               : null,
-          filled: true,
-          fillColor: const Color(0xFFF3F4F6),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
-          ),
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
         ),
       ),

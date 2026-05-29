@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class AppTab {
   final String label;
@@ -29,7 +30,7 @@ class AppTabBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: (_) => onTap?.call(),
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white60,
-      indicatorColor: const Color(0xFFC8102E),
+      indicatorColor: AppColors.secondary,
       indicatorWeight: 3,
       tabs: tabs
           .map((t) => Tab(

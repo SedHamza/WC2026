@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class RadioSelectorItem {
   final int value;
@@ -19,12 +20,14 @@ class RadioSelector extends StatelessWidget {
     required this.items,
     required this.selected,
     required this.onSelected,
-    this.activeColor = const Color(0xFF006847),
+    this.activeColor = AppColors.accent,
     this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Wrap(
       spacing: 6,
       runSpacing: 6,
@@ -41,14 +44,14 @@ class RadioSelector extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color: isNA
-                    ? const Color(0xFFC8102E)
+                    ? AppColors.secondary
                     : isActive
                         ? activeColor
-                        : const Color(0xFFD1D5DB),
+                        : AppColors.borderStrong(isDark),
                 width: isActive ? 2 : 1,
               ),
               color: isNA
-                  ? const Color(0xFFFEF2F2)
+                  ? AppColors.errorBg(isDark)
                   : isActive
                       ? activeColor.withOpacity(0.1)
                       : Colors.transparent,
@@ -60,10 +63,10 @@ class RadioSelector extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: isNA
-                    ? const Color(0xFFC8102E)
+                    ? AppColors.secondary
                     : isActive
                         ? activeColor
-                        : const Color(0xFF6B7280),
+                        : AppColors.textSecondary(isDark),
               ),
             ),
           ),

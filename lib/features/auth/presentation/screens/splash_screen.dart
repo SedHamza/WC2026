@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -85,8 +86,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Splash garde un fond sombre fixe — c'est intentionnel
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0E1A),
+      backgroundColor: AppColors.bgPageDark,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,21 +124,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       width: 100,
       height: 100,
       decoration: BoxDecoration(
-        color: const Color(0xFF002868),
+        color: AppColors.primary,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF002868).withOpacity(0.4),
+            color: AppColors.primary.withOpacity(0.4),
             blurRadius: 30,
             spreadRadius: 5,
           ),
         ],
       ),
       child: const Center(
-        child: Text(
-          '⚽',
-          style: TextStyle(fontSize: 48),
-        ),
+        child: Text('⚽', style: TextStyle(fontSize: 48)),
       ),
     );
   }
@@ -184,9 +183,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0xFF141824),
+        color: AppColors.bgCardDark,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF1E2433)),
+        border: Border.all(color: AppColors.bgSurfaceDark),
       ),
       child: Row(
         children: [
@@ -195,7 +194,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           Text(
             code,
             style: const TextStyle(
-              color: Color(0xFF6B7280),
+              color: AppColors.textHintDark,
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),

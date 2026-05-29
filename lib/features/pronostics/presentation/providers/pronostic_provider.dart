@@ -1,8 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wc2026/shared/providers/score_notifier.dart';
+import 'package:wc2026/shared/providers/repository_providers.dart';
 import '../../data/repositories/pronostic_repository_impl.dart';
 import '../../domain/entities/pronostic_entity.dart';
 import '../../domain/repositories/pronostic_repository.dart';
+
+// Provider de trigger pour forcer le rechargement du profil
+// après chaque sauvegarde de pronostic
+final profileRefreshTrigger = StateProvider<int>((ref) => 0);
+
+/// Appeler cette fonction pour forcer le rechargement du profil
+void invalidateProfileCache(Ref ref) {
+  ref.read(profileRefreshTrigger.notifier).state++;
+}
 
 final pronosticRepositoryProvider = Provider<PronosticRepository>((ref) {
   return PronosticRepositoryImpl();
@@ -14,12 +25,12 @@ final currentUserIdProvider = Provider<String>((ref) {
 
 final pronosticProvider =
     FutureProvider.family<PronosticEntity?, String>((ref, matchId) async {
-  final userId = ref.read(currentUserIdProvider);
+  final userId = ref.watch(currentUserIdProvider);
   if (userId.isEmpty) return null;
-  return ref.read(pronosticRepositoryProvider).getPronostic(matchId, userId);
+  return ref.watch(pronosticRepositoryProvider).getPronostic(matchId, userId);
 });
 
-// ── STATE ────────────────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 
 class PronosticFormState {
   final PronosticType type;
@@ -46,8 +57,8 @@ class PronosticFormState {
     if (type == PronosticType.exact) return 25;
     int pts = 0;
     if (winner != -1) pts += 5;
-    if (maxGoals != -1) pts += (7 - maxGoals) * 2;
-    if (minGoals != -1) pts += minGoals * 2;
+    if (maxGoals != -1) pts += ((7 - maxGoals) * 2).clamp(0, 14);
+    if (minGoals != -1) pts += (minGoals * 2).clamp(0, 14);
     return pts;
   }
 
@@ -74,14 +85,15 @@ class PronosticFormState {
   }
 }
 
-// ── NOTIFIER ─────────────────────────────────────────────────────────────────
+// ── NOTIFIER ──────────────────────────────────────────────────────────────────
 
 class PronosticNotifier extends StateNotifier<PronosticFormState> {
   final PronosticRepository _repository;
   final String _matchId;
   final String _userId;
+  final Ref _ref; // ← pour invalider les providers après save
 
-  PronosticNotifier(this._repository, this._matchId, this._userId)
+  PronosticNotifier(this._repository, this._matchId, this._userId, this._ref)
       : super(const PronosticFormState());
 
   void init(PronosticEntity? existing) {
@@ -101,16 +113,17 @@ class PronosticNotifier extends StateNotifier<PronosticFormState> {
   void setHomeScore(int v) => state = state.copyWith(homeScore: v.clamp(0, 20));
   void setAwayScore(int v) => state = state.copyWith(awayScore: v.clamp(0, 20));
   void setWinner(int v) => state = state.copyWith(winner: v);
-void setMaxGoals(int v) {
-  // Max ne peut pas être inférieur au Min choisi
-  if (state.minGoals != -1 && v != -1 && v < state.minGoals) return;
-  state = state.copyWith(maxGoals: v);
-}
-void setMinGoals(int v) {
-  // Min ne peut pas être supérieur au Max choisi
-  if (state.maxGoals != -1 && v != -1 && v > state.maxGoals) return;
-  state = state.copyWith(minGoals: v);
-}
+
+  void setMaxGoals(int v) {
+    if (state.minGoals != -1 && v != -1 && v < state.minGoals) return;
+    state = state.copyWith(maxGoals: v);
+  }
+
+  void setMinGoals(int v) {
+    if (state.maxGoals != -1 && v != -1 && v > state.maxGoals) return;
+    state = state.copyWith(minGoals: v);
+  }
+
   void reset() => state = const PronosticFormState();
 
   Future<void> save() async {
@@ -127,21 +140,27 @@ void setMinGoals(int v) {
         maxGoals: state.type == PronosticType.other ? state.maxGoals : null,
         minGoals: state.type == PronosticType.other ? state.minGoals : null,
       );
+
       await _repository.savePronostic(pronostic);
       state = state.copyWith(isSaving: false, isSaved: true);
+
+      // Invalide le pronostic provider pour ce match
+      _ref.invalidate(pronosticProvider(_matchId));
+      // Recharge appState → profil + rooms mis à jour partout
+      await _ref.read(scoreNotifierProvider.notifier).refreshMyProfile();
     } catch (_) {
       state = state.copyWith(isSaving: false);
     }
   }
 }
 
-// ── PROVIDER ─────────────────────────────────────────────────────────────────
+// ── PROVIDER ──────────────────────────────────────────────────────────────────
 
-final pronosticNotifierProvider = StateNotifierProvider.family
-    <PronosticNotifier, PronosticFormState, String>(
+final pronosticNotifierProvider =
+    StateNotifierProvider.family<PronosticNotifier, PronosticFormState, String>(
   (ref, matchId) {
     final userId = ref.read(currentUserIdProvider);
     final repository = ref.read(pronosticRepositoryProvider);
-    return PronosticNotifier(repository, matchId, userId);
+    return PronosticNotifier(repository, matchId, userId, ref); // ← passe ref
   },
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../../../shared/widgets/radio_selector.dart';
 
 class GoalsSelector extends StatelessWidget {
@@ -29,6 +30,8 @@ class GoalsSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,17 +40,17 @@ class GoalsSelector extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF374151),
+                color: AppColors.textPrimary(isDark),
               ),
             ),
             Text(
               pointsFormula,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
-                color: Color(0xFF6B7280),
+                color: AppColors.textSecondary(isDark),
               ),
             ),
           ],

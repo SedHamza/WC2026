@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class FilterChipItem {
   final String value;
@@ -18,11 +19,13 @@ class FilterChipList extends StatelessWidget {
     required this.items,
     required this.selected,
     required this.onSelected,
-    this.activeColor = const Color(0xFF002868),
+    this.activeColor = AppColors.primary,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SizedBox(
       height: 48,
       child: ListView.separated(
@@ -42,7 +45,9 @@ class FilterChipList extends StatelessWidget {
                 color: isActive ? activeColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: isActive ? activeColor : const Color(0xFFD1D5DB),
+                  color: isActive
+                      ? activeColor
+                      : AppColors.borderStrong(isDark),
                 ),
               ),
               child: Text(
@@ -50,7 +55,9 @@ class FilterChipList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: isActive ? Colors.white : const Color(0xFF6B7280),
+                  color: isActive
+                      ? Colors.white
+                      : AppColors.textSecondary(isDark),
                 ),
               ),
             ),

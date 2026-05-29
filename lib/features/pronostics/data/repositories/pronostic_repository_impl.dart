@@ -13,19 +13,16 @@ class PronosticRepositoryImpl implements PronosticRepository {
       _db.collection('users').doc(userId);
 
   DocumentReference _pronosticDoc(String userId, String matchId) =>
-      _db.collection('users').doc(userId)
-         .collection('pronostics').doc(matchId);
+      _db.collection('users').doc(userId).collection('pronostics').doc(matchId);
 
   // ── PRONOSTICS ────────────────────────────────────────────────────────────
 
   @override
-  Future<PronosticEntity?> getPronostic(
-      String matchId, String userId) async {
+  Future<PronosticEntity?> getPronostic(String matchId, String userId) async {
     try {
       final doc = await _pronosticDoc(userId, matchId).get();
       if (!doc.exists) return null;
-      return PronosticModel.fromFirestore(
-          doc.data() as Map<String, dynamic>);
+      return PronosticModel.fromFirestore(doc.data() as Map<String, dynamic>);
     } catch (_) {
       return null;
     }
@@ -33,14 +30,21 @@ class PronosticRepositoryImpl implements PronosticRepository {
 
   @override
   Future<void> savePronostic(PronosticEntity pronostic) async {
-    // Sauvegarde le pronostic
-    await _pronosticDoc(pronostic.userId, pronostic.matchId)
-        .set(PronosticModel.toFirestore(pronostic));
+    final docRef = _pronosticDoc(pronostic.userId, pronostic.matchId);
 
-    // Met à jour le compteur total
-    await _userDoc(pronostic.userId).update({
-      'totalPronostics': FieldValue.increment(1),
-    });
+    // Vérifie si c'est une création ou une modification
+    final existing = await docRef.get();
+    final isNew = !existing.exists;
+
+    // Sauvegarde le pronostic (création ou mise à jour)
+    await docRef.set(PronosticModel.toFirestore(pronostic));
+
+    // N'incrémente que si c'est un nouveau pronostic
+    if (isNew) {
+      await _userDoc(pronostic.userId).update({
+        'totalPronostics': FieldValue.increment(1),
+      });
+    }
   }
 
   @override
@@ -82,7 +86,7 @@ class PronosticRepositoryImpl implements PronosticRepository {
   Future<void> createUserProfile(
       String userId, String displayName, String email) async {
     final doc = await _userDoc(userId).get();
-    if (doc.exists) return; // Déjà créé
+    if (doc.exists) return;
 
     await _userDoc(userId).set({
       'userId': userId,
@@ -112,23 +116,43 @@ class PronosticRepositoryImpl implements PronosticRepository {
         .where('isCalculated', isEqualTo: false)
         .get();
 
+    if (snapshot.docs.isEmpty) return;
+
+    final totalGoals = homeScore + awayScore;
+    final realWinner = homeScore > awayScore
+        ? 1
+        : awayScore > homeScore
+            ? 2
+            : 0;
+
+    // Précharge tous les docs utilisateurs concernés en parallèle
+    final userIds = snapshot.docs
+        .map((doc) => PronosticModel.fromFirestore(doc.data()).userId)
+        .toSet();
+
+    final userDocs = await Future.wait(
+      userIds.map((uid) => _userDoc(uid).get()),
+    );
+
+    final userBestPoints = {
+      for (final doc in userDocs)
+        doc.id: (doc.data() as Map<String, dynamic>?)?['bestMatchPoints'] ?? 0,
+    };
+
+    // Un seul batch pour tous les writes
+    final batch = _db.batch();
+
     for (final doc in snapshot.docs) {
       final pronostic = PronosticModel.fromFirestore(doc.data());
       final points = pronostic.calculatePoints(homeScore, awayScore);
-      final totalGoals = homeScore + awayScore;
-      final realWinner = homeScore > awayScore
-          ? 1
-          : awayScore > homeScore
-              ? 2
-              : 0;
 
       // Met à jour le pronostic
-      await doc.reference.update({
+      batch.update(doc.reference, {
         'points': points,
         'isCalculated': true,
       });
 
-      // Met à jour les stats utilisateur
+      // Prépare les stats utilisateur
       final Map<String, dynamic> statsUpdate = {
         'totalPoints': FieldValue.increment(points),
       };
@@ -156,16 +180,19 @@ class PronosticRepositoryImpl implements PronosticRepository {
         }
       }
 
-      // Vérifie si c'est le meilleur match
-      final userDoc = await _userDoc(pronostic.userId).get();
-      final currentBest = (userDoc.data()
-          as Map<String, dynamic>?)?['bestMatchPoints'] ?? 0;
+      // Vérifie si c'est le meilleur match — depuis le cache local
+      final currentBest = userBestPoints[pronostic.userId] ?? 0;
       if (points > currentBest) {
         statsUpdate['bestMatchId'] = matchId;
         statsUpdate['bestMatchPoints'] = points;
+        // Met à jour le cache local pour ce userId
+        userBestPoints[pronostic.userId] = points;
       }
 
-      await _userDoc(pronostic.userId).update(statsUpdate);
+      batch.update(_userDoc(pronostic.userId), statsUpdate);
     }
+
+    // Un seul commit atomique pour tout
+    await batch.commit();
   }
 }

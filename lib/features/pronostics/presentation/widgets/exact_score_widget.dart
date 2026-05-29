@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../../../shared/widgets/score_counter.dart';
 
 class ExactScoreWidget extends StatelessWidget {
@@ -23,6 +24,8 @@ class ExactScoreWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       children: [
         Row(
@@ -31,10 +34,10 @@ class ExactScoreWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 homeTeamName,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF6B7280),
+                  color: AppColors.textSecondary(isDark),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -43,10 +46,10 @@ class ExactScoreWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 awayTeamName,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF6B7280),
+                  color: AppColors.textSecondary(isDark),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -69,7 +72,7 @@ class ExactScoreWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF9CA3AF),
+                  color: AppColors.textHint(isDark),
                 ),
               ),
             ),
@@ -85,15 +88,15 @@ class ExactScoreWidget extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFEEF2FF),
+            color: AppColors.infoBg(isDark),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Text(
+          child: Text(
             'Résultat exact → 25 points',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF002868),
+              color: AppColors.primary,
             ),
             textAlign: TextAlign.center,
           ),

@@ -316,11 +316,785 @@ abstract class AppLocalizations {
   /// **'Standings'**
   String get standings;
 
+  /// No description provided for @rooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get rooms;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
   /// No description provided for @news.
   ///
   /// In en, this message translates to:
   /// **'News'**
   String get news;
+
+  /// No description provided for @todayMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Matches'**
+  String get todayMatches;
+
+  /// No description provided for @noMatchToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches today'**
+  String get noMatchToday;
+
+  /// No description provided for @tournamentStarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Tournament starts June 11, 2026'**
+  String get tournamentStarts;
+
+  /// No description provided for @liveMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get liveMatches;
+
+  /// No description provided for @upcomingMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcomingMatches;
+
+  /// No description provided for @finishedMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get finishedMatches;
+
+  /// No description provided for @allGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allGroups;
+
+  /// No description provided for @group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group {name}'**
+  String group(Object name);
+
+  /// No description provided for @knockoutStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Knockout stage'**
+  String get knockoutStage;
+
+  /// No description provided for @byDate.
+  ///
+  /// In en, this message translates to:
+  /// **'By date'**
+  String get byDate;
+
+  /// No description provided for @searchTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a team...'**
+  String get searchTeam;
+
+  /// No description provided for @noMatchFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No match found'**
+  String get noMatchFound;
+
+  /// No description provided for @matchInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Match info'**
+  String get matchInfo;
+
+  /// No description provided for @competition.
+  ///
+  /// In en, this message translates to:
+  /// **'Competition'**
+  String get competition;
+
+  /// No description provided for @stage.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage'**
+  String get stage;
+
+  /// No description provided for @matchday.
+  ///
+  /// In en, this message translates to:
+  /// **'Matchday {number}'**
+  String matchday(Object number);
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @live.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE'**
+  String get live;
+
+  /// No description provided for @finished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get finished;
+
+  /// No description provided for @vs.
+  ///
+  /// In en, this message translates to:
+  /// **'VS'**
+  String get vs;
+
+  /// No description provided for @myPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'My Prediction'**
+  String get myPronostic;
+
+  /// No description provided for @exactScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact score'**
+  String get exactScore;
+
+  /// No description provided for @otherPronostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Other predictions'**
+  String get otherPronostics;
+
+  /// No description provided for @exactScorePts.
+  ///
+  /// In en, this message translates to:
+  /// **'25 pts'**
+  String get exactScorePts;
+
+  /// No description provided for @otherPtsMax.
+  ///
+  /// In en, this message translates to:
+  /// **'up to 23 pts'**
+  String get otherPtsMax;
+
+  /// No description provided for @confirmPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm prediction'**
+  String get confirmPronostic;
+
+  /// No description provided for @updatePronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updatePronostic;
+
+  /// No description provided for @pronosticSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Prediction saved'**
+  String get pronosticSaved;
+
+  /// No description provided for @clearPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearPronostic;
+
+  /// No description provided for @lockedMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Match started — prediction locked'**
+  String get lockedMatch;
+
+  /// No description provided for @whoWins.
+  ///
+  /// In en, this message translates to:
+  /// **'Who will win?'**
+  String get whoWins;
+
+  /// No description provided for @maxGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Max goals in the match'**
+  String get maxGoals;
+
+  /// No description provided for @minGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Min goals in the match'**
+  String get minGoals;
+
+  /// No description provided for @draw.
+  ///
+  /// In en, this message translates to:
+  /// **'Draw'**
+  String get draw;
+
+  /// No description provided for @potentialPts.
+  ///
+  /// In en, this message translates to:
+  /// **'{pts} pts'**
+  String potentialPts(Object pts);
+
+  /// No description provided for @totalEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated total → {pts} points'**
+  String totalEstimated(Object pts);
+
+  /// No description provided for @exactResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact score → 25 points'**
+  String get exactResult;
+
+  /// No description provided for @myRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'My Rooms'**
+  String get myRooms;
+
+  /// No description provided for @createRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Create room'**
+  String get createRoom;
+
+  /// No description provided for @joinRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get joinRoom;
+
+  /// No description provided for @joinWithCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Join with a code'**
+  String get joinWithCode;
+
+  /// No description provided for @noRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'No rooms yet'**
+  String get noRooms;
+
+  /// No description provided for @noRoomsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a room and invite your friends to play together!'**
+  String get noRoomsSubtitle;
+
+  /// No description provided for @roomName.
+  ///
+  /// In en, this message translates to:
+  /// **'Room name'**
+  String get roomName;
+
+  /// No description provided for @roomNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Friends, Family...'**
+  String get roomNameHint;
+
+  /// No description provided for @roomCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Room code'**
+  String get roomCode;
+
+  /// No description provided for @roomCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'WC26-XXXX'**
+  String get roomCodeHint;
+
+  /// No description provided for @roomCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Room created! 🎉'**
+  String get roomCreated;
+
+  /// No description provided for @roomCreatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was created successfully.'**
+  String roomCreatedSuccess(Object name);
+
+  /// No description provided for @shareCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this code with your friends:'**
+  String get shareCode;
+
+  /// No description provided for @great.
+  ///
+  /// In en, this message translates to:
+  /// **'Great!'**
+  String get great;
+
+  /// No description provided for @leaveRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave room'**
+  String get leaveRoom;
+
+  /// No description provided for @leaveRoomConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to leave \"{name}\".'**
+  String leaveRoomConfirm(Object name);
+
+  /// No description provided for @leaveRoomTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave room?'**
+  String get leaveRoomTitle;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// No description provided for @members.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get members;
+
+  /// No description provided for @myRank.
+  ///
+  /// In en, this message translates to:
+  /// **'My rank'**
+  String get myRank;
+
+  /// No description provided for @myPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'My points'**
+  String get myPoints;
+
+  /// No description provided for @memberPronostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Members\' predictions'**
+  String get memberPronostics;
+
+  /// No description provided for @leaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get leaderboard;
+
+  /// No description provided for @codeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Code copied!'**
+  String get codeCopied;
+
+  /// No description provided for @noPronosticsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No predictions yet'**
+  String get noPronosticsYet;
+
+  /// No description provided for @beFirstToPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to predict!'**
+  String get beFirstToPronostic;
+
+  /// No description provided for @visibleAfterStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible after kick-off'**
+  String get visibleAfterStart;
+
+  /// No description provided for @noPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'No prediction'**
+  String get noPronostic;
+
+  /// No description provided for @didNotPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Did not predict'**
+  String get didNotPronostic;
+
+  /// No description provided for @modify.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit →'**
+  String get modify;
+
+  /// No description provided for @invalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code — room not found'**
+  String get invalidCode;
+
+  /// No description provided for @askCodeFromAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the room admin for the code.'**
+  String get askCodeFromAdmin;
+
+  /// No description provided for @myProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get myProfile;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// No description provided for @totalPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Total points'**
+  String get totalPoints;
+
+  /// No description provided for @totalPronostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictions'**
+  String get totalPronostics;
+
+  /// No description provided for @avgPtsPerMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg pts/match'**
+  String get avgPtsPerMatch;
+
+  /// No description provided for @statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
+  /// No description provided for @exactScores.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact scores'**
+  String get exactScores;
+
+  /// No description provided for @successRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Success rate'**
+  String get successRate;
+
+  /// No description provided for @bestMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Best match'**
+  String get bestMatch;
+
+  /// No description provided for @correctWinners.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct winners'**
+  String get correctWinners;
+
+  /// No description provided for @pronosticHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Prediction history'**
+  String get pronosticHistory;
+
+  /// No description provided for @noPronosticsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'No predictions yet'**
+  String get noPronosticsHistory;
+
+  /// No description provided for @makeFirstPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Make your first predictions!'**
+  String get makeFirstPronostic;
+
+  /// No description provided for @maxPts.
+  ///
+  /// In en, this message translates to:
+  /// **'Max: {pts} pts · {status}'**
+  String maxPts(Object pts, Object status);
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @inProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get inProgress;
+
+  /// No description provided for @mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get mode;
+
+  /// No description provided for @predictedScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Predicted score'**
+  String get predictedScore;
+
+  /// No description provided for @whoWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Who wins'**
+  String get whoWon;
+
+  /// No description provided for @maxGoalsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max goals (≤{n})'**
+  String maxGoalsLabel(Object n);
+
+  /// No description provided for @minGoalsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Min goals (≥{n})'**
+  String minGoalsLabel(Object n);
+
+  /// No description provided for @totalObtained.
+  ///
+  /// In en, this message translates to:
+  /// **'Total earned'**
+  String get totalObtained;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @exactScoreMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact score'**
+  String get exactScoreMode;
+
+  /// No description provided for @otherMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Other predictions'**
+  String get otherMode;
+
+  /// No description provided for @groupStandings.
+  ///
+  /// In en, this message translates to:
+  /// **'Group {name}'**
+  String groupStandings(Object name);
+
+  /// No description provided for @bestThirds.
+  ///
+  /// In en, this message translates to:
+  /// **'Best 3rds'**
+  String get bestThirds;
+
+  /// No description provided for @bestThirdsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'8 qualify from 12 groups — FIFA rules'**
+  String get bestThirdsSubtitle;
+
+  /// No description provided for @qualifiedFor32.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualified for Round of 32'**
+  String get qualifiedFor32;
+
+  /// No description provided for @eliminated.
+  ///
+  /// In en, this message translates to:
+  /// **'Eliminated'**
+  String get eliminated;
+
+  /// No description provided for @availableAfterGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Available after the group stage'**
+  String get availableAfterGroups;
+
+  /// No description provided for @qualified.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualified'**
+  String get qualified;
+
+  /// No description provided for @possibleThird.
+  ///
+  /// In en, this message translates to:
+  /// **'Possible 3rd'**
+  String get possibleThird;
+
+  /// No description provided for @played.
+  ///
+  /// In en, this message translates to:
+  /// **'P'**
+  String get played;
+
+  /// No description provided for @won.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get won;
+
+  /// No description provided for @drawnShort.
+  ///
+  /// In en, this message translates to:
+  /// **'D'**
+  String get drawnShort;
+
+  /// No description provided for @lost.
+  ///
+  /// In en, this message translates to:
+  /// **'L'**
+  String get lost;
+
+  /// No description provided for @points.
+  ///
+  /// In en, this message translates to:
+  /// **'Pts'**
+  String get points;
+
+  /// No description provided for @team.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get team;
+
+  /// No description provided for @groupShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Grp'**
+  String get groupShort;
+
+  /// No description provided for @groupMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Group matches'**
+  String get groupMatches;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @connectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection error'**
+  String get connectionError;
+
+  /// No description provided for @loadingError.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading error'**
+  String get loadingError;
+
+  /// No description provided for @me.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get me;
+
+  /// No description provided for @chooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get chooseDate;
+
+  /// No description provided for @clearDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearDate;
+
+  /// No description provided for @last32.
+  ///
+  /// In en, this message translates to:
+  /// **'Round of 32'**
+  String get last32;
+
+  /// No description provided for @last16.
+  ///
+  /// In en, this message translates to:
+  /// **'Round of 16'**
+  String get last16;
+
+  /// No description provided for @quarterFinals.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter-finals'**
+  String get quarterFinals;
+
+  /// No description provided for @semiFinals.
+  ///
+  /// In en, this message translates to:
+  /// **'Semi-finals'**
+  String get semiFinals;
+
+  /// No description provided for @thirdPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'3rd place'**
+  String get thirdPlace;
+
+  /// No description provided for @finalMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Final'**
+  String get finalMatch;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @joinedRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'You joined \"{name}\"!'**
+  String joinedRoom(Object name);
 }
 
 class _AppLocalizationsDelegate

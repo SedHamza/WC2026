@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../domain/entities/match_entity.dart';
 import '../../../pronostics/presentation/screens/match_detail_screen.dart';
 
@@ -10,17 +11,19 @@ class MatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor;
-    String statusLabel;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color statusColor;
+    final String statusLabel;
 
     if (match.isLive) {
-      statusColor = const Color(0xFFEF4444);
+      statusColor = AppColors.live;
       statusLabel = '● LIVE';
     } else if (match.isFinished) {
-      statusColor = const Color(0xFF6B7280);
+      statusColor = AppColors.finished;
       statusLabel = 'Terminé';
     } else {
-      statusColor = const Color(0xFF3B82F6);
+      statusColor = AppColors.upcoming;
       statusLabel = _formatDate(match.utcDate);
     }
 
@@ -74,6 +77,7 @@ class MatchCard extends StatelessWidget {
                     child: _TeamWidget(
                       name: match.homeTeamName,
                       crest: match.homeTeamCrest,
+                      isDark: isDark,
                     ),
                   ),
                   Padding(
@@ -87,16 +91,16 @@ class MatchCard extends StatelessWidget {
                                   fontSize: 24,
                                   fontWeight: FontWeight.w800,
                                   color: match.isLive
-                                      ? const Color(0xFFEF4444)
-                                      : null,
+                                      ? AppColors.live
+                                      : AppColors.textPrimary(isDark),
                                 ),
                               ),
                               if (match.isLive)
-                                const Text(
+                                Text(
                                   'EN DIRECT',
                                   style: TextStyle(
                                     fontSize: 9,
-                                    color: Color(0xFFEF4444),
+                                    color: AppColors.live,
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 1,
                                   ),
@@ -105,19 +109,19 @@ class MatchCard extends StatelessWidget {
                           )
                         : Column(
                             children: [
-                              const Text(
+                              Text(
                                 'VS',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
-                                  color: Color(0xFF6B7280),
+                                  color: AppColors.textSecondary(isDark),
                                 ),
                               ),
                               Text(
                                 _formatTime(match.utcDate),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 11,
-                                  color: Color(0xFF6B7280),
+                                  color: AppColors.textSecondary(isDark),
                                 ),
                               ),
                             ],
@@ -127,6 +131,7 @@ class MatchCard extends StatelessWidget {
                     child: _TeamWidget(
                       name: match.awayTeamName,
                       crest: match.awayTeamCrest,
+                      isDark: isDark,
                     ),
                   ),
                 ],
@@ -153,8 +158,13 @@ class MatchCard extends StatelessWidget {
 class _TeamWidget extends StatelessWidget {
   final String name;
   final String? crest;
+  final bool isDark;
 
-  const _TeamWidget({required this.name, this.crest});
+  const _TeamWidget({
+    required this.name,
+    required this.isDark,
+    this.crest,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -184,16 +194,16 @@ class _TeamWidget extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF002868),
-            Color(0xFFC8102E),
-            Color(0xFF006847),
+            AppColors.primary,
+            AppColors.secondary,
+            AppColors.accent,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF002868).withOpacity(0.2),
+            color: AppColors.primary.withOpacity(0.2),
             blurRadius: 8,
             spreadRadius: 1,
             offset: const Offset(0, 2),
@@ -214,11 +224,11 @@ class _TeamWidget extends StatelessWidget {
 
   Widget _buildImage() {
     if (crest == null || crest!.isEmpty) {
-      return const Center(
+      return Center(
         child: Icon(
           Icons.flag_rounded,
           size: 28,
-          color: Color(0xFF6B7280),
+          color: AppColors.textSecondary(isDark),
         ),
       );
     }
@@ -226,13 +236,13 @@ class _TeamWidget extends StatelessWidget {
       return SvgPicture.network(
         crest!,
         fit: BoxFit.cover,
-        placeholderBuilder: (_) => const Center(
+        placeholderBuilder: (_) => Center(
           child: SizedBox(
             width: 20,
             height: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Color(0xFF002868),
+              color: AppColors.primary,
             ),
           ),
         ),
@@ -241,21 +251,21 @@ class _TeamWidget extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: crest!,
       fit: BoxFit.cover,
-      placeholder: (_, __) => const Center(
+      placeholder: (_, __) => Center(
         child: SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: Color(0xFF002868),
+            color: AppColors.primary,
           ),
         ),
       ),
-      errorWidget: (_, __, ___) => const Center(
+      errorWidget: (_, __, ___) => Center(
         child: Icon(
           Icons.flag_rounded,
           size: 28,
-          color: Color(0xFF6B7280),
+          color: AppColors.textSecondary(isDark),
         ),
       ),
     );

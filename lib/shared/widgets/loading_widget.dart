@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class LoadingWidget extends StatelessWidget {
-  final Color color;
-  const LoadingWidget({
-    super.key,
-    this.color = const Color(0xFF002868),
-  });
+  final Color? color;
+
+  const LoadingWidget({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(color: color),
+      child: CircularProgressIndicator(
+        color: color ?? AppColors.primary,
+      ),
     );
   }
 }

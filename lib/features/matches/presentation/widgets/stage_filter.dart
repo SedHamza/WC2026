@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../../../shared/widgets/filter_chip_list.dart';
 
 class StageFilter extends StatelessWidget {
@@ -30,7 +31,7 @@ class StageFilter extends StatelessWidget {
       )).toList(),
       selected: selected,
       onSelected: onSelected,
-      activeColor: const Color(0xFFC8102E),
+      activeColor: AppColors.secondary,
     );
   }
 }

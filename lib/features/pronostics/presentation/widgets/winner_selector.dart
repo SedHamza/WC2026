@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class WinnerSelector extends StatelessWidget {
   final String homeTeamName;
@@ -60,7 +61,9 @@ class _WinnerBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isActive = selected == value;
+
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap?.call(value),
@@ -68,14 +71,12 @@ class _WinnerBtn extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isActive
-                ? const Color(0xFF002868)
-                : Colors.transparent,
+            color: isActive ? AppColors.primary : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: isActive
-                  ? const Color(0xFF002868)
-                  : const Color(0xFFD1D5DB),
+                  ? AppColors.primary
+                  : AppColors.borderStrong(isDark),
             ),
           ),
           child: Text(
@@ -83,7 +84,9 @@ class _WinnerBtn extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: isActive ? Colors.white : const Color(0xFF6B7280),
+              color: isActive
+                  ? Colors.white
+                  : AppColors.textSecondary(isDark),
             ),
             textAlign: TextAlign.center,
             maxLines: 1,

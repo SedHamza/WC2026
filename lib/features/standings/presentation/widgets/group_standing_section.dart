@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../domain/entities/standing_entity.dart';
 import '../../../matches/domain/entities/match_entity.dart';
 import '../../../matches/presentation/widgets/match_card.dart';
-import '../../../../shared/providers/repository_providers.dart';
 
 class GroupStandingSection extends ConsumerWidget {
   final GroupStandingEntity group;
@@ -19,11 +19,12 @@ class GroupStandingSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     final groupMatches = matchesAsync.maybeWhen(
       data: (matches) {
         final filtered = matches.where((m) {
           if (m.group == null) return false;
-          // Gère les deux formats
           final matchGroup =
               m.group!.replaceAll('GROUP_', '').replaceAll('Group ', '').trim();
           return matchGroup == group.groupName;
@@ -33,12 +34,13 @@ class GroupStandingSection extends ConsumerWidget {
       },
       orElse: () => <MatchEntity>[],
     );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header groupe
         Container(
-          color: const Color(0xFFF3F4F6),
+          color: AppColors.bgSurface(isDark),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: [
@@ -47,7 +49,7 @@ class GroupStandingSection extends ConsumerWidget {
                 height: 28,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF002868),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -76,16 +78,13 @@ class GroupStandingSection extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFFE5E7EB)),
+              border: Border.all(color: AppColors.border(isDark)),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
-                _buildTableHeader(),
-                ...group.table
-                    .asMap()
-                    .entries
-                    .map((e) => _buildTeamRow(e.value)),
+                _buildTableHeader(isDark),
+                ...group.table.map((t) => _buildTeamRow(t, isDark)),
               ],
             ),
           ),
@@ -97,10 +96,18 @@ class GroupStandingSection extends ConsumerWidget {
           child: Row(
             children: [
               _buildLegendItem(
-                  const Color(0xFFF0FDF4), const Color(0xFF166534), 'Qualifié'),
+                AppColors.successBg(isDark),
+                AppColors.successDark,
+                'Qualifié',
+                isDark,
+              ),
               const SizedBox(width: 16),
-              _buildLegendItem(const Color(0xFFFFFBEB), const Color(0xFF854F0B),
-                  'Possible 3ème'),
+              _buildLegendItem(
+                AppColors.warningBg(isDark),
+                AppColors.warningDark,
+                'Possible 3ème',
+                isDark,
+              ),
             ],
           ),
         ),
@@ -113,7 +120,7 @@ class GroupStandingSection extends ConsumerWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: Colors.grey[600],
+              color: AppColors.textSecondary(isDark),
               letterSpacing: 0.5,
             ),
           ),
@@ -123,60 +130,73 @@ class GroupStandingSection extends ConsumerWidget {
               child: MatchCard(match: m),
             )),
 
-        const Divider(height: 24, thickness: 6, color: Color(0xFFF3F4F6)),
+        Divider(
+          height: 24,
+          thickness: 6,
+          color: AppColors.bgSurface(isDark),
+        ),
       ],
     );
   }
 
-  Widget _buildTableHeader() {
+  Widget _buildTableHeader(bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: const BoxDecoration(
-        color: Color(0xFFF9FAFB),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      decoration: BoxDecoration(
+        color: AppColors.bgSubtle(isDark),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
       ),
       child: Row(
         children: [
-          const SizedBox(
-              width: 20,
-              child: Text('#',
-                  style: TextStyle(fontSize: 10, color: Color(0xFF6B7280)),
-                  textAlign: TextAlign.center)),
+          SizedBox(
+            width: 20,
+            child: Text(
+              '#',
+              style: TextStyle(
+                  fontSize: 10, color: AppColors.textSecondary(isDark)),
+              textAlign: TextAlign.center,
+            ),
+          ),
           const SizedBox(width: 8),
-          const Expanded(
-              child: Text('Équipe',
-                  style: TextStyle(fontSize: 10, color: Color(0xFF6B7280)))),
-          ..._headerCell('MJ'),
-          ..._headerCell('G'),
-          ..._headerCell('N'),
-          ..._headerCell('P'),
-          ..._headerCell('Pts'),
+          Expanded(
+            child: Text(
+              'Équipe',
+              style: TextStyle(
+                  fontSize: 10, color: AppColors.textSecondary(isDark)),
+            ),
+          ),
+          ..._headerCell('MJ', isDark),
+          ..._headerCell('G', isDark),
+          ..._headerCell('N', isDark),
+          ..._headerCell('P', isDark),
+          ..._headerCell('Pts', isDark),
         ],
       ),
     );
   }
 
-  List<Widget> _headerCell(String label) => [
+  List<Widget> _headerCell(String label, bool isDark) => [
         SizedBox(
           width: 28,
           child: Text(
             label,
-            style: const TextStyle(fontSize: 10, color: Color(0xFF6B7280)),
+            style:
+                TextStyle(fontSize: 10, color: AppColors.textSecondary(isDark)),
             textAlign: TextAlign.center,
           ),
         ),
       ];
 
-  Widget _buildTeamRow(TeamStandingEntity team) {
+  Widget _buildTeamRow(TeamStandingEntity team, bool isDark) {
     Color? bgColor;
-    Color posColor = const Color(0xFF6B7280);
+    Color posColor = AppColors.textSecondary(isDark);
 
     if (team.isQualified) {
-      bgColor = const Color(0xFFF0FDF4);
-      posColor = const Color(0xFF166534);
+      bgColor = AppColors.successBg(isDark);
+      posColor = AppColors.successDark;
     } else if (team.isPossibleThird) {
-      bgColor = const Color(0xFFFFFBEB);
-      posColor = const Color(0xFF854F0B);
+      bgColor = AppColors.warningBg(isDark);
+      posColor = AppColors.warningDark;
     }
 
     return Container(
@@ -197,7 +217,7 @@ class GroupStandingSection extends ConsumerWidget {
           Expanded(
             child: Row(
               children: [
-                _buildFlag(team.teamCrest, team.tla),
+                _buildFlag(team.teamCrest, team.tla, isDark),
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
@@ -210,18 +230,18 @@ class GroupStandingSection extends ConsumerWidget {
               ],
             ),
           ),
-          ..._statCell('${team.playedGames}'),
-          ..._statCell('${team.won}'),
-          ..._statCell('${team.draw}'),
-          ..._statCell('${team.lost}'),
+          ..._statCell('${team.playedGames}', isDark),
+          ..._statCell('${team.won}', isDark),
+          ..._statCell('${team.draw}', isDark),
+          ..._statCell('${team.lost}', isDark),
           SizedBox(
             width: 28,
             child: Text(
               '${team.points}',
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF002868)),
+                  color: AppColors.primary),
               textAlign: TextAlign.center,
             ),
           ),
@@ -230,33 +250,29 @@ class GroupStandingSection extends ConsumerWidget {
     );
   }
 
-  List<Widget> _statCell(String val) => [
+  List<Widget> _statCell(String val, bool isDark) => [
         SizedBox(
           width: 28,
           child: Text(
             val,
-            style: const TextStyle(fontSize: 11, color: Color(0xFF6B7280)),
+            style:
+                TextStyle(fontSize: 11, color: AppColors.textSecondary(isDark)),
             textAlign: TextAlign.center,
           ),
         ),
       ];
 
-  Widget _buildFlag(String? crest, String? tla) {
+  Widget _buildFlag(String? crest, String? tla, bool isDark) {
     return Container(
       width: 22,
       height: 22,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Color(0xFFE5E7EB),
+        color: AppColors.border(isDark),
       ),
       clipBehavior: Clip.antiAlias,
       child: crest != null && crest.endsWith('.svg')
-          ? SvgPicture.network(
-              crest,
-              width: 22,
-              height: 22,
-              fit: BoxFit.cover,
-            )
+          ? SvgPicture.network(crest, width: 22, height: 22, fit: BoxFit.cover)
           : crest != null && crest.isNotEmpty
               ? CachedNetworkImage(
                   imageUrl: crest,
@@ -273,8 +289,10 @@ class GroupStandingSection extends ConsumerWidget {
     return Container(
       width: 20,
       height: 20,
-      decoration:
-          const BoxDecoration(color: Color(0xFF002868), shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+        color: AppColors.primary,
+        shape: BoxShape.circle,
+      ),
       alignment: Alignment.center,
       child: Text(
         tla?.substring(0, 2) ?? '??',
@@ -284,20 +302,24 @@ class GroupStandingSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildLegendItem(Color bg, Color border, String label) {
+  Widget _buildLegendItem(Color bg, Color border, String label, bool isDark) {
     return Row(
       children: [
         Container(
           width: 8,
           height: 8,
           decoration: BoxDecoration(
-              color: bg,
-              border: Border.all(color: border),
-              borderRadius: BorderRadius.circular(2)),
+            color: bg,
+            border: Border.all(color: border),
+            borderRadius: BorderRadius.circular(2),
+          ),
         ),
         const SizedBox(width: 4),
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
+        Text(
+          label,
+          style:
+              TextStyle(fontSize: 10, color: AppColors.textSecondary(isDark)),
+        ),
       ],
     );
   }

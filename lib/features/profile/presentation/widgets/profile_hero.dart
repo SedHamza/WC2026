@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../pronostics/domain/entities/user_stats_entity.dart';
 
 class ProfileHero extends StatelessWidget {
@@ -10,7 +11,7 @@ class ProfileHero extends StatelessWidget {
 
   String get _initials {
     final name = user?.displayName ?? user?.email ?? 'U';
-    final parts = name.split(' ');
+    final parts = name.split(' ').where((s) => s.isNotEmpty).toList();
     if (parts.length >= 2) {
       return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
     }
@@ -22,7 +23,7 @@ class ProfileHero extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Color(0xFF002868),
+        color: AppColors.primary,
       ),
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       child: Column(
@@ -45,13 +46,12 @@ class ProfileHero extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF002868),
+                color: AppColors.primary,
               ),
             ),
           ),
           const SizedBox(height: 12),
 
-          // Nom
           Text(
             user?.displayName ?? 'Utilisateur',
             style: const TextStyle(
@@ -62,7 +62,6 @@ class ProfileHero extends StatelessWidget {
           ),
           const SizedBox(height: 4),
 
-          // Email
           Text(
             user?.email ?? '',
             style: TextStyle(
@@ -72,7 +71,6 @@ class ProfileHero extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // Stats row
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

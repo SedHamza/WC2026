@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../pronostics/domain/entities/user_stats_entity.dart';
 
 class ProfileStatsGrid extends StatelessWidget {
@@ -8,17 +9,19 @@ class ProfileStatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'STATISTIQUES',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF6B7280),
+              color: AppColors.textSecondary(isDark),
               letterSpacing: 0.5,
             ),
           ),
@@ -34,26 +37,30 @@ class ProfileStatsGrid extends StatelessWidget {
               _StatBox(
                 value: '${stats.exactScoreCount}',
                 label: 'Scores exacts',
-                color: const Color(0xFF006847),
-                bgColor: const Color(0xFFF0FDF4),
+                color: AppColors.accent,
+                bgColor: AppColors.successBg(isDark),
+                isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.successRate.toStringAsFixed(0)}%',
                 label: 'Taux de réussite',
-                color: const Color(0xFF002868),
-                bgColor: const Color(0xFFEEF2FF),
+                color: AppColors.primary,
+                bgColor: AppColors.infoBg(isDark),
+                isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.bestMatchPoints}',
                 label: 'Meilleur match',
-                color: const Color(0xFFF59E0B),
-                bgColor: const Color(0xFFFFFBEB),
+                color: AppColors.warning,
+                bgColor: AppColors.warningBg(isDark),
+                isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.winnerCorrectCount}',
                 label: 'Vainqueurs corrects',
-                color: const Color(0xFFC8102E),
-                bgColor: const Color(0xFFFEF2F2),
+                color: AppColors.secondary,
+                bgColor: AppColors.errorBg(isDark),
+                isDark: isDark,
               ),
             ],
           ),
@@ -68,12 +75,14 @@ class _StatBox extends StatelessWidget {
   final String label;
   final Color color;
   final Color bgColor;
+  final bool isDark;
 
   const _StatBox({
     required this.value,
     required this.label,
     required this.color,
     required this.bgColor,
+    required this.isDark,
   });
 
   @override
@@ -99,9 +108,9 @@ class _StatBox extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10,
-              color: Color(0xFF6B7280),
+              color: AppColors.textSecondary(isDark),
             ),
             overflow: TextOverflow.ellipsis,
           ),

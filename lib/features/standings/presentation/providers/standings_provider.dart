@@ -8,7 +8,7 @@ final standingsRepositoryProvider = Provider<StandingsRepository>((ref) {
 });
 
 final standingsProvider = FutureProvider<List<GroupStandingEntity>>((ref) {
-  return ref.read(standingsRepositoryProvider).getStandings();
+  return ref.watch(standingsRepositoryProvider).getStandings(); // ✓
 });
 
 final bestThirdProvider = Provider<List<TeamStandingEntity>>((ref) {

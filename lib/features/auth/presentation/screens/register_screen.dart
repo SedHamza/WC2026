@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../providers/auth_provider.dart';
 import 'package:wc2026/l10n/app_localizations.dart';
 
@@ -52,13 +53,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _isLoading = true; _errorMessage = null; });
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     final result = await ref.read(authProvider.notifier).signUpWithEmail(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-      firstName: _firstNameController.text.trim(),
-      lastName: _lastNameController.text.trim(),
-    );
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          firstName: _firstNameController.text.trim(),
+          lastName: _lastNameController.text.trim(),
+        );
     if (!mounted) return;
     setState(() => _isLoading = false);
     if (result != null) {
@@ -71,6 +75,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -90,8 +95,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Text(
                   l10n.createAccount,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
                 const SizedBox(height: 4),
                 Text(l10n.joinCompetition,
@@ -177,7 +182,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         prefixIcon: const Icon(Icons.lock_outline, size: 20),
         suffixIcon: IconButton(
           icon: Icon(
-            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            _obscurePassword
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
             size: 20,
           ),
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
@@ -192,27 +199,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Widget _buildStrengthBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final colors = [
-      const Color(0xFFEF4444),
-      const Color(0xFFF59E0B),
-      const Color(0xFF3B82F6),
-      const Color(0xFF22C55E),
+      AppColors.error,
+      AppColors.warning,
+      AppColors.info,
+      AppColors.success,
     ];
     final labels = ['Faible', 'Moyen', 'Bon', 'Fort'];
+
     return Row(
       children: [
-        ...List.generate(4, (i) => Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(right: 4),
-            height: 3,
-            decoration: BoxDecoration(
-              color: i < _passwordStrength
-                  ? colors[_passwordStrength - 1]
-                  : const Color(0xFF1E2433),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-        )),
+        ...List.generate(
+            4,
+            (i) => Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 4),
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: i < _passwordStrength
+                          ? colors[_passwordStrength - 1]
+                          : AppColors.bgSurface(isDark),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                )),
         const SizedBox(width: 8),
         if (_passwordStrength > 0)
           Text(
@@ -238,7 +249,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         prefixIcon: const Icon(Icons.lock_outline, size: 20),
         suffixIcon: IconButton(
           icon: Icon(
-            _obscureConfirm ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            _obscureConfirm
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
             size: 20,
           ),
           onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
@@ -253,21 +266,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Widget _buildError() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFEF4444).withOpacity(0.1),
+        color: AppColors.errorBg(isDark),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.3)),
+        border: Border.all(color: AppColors.error.withOpacity(0.3)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 18),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               _errorMessage!,
-              style: const TextStyle(color: Color(0xFFEF4444), fontSize: 13),
+              style: TextStyle(color: AppColors.error, fontSize: 13),
             ),
           ),
         ],
@@ -307,8 +321,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onTap: () => context.pop(),
                 child: Text(
                   l10n.login,
-                  style: const TextStyle(
-                    color: Color(0xFF002868),
+                  style: TextStyle(
+                    color: AppColors.primary,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),

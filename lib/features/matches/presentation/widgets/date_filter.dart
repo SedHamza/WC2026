@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 
 class DateFilter extends StatelessWidget {
   final DateTime? selected;
@@ -12,6 +13,8 @@ class DateFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
       child: Row(
@@ -25,8 +28,8 @@ class DateFilter extends StatelessWidget {
                 lastDate: DateTime(2026, 7, 19),
                 builder: (context, child) => Theme(
                   data: Theme.of(context).copyWith(
-                    colorScheme: const ColorScheme.light(
-                      primary: Color(0xFF002868),
+                    colorScheme: ColorScheme.light(
+                      primary: AppColors.primary,
                     ),
                   ),
                   child: child!,
@@ -39,13 +42,13 @@ class DateFilter extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: selected != null
-                    ? const Color(0xFF002868)
+                    ? AppColors.primary
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: selected != null
-                      ? const Color(0xFF002868)
-                      : const Color(0xFFD1D5DB),
+                      ? AppColors.primary
+                      : AppColors.borderStrong(isDark),
                 ),
               ),
               child: Row(
@@ -55,7 +58,7 @@ class DateFilter extends StatelessWidget {
                     size: 14,
                     color: selected != null
                         ? Colors.white
-                        : const Color(0xFF6B7280),
+                        : AppColors.textSecondary(isDark),
                   ),
                   const SizedBox(width: 6),
                   Text(
@@ -67,7 +70,7 @@ class DateFilter extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: selected != null
                           ? Colors.white
-                          : const Color(0xFF6B7280),
+                          : AppColors.textSecondary(isDark),
                     ),
                   ),
                 ],
@@ -80,16 +83,18 @@ class DateFilter extends StatelessWidget {
               onTap: () => onSelected(null),
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 8),
+                    horizontal: 10, vertical: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFD1D5DB)),
+                  border: Border.all(
+                    color: AppColors.borderStrong(isDark),
+                  ),
                 ),
-                child: const Text(
+                child: Text(
                   'Effacer',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF6B7280),
+                    color: AppColors.textSecondary(isDark),
                   ),
                 ),
               ),

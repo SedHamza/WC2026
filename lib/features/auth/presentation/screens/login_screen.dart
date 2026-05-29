@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../providers/auth_provider.dart';
 import 'package:wc2026/l10n/app_localizations.dart';
 
@@ -57,7 +58,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
@@ -68,7 +68,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(isDark),
+                _buildHeader(),
                 const SizedBox(height: 40),
                 _buildEmailField(l10n),
                 const SizedBox(height: 16),
@@ -93,7 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildHeader(bool isDark) {
+  Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -101,7 +101,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: const Color(0xFF002868),
+            color: AppColors.primary,
             borderRadius: BorderRadius.circular(14),
           ),
           child: const Center(
@@ -154,10 +154,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         prefixIcon: const Icon(Icons.lock_outline, size: 20),
         suffixIcon: IconButton(
           icon: Icon(
-            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            _obscurePassword
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
             size: 20,
           ),
-          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+          onPressed: () =>
+              setState(() => _obscurePassword = !_obscurePassword),
         ),
       ),
       validator: (value) {
@@ -171,32 +174,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Align(
       alignment: Alignment.centerRight,
       child: TextButton(
-        onPressed: () => context.push('/forgot-password'),
+        onPressed: () {},
         style: TextButton.styleFrom(
-          foregroundColor: const Color(0xFF002868),
+          foregroundColor: AppColors.primary,
           padding: EdgeInsets.zero,
         ),
-        child: Text(l10n.forgotPassword, style: const TextStyle(fontSize: 13)),
+        child: Text(l10n.forgotPassword,
+            style: const TextStyle(fontSize: 13)),
       ),
     );
   }
 
   Widget _buildError() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFEF4444).withOpacity(0.1),
+        color: AppColors.errorBg(isDark),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.3)),
+        border: Border.all(color: AppColors.error.withOpacity(0.3)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 18),
+          Icon(Icons.error_outline, color: AppColors.error, size: 18),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               _errorMessage!,
-              style: const TextStyle(color: Color(0xFFEF4444), fontSize: 13),
+              style: TextStyle(color: AppColors.error, fontSize: 13),
             ),
           ),
         ],
@@ -274,8 +279,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 onTap: () => context.push('/register'),
                 child: Text(
                   l10n.register,
-                  style: const TextStyle(
-                    color: Color(0xFF002868),
+                  style: TextStyle(
+                    color: AppColors.primary,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),
@@ -296,8 +301,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         color: Colors.white,
         shape: BoxShape.circle,
       ),
-      child: const Center(
-        child: Text('G', style: TextStyle(color: Color(0xFFC8102E), fontSize: 12, fontWeight: FontWeight.w700)),
+      child: Center(
+        child: Text('G',
+            style: TextStyle(
+                color: AppColors.secondary,
+                fontSize: 12,
+                fontWeight: FontWeight.w700)),
       ),
     );
   }
@@ -311,7 +320,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         shape: BoxShape.circle,
       ),
       child: const Center(
-        child: Text('f', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700)),
+        child: Text('f',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w700)),
       ),
     );
   }
@@ -338,9 +351,7 @@ class _SocialButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Theme.of(context).dividerColor,
-          ),
+          border: Border.all(color: Theme.of(context).dividerColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -349,7 +360,8 @@ class _SocialButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              style: const TextStyle(
+                  fontWeight: FontWeight.w600, fontSize: 14),
             ),
           ],
         ),

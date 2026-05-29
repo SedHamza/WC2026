@@ -21,13 +21,15 @@ final matchRepositoryProvider = Provider<MatchRepository>((ref) {
 });
 
 final matchesProvider = FutureProvider<List<MatchEntity>>((ref) {
-  return ref.read(matchRepositoryProvider).getAllMatches();
+  return ref.watch(matchRepositoryProvider).getAllMatches(); // ✓
 });
 
 final liveMatchesProvider = FutureProvider<List<MatchEntity>>((ref) {
-  return ref.read(matchRepositoryProvider).getLiveMatches();
+  return ref.watch(matchRepositoryProvider).getLiveMatches(); // ✓
 });
 
 final todayMatchesProvider = FutureProvider<List<MatchEntity>>((ref) {
-  return ref.read(matchRepositoryProvider).getMatchesByDate(DateTime.now());
+  return ref
+      .watch(matchRepositoryProvider)
+      .getMatchesByDate(DateTime.now()); // ✓
 });

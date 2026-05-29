@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import 'winner_selector.dart';
 import 'goals_selector.dart';
 
@@ -30,10 +31,11 @@ class OtherPronosticsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Qui gagne
         _SectionHeader(title: 'Qui va gagner ?', points: '5 pts'),
         const SizedBox(height: 8),
         WinnerSelector(
@@ -44,10 +46,9 @@ class OtherPronosticsWidget extends StatelessWidget {
           enabled: enabled,
         ),
         const SizedBox(height: 16),
-        const Divider(height: 1, color: Color(0xFFE5E7EB)),
+        const Divider(height: 1),
         const SizedBox(height: 16),
 
-        // Max buts
         GoalsSelector(
           title: 'Max buts dans le match',
           pointsFormula: '(7 - valeur) × 2 pts',
@@ -56,10 +57,9 @@ class OtherPronosticsWidget extends StatelessWidget {
           enabled: enabled,
         ),
         const SizedBox(height: 16),
-        const Divider(height: 1, color: Color(0xFFE5E7EB)),
+        const Divider(height: 1),
         const SizedBox(height: 16),
 
-        // Min buts
         GoalsSelector(
           title: 'Min buts dans le match',
           pointsFormula: 'valeur × 2 pts',
@@ -69,20 +69,19 @@ class OtherPronosticsWidget extends StatelessWidget {
         ),
         const SizedBox(height: 12),
 
-        // Total estimé
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFF0FDF4),
+            color: AppColors.successBg(isDark),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
             'Total estimé → $potentialPoints points',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF006847),
+              color: AppColors.accent,
             ),
             textAlign: TextAlign.center,
           ),
@@ -100,22 +99,24 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF374151),
+            color: AppColors.textPrimary(isDark),
           ),
         ),
         Text(
           points,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 11,
-            color: Color(0xFF6B7280),
+            color: AppColors.textSecondary(isDark),
           ),
         ),
       ],

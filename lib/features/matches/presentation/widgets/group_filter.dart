@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wc2026/core/constants/app_colors.dart';
 import '../../../../../shared/widgets/filter_chip_list.dart';
 
 class GroupFilter extends StatelessWidget {
@@ -24,7 +25,7 @@ class GroupFilter extends StatelessWidget {
       )).toList(),
       selected: selected,
       onSelected: onSelected,
-      activeColor: const Color(0xFF002868),
+      activeColor: AppColors.primary,
     );
   }
 }
