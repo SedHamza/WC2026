@@ -176,5 +176,7 @@
   "finalMatch": "Final",
   "all": "All",
   "joinedRoom": "You joined \"{name}\"!",
-  "@joinedRoom": { "placeholders": { "name": {} } }
+  "@joinedRoom": { "placeholders": { "name": {} } },
+  "finalResult": "Final result: {home} - {away}",
+  "@finalResult": { "placeholders": { "home": {}, "away": {} } }
 }

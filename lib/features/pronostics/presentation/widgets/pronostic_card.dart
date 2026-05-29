@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import 'package:wc2026/features/matches/domain/entities/match_entity.dart';
 import 'package:wc2026/features/pronostics/domain/entities/pronostic_entity.dart';
 import '../providers/pronostic_provider.dart';
@@ -26,6 +27,7 @@ class PronosticCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final state = ref.watch(pronosticNotifierProvider(matchId));
     final notifier = ref.read(pronosticNotifierProvider(matchId).notifier);
@@ -63,7 +65,7 @@ class PronosticCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Mon Pronostic',
+                l10n.myPronostic,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
@@ -95,7 +97,7 @@ class PronosticCard extends ConsumerWidget {
                       size: 14, color: AppColors.secondary),
                   const SizedBox(width: 6),
                   Text(
-                    'Match commencé — pronostic verrouillé',
+                    l10n.lockedMatch,
                     style: TextStyle(
                         fontSize: 11,
                         color: AppColors.secondary,
@@ -162,8 +164,8 @@ class PronosticCard extends ConsumerWidget {
                             strokeWidth: 2, color: Colors.white))
                     : Text(
                         state.isSaved
-                            ? 'Mettre à jour'
-                            : 'Confirmer le pronostic',
+                            ? l10n.updatePronostic
+                            : l10n.confirmPronostic,
                         style: const TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w600)),
               ),
@@ -178,7 +180,8 @@ class PronosticCard extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12))),
-                  child: const Text('Effacer', style: TextStyle(fontSize: 12)),
+                  child: Text(l10n.clearPronostic,
+                      style: const TextStyle(fontSize: 12)),
                 ),
               ),
             ],
@@ -193,7 +196,7 @@ class PronosticCard extends ConsumerWidget {
                   Icon(Icons.check_circle_rounded,
                       size: 14, color: AppColors.accent),
                   const SizedBox(width: 4),
-                  Text('Pronostic enregistré',
+                  Text(l10n.pronosticSaved,
                       style: TextStyle(
                           fontSize: 11,
                           color: AppColors.accent,
@@ -284,7 +287,7 @@ class _LiveScoreBanner extends StatelessWidget {
               Container(
                   width: 6,
                   height: 6,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: AppColors.live, shape: BoxShape.circle)),
               const SizedBox(width: 6),
               Text('Score actuel : $home - $away',
@@ -335,6 +338,7 @@ class _FinalResultBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final home = match.homeScore ?? 0;
     final away = match.awayScore ?? 0;
     final entity = PronosticEntity(
@@ -373,7 +377,7 @@ class _FinalResultBanner extends StatelessWidget {
                       ? AppColors.successDark
                       : AppColors.textSecondary(isDark)),
               const SizedBox(width: 6),
-              Text('Résultat final : $home - $away',
+              Text(l10n.finalResult(home.toString(), away.toString()),
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

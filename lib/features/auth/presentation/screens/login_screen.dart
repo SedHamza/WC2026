@@ -29,11 +29,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _signIn() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _isLoading = true; _errorMessage = null; });
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     final result = await ref.read(authProvider.notifier).signInWithEmail(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
     if (!mounted) return;
     setState(() => _isLoading = false);
     if (result != null) {
@@ -44,7 +47,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _signInWithGoogle() async {
-    setState(() { _isLoading = true; _errorMessage = null; });
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     final result = await ref.read(authProvider.notifier).signInWithGoogle();
     if (!mounted) return;
     setState(() => _isLoading = false);
@@ -112,8 +118,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         Text(
           AppLocalizations.of(context)!.welcomeBack,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-          ),
+                fontWeight: FontWeight.w800,
+              ),
         ),
         const SizedBox(height: 6),
         Text(
@@ -159,8 +165,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 : Icons.visibility_outlined,
             size: 20,
           ),
-          onPressed: () =>
-              setState(() => _obscurePassword = !_obscurePassword),
+          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
         ),
       ),
       validator: (value) {
@@ -179,8 +184,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           foregroundColor: AppColors.primary,
           padding: EdgeInsets.zero,
         ),
-        child: Text(l10n.forgotPassword,
-            style: const TextStyle(fontSize: 13)),
+        child: Text(l10n.forgotPassword, style: const TextStyle(fontSize: 13)),
       ),
     );
   }
@@ -246,24 +250,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildSocialButtons(AppLocalizations l10n) {
-    return Row(
-      children: [
-        Expanded(
-          child: _SocialButton(
-            label: 'Google',
-            icon: _googleIcon(),
-            onTap: _isLoading ? null : _signInWithGoogle,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _SocialButton(
-            label: 'Facebook',
-            icon: _facebookIcon(),
-            onTap: _isLoading ? null : () {},
-          ),
-        ),
-      ],
+    return _SocialButton(
+      label: 'Google',
+      icon: _googleIcon(),
+      onTap: _isLoading ? null : _signInWithGoogle,
     );
   }
 
@@ -310,24 +300,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
-
-  Widget _facebookIcon() {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1877F2),
-        shape: BoxShape.circle,
-      ),
-      child: const Center(
-        child: Text('f',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w700)),
-      ),
-    );
-  }
 }
 
 class _SocialButton extends StatelessWidget {
@@ -360,8 +332,7 @@ class _SocialButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w600, fontSize: 14),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
           ],
         ),

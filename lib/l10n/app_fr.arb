@@ -176,5 +176,7 @@
   "finalMatch": "Finale",
   "all": "Tous",
   "joinedRoom": "Tu as rejoint \"{name}\" !",
-  "@joinedRoom": { "placeholders": { "name": {} } }
+  "@joinedRoom": { "placeholders": { "name": {} } },
+  "finalResult": "Résultat final : {home} - {away}",
+  "@finalResult": { "placeholders": { "home": {}, "away": {} } }
 }

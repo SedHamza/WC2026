@@ -529,4 +529,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String joinedRoom(Object name) {
     return 'انضممت إلى \"$name\"!';
   }
+
+  @override
+  String finalResult(Object home, Object away) {
+    return 'النتيجة النهائية: $home - $away';
+  }
 }

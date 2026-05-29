@@ -176,5 +176,7 @@
   "finalMatch": "النهائي",
   "all": "الكل",
   "joinedRoom": "انضممت إلى \"{name}\"!",
-  "@joinedRoom": { "placeholders": { "name": {} } }
+  "@joinedRoom": { "placeholders": { "name": {} } },
+  "finalResult": "النتيجة النهائية: {home} - {away}",
+  "@finalResult": { "placeholders": { "home": {}, "away": {} } }
 }

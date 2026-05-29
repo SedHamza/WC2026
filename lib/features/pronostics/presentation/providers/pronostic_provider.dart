@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wc2026/shared/providers/score_notifier.dart';
-import 'package:wc2026/shared/providers/repository_providers.dart';
 import '../../data/repositories/pronostic_repository_impl.dart';
 import '../../domain/entities/pronostic_entity.dart';
 import '../../domain/repositories/pronostic_repository.dart';

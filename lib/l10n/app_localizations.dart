@@ -1095,6 +1095,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You joined \"{name}\"!'**
   String joinedRoom(Object name);
+
+  /// No description provided for @finalResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Final result: {home} - {away}'**
+  String finalResult(Object home, Object away);
 }
 
 class _AppLocalizationsDelegate

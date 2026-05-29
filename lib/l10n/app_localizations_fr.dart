@@ -531,4 +531,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String joinedRoom(Object name) {
     return 'Tu as rejoint \"$name\" !';
   }
+
+  @override
+  String finalResult(Object home, Object away) {
+    return 'Résultat final : $home - $away';
+  }
 }

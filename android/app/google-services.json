@@ -12,7 +12,20 @@
           "package_name": "com.sedhamza.wc2026"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "193867110649-tvf5j383k3j30v946drv14nmon8oacsa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sedhamza.wc2026",
+            "certificate_hash": "67f7acfa4c7965c530eb665f79e537f4f9c2c780"
+          }
+        },
+        {
+          "client_id": "193867110649-9lmfsnf7t9jbadthnaqp40t9i7slkbf6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC1Cu4e2qhBcS7yvWMjOnjtPaxjQ6m3oWk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193867110649-9lmfsnf7t9jbadthnaqp40t9i7slkbf6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sedhamza.wc2026"
+              }
+            }
+          ]
         }
       }
     }

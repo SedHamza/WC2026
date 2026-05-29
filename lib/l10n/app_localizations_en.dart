@@ -530,4 +530,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String joinedRoom(Object name) {
     return 'You joined \"$name\"!';
   }
+
+  @override
+  String finalResult(Object home, Object away) {
+    return 'Final result: $home - $away';
+  }
 }
