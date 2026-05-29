@@ -5,7 +5,6 @@ import 'package:wc2026/core/constants/app_colors.dart';
 import 'package:wc2026/features/matches/domain/entities/match_entity.dart';
 import 'package:wc2026/shared/providers/repository_providers.dart';
 import 'package:wc2026/features/rooms/data/repositories/room_repository_impl.dart';
-import 'package:wc2026/features/pronostics/presentation/providers/pronostic_provider.dart';
 import 'package:wc2026/shared/widgets/loading_widget.dart';
 
 class TestMatchScreen extends ConsumerStatefulWidget {
@@ -133,6 +132,7 @@ class _TestMatchScreenState extends ConsumerState<TestMatchScreen> {
             onPressed: () async {
               Navigator.pop(context);
               await _resetAllTestMatches();
+              // ignore: unused_result
               ref.refresh(matchesProvider);
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -175,7 +175,6 @@ class _MatchTestCard extends StatefulWidget {
 
 class _MatchTestCardState extends State<_MatchTestCard> {
   bool _isLoading = false;
-  String _lastAction = '';
 
   Color _statusColor(String status) {
     switch (status) {
@@ -213,7 +212,6 @@ class _MatchTestCardState extends State<_MatchTestCard> {
   }) async {
     setState(() {
       _isLoading = true;
-      _lastAction = status;
     });
     try {
       await FirebaseFirestore.instance
