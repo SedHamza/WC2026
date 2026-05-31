@@ -103,16 +103,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: const Center(
-            child: Text('⚽', style: TextStyle(fontSize: 24)),
-          ),
+        Image.asset(
+          'assets/images/wc2026_logo.png',
+          width: 64,
+          height: 64,
         ),
         const SizedBox(height: 24),
         Text(
@@ -123,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         const SizedBox(height: 6),
         Text(
-          'World Cup 2026',
+          AppLocalizations.of(context)!.appName,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../domain/entities/standing_entity.dart';
 import '../../../matches/domain/entities/match_entity.dart';
 import '../../../matches/presentation/widgets/match_card.dart';
@@ -19,6 +20,7 @@ class GroupStandingSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final groupMatches = matchesAsync.maybeWhen(
@@ -63,7 +65,7 @@ class GroupStandingSection extends ConsumerWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                'Groupe ${group.groupName}',
+                l10n.groupStandings(group.groupName),
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -83,7 +85,7 @@ class GroupStandingSection extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                _buildTableHeader(isDark),
+                _buildTableHeader(isDark, l10n),
                 ...group.table.map((t) => _buildTeamRow(t, isDark)),
               ],
             ),
@@ -98,14 +100,14 @@ class GroupStandingSection extends ConsumerWidget {
               _buildLegendItem(
                 AppColors.successBg(isDark),
                 AppColors.successDark,
-                'Qualifié',
+                l10n.qualified,
                 isDark,
               ),
               const SizedBox(width: 16),
               _buildLegendItem(
                 AppColors.warningBg(isDark),
                 AppColors.warningDark,
-                'Possible 3ème',
+                l10n.possibleThird,
                 isDark,
               ),
             ],
@@ -116,7 +118,7 @@ class GroupStandingSection extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
           child: Text(
-            'MATCHS DU GROUPE',
+            l10n.groupMatches.toUpperCase(),
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
@@ -139,7 +141,7 @@ class GroupStandingSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildTableHeader(bool isDark) {
+  Widget _buildTableHeader(bool isDark, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -160,16 +162,16 @@ class GroupStandingSection extends ConsumerWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Équipe',
+              l10n.team,
               style: TextStyle(
                   fontSize: 10, color: AppColors.textSecondary(isDark)),
             ),
           ),
-          ..._headerCell('MJ', isDark),
-          ..._headerCell('G', isDark),
-          ..._headerCell('N', isDark),
-          ..._headerCell('P', isDark),
-          ..._headerCell('Pts', isDark),
+          ..._headerCell(l10n.played, isDark),
+          ..._headerCell(l10n.won, isDark),
+          ..._headerCell(l10n.drawnShort, isDark),
+          ..._headerCell(l10n.lost, isDark),
+          ..._headerCell(l10n.points, isDark),
         ],
       ),
     );

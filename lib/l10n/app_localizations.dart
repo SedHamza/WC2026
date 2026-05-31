@@ -487,7 +487,7 @@ abstract class AppLocalizations {
   /// No description provided for @otherPtsMax.
   ///
   /// In en, this message translates to:
-  /// **'up to 23 pts'**
+  /// **'up to 19 pts'**
   String get otherPtsMax;
 
   /// No description provided for @confirmPronostic.
@@ -1101,6 +1101,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Final result: {home} - {away}'**
   String finalResult(Object home, Object away);
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @memberSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since'**
+  String get memberSince;
+
+  /// No description provided for @pseudo.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get pseudo;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get darkMode;
+
+  /// No description provided for @testMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Test mode'**
+  String get testMode;
+
+  /// No description provided for @testModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Match simulator'**
+  String get testModeSubtitle;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get appVersion;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is irreversible.'**
+  String get deleteAccountConfirm;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @application.
+  ///
+  /// In en, this message translates to:
+  /// **'Application'**
+  String get application;
+
+  /// No description provided for @testModeUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'🧪 Test mode unlocked!'**
+  String get testModeUnlocked;
+
+  /// No description provided for @editPseudo.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit username'**
+  String get editPseudo;
+
+  /// No description provided for @pseudoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your username...'**
+  String get pseudoHint;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @pseudoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Username updated!'**
+  String get pseudoUpdated;
+
+  /// No description provided for @tournament.
+  ///
+  /// In en, this message translates to:
+  /// **'Tournament'**
+  String get tournament;
+
+  /// No description provided for @exactScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact score'**
+  String get exactScoreLabel;
+
+  /// No description provided for @winnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Winner'**
+  String get winnerLabel;
+
+  /// No description provided for @maxGoalsLabel2.
+  ///
+  /// In en, this message translates to:
+  /// **'Max ≤{n} goals'**
+  String maxGoalsLabel2(Object n);
+
+  /// No description provided for @minGoalsLabel2.
+  ///
+  /// In en, this message translates to:
+  /// **'Min ≥{n} goals'**
+  String minGoalsLabel2(Object n);
+
+  /// No description provided for @currentScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Current score: {home} - {away}'**
+  String currentScore(Object home, Object away);
+
+  /// No description provided for @livePoints.
+  ///
+  /// In en, this message translates to:
+  /// **'🔴 {pts} pts live'**
+  String livePoints(Object pts);
+
+  /// No description provided for @maxGoalsFormula.
+  ///
+  /// In en, this message translates to:
+  /// **'(7 - value) × 2 pts'**
+  String get maxGoalsFormula;
+
+  /// No description provided for @minGoalsFormula.
+  ///
+  /// In en, this message translates to:
+  /// **'value × 2 pts'**
+  String get minGoalsFormula;
 }
 
 class _AppLocalizationsDelegate

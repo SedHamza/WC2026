@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../domain/entities/room_entity.dart';
 
 class RoomCard extends StatelessWidget {
@@ -16,6 +17,7 @@ class RoomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final member = room.getMember(currentUserId);
     final rank = room.getRank(currentUserId);
@@ -71,20 +73,20 @@ class RoomCard extends StatelessWidget {
                 children: [
                   _StatItem(
                     value: '${room.memberCount}',
-                    label: 'Membres',
+                    label: l10n.members,
                     isDark: isDark,
                   ),
                   const SizedBox(width: 16),
                   _StatItem(
                     value: '${member?.totalPoints ?? 0}',
-                    label: 'Mes points',
+                    label: l10n.myPoints,
                     valueColor: AppColors.primary,
                     isDark: isDark,
                   ),
                   const SizedBox(width: 16),
                   _StatItem(
                     value: _rankText(rank),
-                    label: 'Mon rang',
+                    label: l10n.myRank,
                     valueColor: _rankColor(rank),
                     isDark: isDark,
                   ),
@@ -97,7 +99,7 @@ class RoomCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Voir →',
+                    '→',
                     style: TextStyle(
                       fontSize: 11,
                       color: AppColors.primary,
@@ -114,10 +116,10 @@ class RoomCard extends StatelessWidget {
   }
 
   String _rankText(int rank) {
-    if (rank == 1) return '🥇 1er';
-    if (rank == 2) return '🥈 2ème';
-    if (rank == 3) return '🥉 3ème';
-    return '${rank}ème';
+    if (rank == 1) return '🥇 $rank';
+    if (rank == 2) return '🥈 $rank';
+    if (rank == 3) return '🥉 $rank';
+    return '$rank';
   }
 
   Color _rankColor(int rank) {

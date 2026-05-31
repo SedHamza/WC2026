@@ -57,6 +57,10 @@ dev_dependencies:
   freezed: ^2.5.2
   json_serializable: ^6.8.0
   riverpod_generator: ^2.4.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
+
+
 
 flutter:
   generate: true
@@ -65,3 +69,19 @@ flutter:
     - .env
     - assets/images/
     - assets/data/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/wc2026_logo.png"
+  adaptive_icon_background: "#0d2248"
+  adaptive_icon_foreground: "assets/images/wc2026_logo.png"
+
+flutter_native_splash:
+  color: "#0d2248"
+  image: assets/images/wc2026_logo.png
+  android: true 
+  ios: true
+  android_12:
+    color: "#0d2248"
+    image: assets/images/wc2026_logo.png

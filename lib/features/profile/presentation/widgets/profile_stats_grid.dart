@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../../pronostics/domain/entities/user_stats_entity.dart';
 
 class ProfileStatsGrid extends StatelessWidget {
@@ -9,6 +10,7 @@ class ProfileStatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
@@ -17,7 +19,7 @@ class ProfileStatsGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'STATISTIQUES',
+            l10n.statistics.toUpperCase(),
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
@@ -36,28 +38,28 @@ class ProfileStatsGrid extends StatelessWidget {
             children: [
               _StatBox(
                 value: '${stats.exactScoreCount}',
-                label: 'Scores exacts',
+                label: l10n.exactScores,
                 color: AppColors.accent,
                 bgColor: AppColors.successBg(isDark),
                 isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.successRate.toStringAsFixed(0)}%',
-                label: 'Taux de réussite',
+                label: l10n.successRate,
                 color: AppColors.primary,
                 bgColor: AppColors.infoBg(isDark),
                 isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.bestMatchPoints}',
-                label: 'Meilleur match',
+                label: l10n.bestMatch,
                 color: AppColors.warning,
                 bgColor: AppColors.warningBg(isDark),
                 isDark: isDark,
               ),
               _StatBox(
                 value: '${stats.winnerCorrectCount}',
-                label: 'Vainqueurs corrects',
+                label: l10n.correctWinners,
                 color: AppColors.secondary,
                 bgColor: AppColors.errorBg(isDark),
                 isDark: isDark,

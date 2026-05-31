@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 
 class DateFilter extends StatelessWidget {
   final DateTime? selected;
@@ -13,6 +14,7 @@ class DateFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
@@ -41,9 +43,8 @@ class DateFilter extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: selected != null
-                    ? AppColors.primary
-                    : Colors.transparent,
+                color:
+                    selected != null ? AppColors.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: selected != null
@@ -64,7 +65,7 @@ class DateFilter extends StatelessWidget {
                   Text(
                     selected != null
                         ? '${selected!.day}/${selected!.month}/${selected!.year}'
-                        : 'Choisir une date',
+                        : l10n.chooseDate,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -82,16 +83,14 @@ class DateFilter extends StatelessWidget {
             GestureDetector(
               onTap: () => onSelected(null),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: AppColors.borderStrong(isDark),
-                  ),
+                  border: Border.all(color: AppColors.borderStrong(isDark)),
                 ),
                 child: Text(
-                  'Effacer',
+                  l10n.clearDate,
                   style: TextStyle(
                     fontSize: 12,
                     color: AppColors.textSecondary(isDark),

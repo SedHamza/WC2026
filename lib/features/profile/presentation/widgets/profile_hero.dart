@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../../pronostics/domain/entities/user_stats_entity.dart';
 
 class ProfileHero extends StatelessWidget {
@@ -20,6 +21,8 @@ class ProfileHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -28,7 +31,6 @@ class ProfileHero extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       child: Column(
         children: [
-          // Avatar
           Container(
             width: 80,
             height: 80,
@@ -51,9 +53,8 @@ class ProfileHero extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
           Text(
-            user?.displayName ?? 'Utilisateur',
+            user?.displayName ?? '—',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -61,7 +62,6 @@ class ProfileHero extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-
           Text(
             user?.email ?? '',
             style: TextStyle(
@@ -70,25 +70,24 @@ class ProfileHero extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _StatItem(
                 value: '${stats?.totalPoints ?? 0}',
-                label: 'Points totaux',
+                label: l10n.totalPoints,
               ),
               _Divider(),
               _StatItem(
                 value: '${stats?.totalPronostics ?? 0}',
-                label: 'Pronostics',
+                label: l10n.totalPronostics,
               ),
               _Divider(),
               _StatItem(
                 value: stats != null && stats!.totalPronostics > 0
                     ? stats!.averagePoints.toStringAsFixed(1)
                     : '0',
-                label: 'Moy. pts/match',
+                label: l10n.avgPtsPerMatch,
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../../../../shared/widgets/score_counter.dart';
 
 class ExactScoreWidget extends StatelessWidget {
@@ -24,6 +25,7 @@ class ExactScoreWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
@@ -92,7 +94,7 @@ class ExactScoreWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            'Résultat exact → 25 points',
+            l10n.exactResult,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,

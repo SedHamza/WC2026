@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import 'winner_selector.dart';
 import 'goals_selector.dart';
 
@@ -31,12 +32,13 @@ class OtherPronosticsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionHeader(title: 'Qui va gagner ?', points: '5 pts'),
+        _SectionHeader(title: l10n.whoWins, points: '5 pts'),
         const SizedBox(height: 8),
         WinnerSelector(
           homeTeamName: homeTeamName,
@@ -48,10 +50,9 @@ class OtherPronosticsWidget extends StatelessWidget {
         const SizedBox(height: 16),
         const Divider(height: 1),
         const SizedBox(height: 16),
-
         GoalsSelector(
-          title: 'Max buts dans le match',
-          pointsFormula: '(7 - valeur) × 2 pts',
+          title: l10n.maxGoals,
+          pointsFormula: l10n.maxGoalsFormula,
           selected: maxGoals,
           onSelected: onMaxGoalsChanged,
           enabled: enabled,
@@ -59,16 +60,14 @@ class OtherPronosticsWidget extends StatelessWidget {
         const SizedBox(height: 16),
         const Divider(height: 1),
         const SizedBox(height: 16),
-
         GoalsSelector(
-          title: 'Min buts dans le match',
-          pointsFormula: 'valeur × 2 pts',
+          title: l10n.minGoals,
+          pointsFormula: l10n.minGoalsFormula,
           selected: minGoals,
           onSelected: onMinGoalsChanged,
           enabled: enabled,
         ),
         const SizedBox(height: 12),
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -77,7 +76,7 @@ class OtherPronosticsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            'Total estimé → $potentialPoints points',
+            l10n.totalEstimated(potentialPoints.toString()),
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,

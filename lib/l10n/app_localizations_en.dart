@@ -207,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exactScorePts => '25 pts';
 
   @override
-  String get otherPtsMax => 'up to 23 pts';
+  String get otherPtsMax => 'up to 19 pts';
 
   @override
   String get confirmPronostic => 'Confirm prediction';
@@ -535,4 +535,96 @@ class AppLocalizationsEn extends AppLocalizations {
   String finalResult(Object home, Object away) {
     return 'Final result: $home - $away';
   }
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get memberSince => 'Member since';
+
+  @override
+  String get pseudo => 'Username';
+
+  @override
+  String get darkMode => 'Theme';
+
+  @override
+  String get testMode => 'Test mode';
+
+  @override
+  String get testModeSubtitle => 'Match simulator';
+
+  @override
+  String get appVersion => 'Version';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountConfirm => 'This action is irreversible.';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get application => 'Application';
+
+  @override
+  String get testModeUnlocked => '🧪 Test mode unlocked!';
+
+  @override
+  String get editPseudo => 'Edit username';
+
+  @override
+  String get pseudoHint => 'Your username...';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get pseudoUpdated => 'Username updated!';
+
+  @override
+  String get tournament => 'Tournament';
+
+  @override
+  String get exactScoreLabel => 'Exact score';
+
+  @override
+  String get winnerLabel => 'Winner';
+
+  @override
+  String maxGoalsLabel2(Object n) {
+    return 'Max ≤$n goals';
+  }
+
+  @override
+  String minGoalsLabel2(Object n) {
+    return 'Min ≥$n goals';
+  }
+
+  @override
+  String currentScore(Object home, Object away) {
+    return 'Current score: $home - $away';
+  }
+
+  @override
+  String livePoints(Object pts) {
+    return '🔴 $pts pts live';
+  }
+
+  @override
+  String get maxGoalsFormula => '(7 - value) × 2 pts';
+
+  @override
+  String get minGoalsFormula => 'value × 2 pts';
 }

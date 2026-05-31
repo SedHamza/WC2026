@@ -67,13 +67,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _navigate();
   }
 
-  void _navigate() {
+  Future<void> _navigate() async {
     if (!mounted) return;
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      context.go('/home');
-    } else {
-      context.go('/login');
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.reload();
+        if (mounted) context.go('/home');
+      } else {
+        if (mounted) context.go('/login');
+      }
+    } catch (_) {
+      if (mounted) context.go('/login');
     }
   }
 
@@ -86,7 +91,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Splash garde un fond sombre fixe — c'est intentionnel
     return Scaffold(
       backgroundColor: AppColors.bgPageDark,
       body: Center(
@@ -98,14 +102,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: FadeTransition(
                 opacity: _logoOpacity,
                 child: _buildLogo(),
-              ),
-            ),
-            const SizedBox(height: 32),
-            SlideTransition(
-              position: _textSlide,
-              child: FadeTransition(
-                opacity: _textOpacity,
-                child: _buildText(),
               ),
             ),
             const SizedBox(height: 80),
@@ -120,49 +116,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Widget _buildLogo() {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
-            blurRadius: 30,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: const Center(
-        child: Text('⚽', style: TextStyle(fontSize: 48)),
-      ),
-    );
-  }
-
-  Widget _buildText() {
-    return Column(
-      children: [
-        const Text(
-          'WC 2026',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 32,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          'WORLD CUP',
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.4),
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 6,
-          ),
-        ),
-      ],
+    return Image.asset(
+      'assets/images/wc2026_logo.png',
+      width: 220,
+      height: 220,
     );
   }
 

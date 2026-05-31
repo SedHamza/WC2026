@@ -11,6 +11,4 @@ abstract class PronosticRepository {
   // Stats utilisateur
   Future<UserStatsEntity?> getUserStats(String userId);
   Future<void> createUserProfile(String userId, String displayName, String email);
-  Future<void> calculateAndUpdatePoints(
-      String matchId, int homeScore, int awayScore);
 }

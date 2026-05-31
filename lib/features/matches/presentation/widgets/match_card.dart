@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../domain/entities/match_entity.dart';
 import '../../../pronostics/presentation/screens/match_detail_screen.dart';
 
@@ -11,6 +12,7 @@ class MatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final Color statusColor;
@@ -21,7 +23,7 @@ class MatchCard extends StatelessWidget {
       statusLabel = '● LIVE';
     } else if (match.isFinished) {
       statusColor = AppColors.finished;
-      statusLabel = 'Terminé';
+      statusLabel = l10n.finished;
     } else {
       statusColor = AppColors.upcoming;
       statusLabel = _formatDate(match.utcDate);
@@ -45,7 +47,7 @@ class MatchCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      match.formattedStage,
+                      match.getFormattedStage(context),
                       style: Theme.of(context).textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -97,7 +99,7 @@ class MatchCard extends StatelessWidget {
                               ),
                               if (match.isLive)
                                 Text(
-                                  'EN DIRECT',
+                                  l10n.live,
                                   style: TextStyle(
                                     fontSize: 9,
                                     color: AppColors.live,
@@ -110,7 +112,7 @@ class MatchCard extends StatelessWidget {
                         : Column(
                             children: [
                               Text(
-                                'VS',
+                                l10n.vs,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -193,11 +195,7 @@ class _TeamWidget extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: const LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.secondary,
-            AppColors.accent,
-          ],
+          colors: [AppColors.primary, AppColors.secondary, AppColors.accent],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -225,48 +223,29 @@ class _TeamWidget extends StatelessWidget {
   Widget _buildImage() {
     if (crest == null || crest!.isEmpty) {
       return Center(
-        child: Icon(
-          Icons.flag_rounded,
-          size: 28,
-          color: AppColors.textSecondary(isDark),
-        ),
+        child: Icon(Icons.flag_rounded, size: 28,
+            color: AppColors.textSecondary(isDark)),
       );
     }
     if (crest!.endsWith('.svg')) {
-      return SvgPicture.network(
-        crest!,
-        fit: BoxFit.cover,
-        placeholderBuilder: (_) => Center(
-          child: SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: AppColors.primary,
-            ),
-          ),
-        ),
-      );
+      return SvgPicture.network(crest!, fit: BoxFit.cover,
+          placeholderBuilder: (_) => Center(
+            child: SizedBox(width: 20, height: 20,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: AppColors.primary)),
+          ));
     }
     return CachedNetworkImage(
       imageUrl: crest!,
       fit: BoxFit.cover,
       placeholder: (_, __) => Center(
-        child: SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: AppColors.primary,
-          ),
-        ),
+        child: SizedBox(width: 20, height: 20,
+            child: CircularProgressIndicator(
+                strokeWidth: 2, color: AppColors.primary)),
       ),
       errorWidget: (_, __, ___) => Center(
-        child: Icon(
-          Icons.flag_rounded,
-          size: 28,
-          color: AppColors.textSecondary(isDark),
-        ),
+        child: Icon(Icons.flag_rounded, size: 28,
+            color: AppColors.textSecondary(isDark)),
       ),
     );
   }

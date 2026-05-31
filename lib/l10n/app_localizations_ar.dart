@@ -207,7 +207,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exactScorePts => '25 نقطة';
 
   @override
-  String get otherPtsMax => 'حتى 23 نقطة';
+  String get otherPtsMax => 'حتى 19 نقطة';
 
   @override
   String get confirmPronostic => 'تأكيد التوقع';
@@ -481,7 +481,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get team => 'الفريق';
 
   @override
-  String get groupShort => 'مج';
+  String get groupShort => 'المجموعة';
 
   @override
   String get groupMatches => 'مباريات المجموعة';
@@ -534,4 +534,96 @@ class AppLocalizationsAr extends AppLocalizations {
   String finalResult(Object home, Object away) {
     return 'النتيجة النهائية: $home - $away';
   }
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get memberSince => 'عضو منذ';
+
+  @override
+  String get pseudo => 'اسم المستخدم';
+
+  @override
+  String get darkMode => 'المظهر';
+
+  @override
+  String get testMode => 'وضع الاختبار';
+
+  @override
+  String get testModeSubtitle => 'محاكي المباريات';
+
+  @override
+  String get appVersion => 'الإصدار';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountConfirm => 'هذا الإجراء لا يمكن التراجع عنه.';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get application => 'تطبيق';
+
+  @override
+  String get testModeUnlocked => '🧪 تم تفعيل وضع الاختبار!';
+
+  @override
+  String get editPseudo => 'تعديل الاسم';
+
+  @override
+  String get pseudoHint => 'اسمك...';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get pseudoUpdated => 'تم تحديث الاسم!';
+
+  @override
+  String get tournament => 'البطولة';
+
+  @override
+  String get exactScoreLabel => 'النتيجة الدقيقة';
+
+  @override
+  String get winnerLabel => 'الفائز';
+
+  @override
+  String maxGoalsLabel2(Object n) {
+    return 'الحد الأقصى ≤$n أهداف';
+  }
+
+  @override
+  String minGoalsLabel2(Object n) {
+    return 'الحد الأدنى ≥$n أهداف';
+  }
+
+  @override
+  String currentScore(Object home, Object away) {
+    return 'النتيجة الحالية: $home - $away';
+  }
+
+  @override
+  String livePoints(Object pts) {
+    return '🔴 $pts نقطة مباشر';
+  }
+
+  @override
+  String get maxGoalsFormula => '(7 - القيمة) × 2 نقطة';
+
+  @override
+  String get minGoalsFormula => 'القيمة × 2 نقطة';
 }

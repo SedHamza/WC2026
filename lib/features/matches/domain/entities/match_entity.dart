@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
+
 class MatchEntity {
   final String id;
   final String homeTeamName;
@@ -32,25 +35,26 @@ class MatchEntity {
   bool get isUpcoming => status == 'SCHEDULED' || status == 'TIMED';
   bool get isTBD => homeTeamName == 'TBD' || awayTeamName == 'TBD';
 
-  String get formattedStage {
-    final groupName = group?.replaceAll('GROUP_', '') ?? '';
-    switch (stage) {
-      case 'GROUP_STAGE':
-        return 'Groupe $groupName · J$matchday';
-      case 'LAST_32':
-        return '32èmes de finale';
-      case 'LAST_16':
-        return '16èmes de finale';
-      case 'QUARTER_FINALS':
-        return 'Quarts de finale';
-      case 'SEMI_FINALS':
-        return 'Demi-finales';
-      case 'THIRD_PLACE':
-        return '3ème place';
-      case 'FINAL':
-        return 'FINALE';
-      default:
-        return stage;
-    }
+String getFormattedStage(BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
+  final groupName = group?.replaceAll('GROUP_', '') ?? '';
+  switch (stage) {
+    case 'GROUP_STAGE':
+      return '${l10n.group(groupName)} · ${l10n.matchday(matchday ?? 1)}';
+    case 'LAST_32':
+      return l10n.last32;
+    case 'LAST_16':
+      return l10n.last16;
+    case 'QUARTER_FINALS':
+      return l10n.quarterFinals;
+    case 'SEMI_FINALS':
+      return l10n.semiFinals;
+    case 'THIRD_PLACE':
+      return l10n.thirdPlace;
+    case 'FINAL':
+      return l10n.finalMatch;
+    default:
+      return stage;
   }
+}
 }

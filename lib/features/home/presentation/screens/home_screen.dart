@@ -43,7 +43,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   void dispose() {
-    ref.read(scoreNotifierProvider.notifier).stopTimer();
     super.dispose();
   }
 
@@ -402,7 +401,7 @@ class _LiveMatchCardState extends State<_LiveMatchCard>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    match.formattedStage,
+                    match.getFormattedStage(context),
                     style: TextStyle(
                         fontSize: 10,
                         color: AppColors.textSecondary(isDark),

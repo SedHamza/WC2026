@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 
 class WinnerSelector extends StatelessWidget {
   final String homeTeamName;
@@ -29,7 +30,7 @@ class WinnerSelector extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         _WinnerBtn(
-          label: 'Égalité',
+          label: AppLocalizations.of(context)!.draw,
           value: 0,
           selected: selected,
           onTap: enabled ? onSelected : null,
@@ -74,9 +75,8 @@ class _WinnerBtn extends StatelessWidget {
             color: isActive ? AppColors.primary : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isActive
-                  ? AppColors.primary
-                  : AppColors.borderStrong(isDark),
+              color:
+                  isActive ? AppColors.primary : AppColors.borderStrong(isDark),
             ),
           ),
           child: Text(
@@ -84,9 +84,7 @@ class _WinnerBtn extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: isActive
-                  ? Colors.white
-                  : AppColors.textSecondary(isDark),
+              color: isActive ? Colors.white : AppColors.textSecondary(isDark),
             ),
             textAlign: TextAlign.center,
             maxLines: 1,

@@ -33,8 +33,6 @@ class PronosticCard extends ConsumerWidget {
     final notifier = ref.read(pronosticNotifierProvider(matchId).notifier);
     final enabled = !matchStarted;
 
-    // Vérifie si un pronostic existe — soit via le state local
-    // soit via Firestore directement (évite le bug au premier rendu)
     final pronosticAsync = ref.watch(pronosticProvider(matchId));
     final hasPronostic = state.isSaved ||
         pronosticAsync.maybeWhen(
@@ -79,7 +77,8 @@ class PronosticCard extends ConsumerWidget {
           // ── Banners selon statut ────────────────────────────────────────
           if (match?.isLive == true) ...[
             const SizedBox(height: 8),
-            _LiveScoreBanner(match: match!, state: state, isDark: isDark),
+            if (hasPronostic)
+              _LiveScoreBanner(match: match!, state: state, isDark: isDark),
           ] else if (match?.isFinished == true && hasPronostic) ...[
             const SizedBox(height: 8),
             _FinalResultBanner(match: match!, state: state, isDark: isDark),
@@ -110,100 +109,125 @@ class PronosticCard extends ConsumerWidget {
 
           const SizedBox(height: 14),
 
-          PronosticToggle(
-              selected: state.type,
-              onChanged: notifier.setType,
-              enabled: enabled),
-          const SizedBox(height: 16),
-
-          if (state.type == PronosticType.exact)
-            ExactScoreWidget(
-              homeTeamName: homeTeamName,
-              awayTeamName: awayTeamName,
-              homeScore: state.homeScore,
-              awayScore: state.awayScore,
-              onHomeChanged: notifier.setHomeScore,
-              onAwayChanged: notifier.setAwayScore,
-              enabled: enabled,
-            )
-          else
-            OtherPronosticsWidget(
-              homeTeamName: homeTeamName,
-              awayTeamName: awayTeamName,
-              winner: state.winner,
-              maxGoals: state.maxGoals,
-              minGoals: state.minGoals,
-              onWinnerChanged: notifier.setWinner,
-              onMaxGoalsChanged: notifier.setMaxGoals,
-              onMinGoalsChanged: notifier.setMinGoals,
-              potentialPoints: state.potentialPoints,
-              enabled: enabled,
-            ),
-
-          const SizedBox(height: 14),
-
-          if (enabled) ...[
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: state.isSaving ? null : notifier.save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: state.type == PronosticType.exact
-                      ? AppColors.primary
-                      : AppColors.accent,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 13),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-                child: state.isSaving
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white))
-                    : Text(
-                        state.isSaved
-                            ? l10n.updatePronostic
-                            : l10n.confirmPronostic,
-                        style: const TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w600)),
+          // ── Si match commencé et pas de pronostic → message et stop ────
+          if (matchStarted && !hasPronostic) ...[
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.bgSubtle(isDark),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ),
-            if (state.isSaved) ...[
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: notifier.reset,
-                  style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12))),
-                  child: Text(l10n.clearPronostic,
-                      style: const TextStyle(fontSize: 12)),
-                ),
-              ),
-            ],
-          ],
-
-          if (state.isSaved && !matchStarted)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.check_circle_rounded,
-                      size: 14, color: AppColors.accent),
-                  const SizedBox(width: 4),
-                  Text(l10n.pronosticSaved,
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: AppColors.accent,
-                          fontWeight: FontWeight.w500)),
+                  Icon(Icons.sentiment_dissatisfied_rounded,
+                      color: AppColors.textSecondary(isDark), size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.noPronostic,
+                    style: TextStyle(
+                        fontSize: 13, color: AppColors.textSecondary(isDark)),
+                  ),
                 ],
               ),
             ),
+          ] else ...[
+            // ── Formulaire pronostic ──────────────────────────────────────
+            PronosticToggle(
+                selected: state.type,
+                onChanged: notifier.setType,
+                enabled: enabled),
+            const SizedBox(height: 16),
+
+            if (state.type == PronosticType.exact)
+              ExactScoreWidget(
+                homeTeamName: homeTeamName,
+                awayTeamName: awayTeamName,
+                homeScore: state.homeScore,
+                awayScore: state.awayScore,
+                onHomeChanged: notifier.setHomeScore,
+                onAwayChanged: notifier.setAwayScore,
+                enabled: enabled,
+              )
+            else
+              OtherPronosticsWidget(
+                homeTeamName: homeTeamName,
+                awayTeamName: awayTeamName,
+                winner: state.winner,
+                maxGoals: state.maxGoals,
+                minGoals: state.minGoals,
+                onWinnerChanged: notifier.setWinner,
+                onMaxGoalsChanged: notifier.setMaxGoals,
+                onMinGoalsChanged: notifier.setMinGoals,
+                potentialPoints: state.potentialPoints,
+                enabled: enabled,
+              ),
+
+            const SizedBox(height: 14),
+
+            if (enabled) ...[
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: state.isSaving ? null : notifier.save,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: state.type == PronosticType.exact
+                        ? AppColors.primary
+                        : AppColors.accent,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: state.isSaving
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: Colors.white))
+                      : Text(
+                          state.isSaved
+                              ? l10n.updatePronostic
+                              : l10n.confirmPronostic,
+                          style: const TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w600)),
+                ),
+              ),
+              if (state.isSaved) ...[
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: notifier.reset,
+                    style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12))),
+                    child: Text(l10n.clearPronostic,
+                        style: const TextStyle(fontSize: 12)),
+                  ),
+                ),
+              ],
+            ],
+
+            if (state.isSaved && !matchStarted)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check_circle_rounded,
+                        size: 14, color: AppColors.accent),
+                    const SizedBox(width: 4),
+                    Text(l10n.pronosticSaved,
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: AppColors.accent,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ),
+          ],
         ],
       ),
     );
@@ -229,6 +253,9 @@ class PronosticCard extends ConsumerWidget {
     if (match?.isLive == true && hasPronostic && match!.homeScore != null) {
       final pts = _calcPoints(state, match!.homeScore!, match!.awayScore!);
       return _PulsingBadge(points: pts);
+    }
+    if (matchStarted && !hasPronostic) {
+      return const SizedBox.shrink();
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
@@ -267,6 +294,7 @@ class _LiveScoreBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final home = match.homeScore ?? 0;
     final away = match.awayScore ?? 0;
     final entity = _buildEntity();
@@ -290,13 +318,13 @@ class _LiveScoreBanner extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: AppColors.live, shape: BoxShape.circle)),
               const SizedBox(width: 6),
-              Text('Score actuel : $home - $away',
+              Text(l10n.currentScore(home.toString(), away.toString()),
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: AppColors.live)),
               const Spacer(),
-              Text('🔴 ${detail.total} pts live',
+              Text(l10n.livePoints(detail.total.toString()),
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -414,9 +442,10 @@ class _DetailRows extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (state.type == PronosticType.exact) {
       return _Row(
-          label: 'Score exact',
+          label: l10n.exactScoreLabel,
           correct: detail.exactCorrect,
           points: detail.exactPoints,
           max: 25,
@@ -426,21 +455,21 @@ class _DetailRows extends StatelessWidget {
       children: [
         if (state.winner != null && state.winner != -1)
           _Row(
-              label: 'Vainqueur',
+              label: l10n.winnerLabel,
               correct: detail.winnerCorrect,
               points: detail.winnerPoints,
               max: 5,
               isDark: isDark),
         if (state.maxGoals != null && state.maxGoals != -1)
           _Row(
-              label: 'Max ≤${state.maxGoals} buts',
+              label: l10n.maxGoalsLabel2(state.maxGoals.toString()),
               correct: detail.maxGoalsCorrect,
               points: detail.maxGoalsPoints,
               max: ((7 - state.maxGoals!) * 2).clamp(0, 14),
               isDark: isDark),
         if (state.minGoals != null && state.minGoals != -1)
           _Row(
-              label: 'Min ≥${state.minGoals} buts',
+              label: l10n.minGoalsLabel2(state.minGoals.toString()),
               correct: detail.minGoalsCorrect,
               points: detail.minGoalsPoints,
               max: (state.minGoals! * 2).clamp(0, 14),
@@ -542,13 +571,14 @@ class _PulsingBadgeState extends State<_PulsingBadge>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return FadeTransition(
       opacity: _anim,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         decoration: BoxDecoration(
             color: AppColors.live, borderRadius: BorderRadius.circular(12)),
-        child: Text('🔴 ${widget.points} pts live',
+        child: Text(l10n.livePoints(widget.points.toString()),
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 11,

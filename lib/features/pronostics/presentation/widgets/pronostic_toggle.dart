@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../domain/entities/pronostic_entity.dart';
 
 class PronosticToggle extends StatelessWidget {
@@ -16,6 +17,7 @@ class PronosticToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -27,16 +29,16 @@ class PronosticToggle extends StatelessWidget {
       child: Row(
         children: [
           _ToggleItem(
-            label: 'Résultat exact',
-            sublabel: '25 pts',
+            label: l10n.exactScoreMode,
+            sublabel: l10n.exactScorePts,
             isActive: selected == PronosticType.exact,
             onTap: enabled ? () => onChanged(PronosticType.exact) : null,
             activeColor: AppColors.primary,
             isDark: isDark,
           ),
           _ToggleItem(
-            label: 'Autres pronostics',
-            sublabel: 'jusqu\'à 23 pts',
+            label: l10n.otherMode,
+            sublabel: l10n.otherPtsMax,
             isActive: selected == PronosticType.other,
             onTap: enabled ? () => onChanged(PronosticType.other) : null,
             activeColor: AppColors.accent,
@@ -77,10 +79,12 @@ class _ToggleItem extends StatelessWidget {
             color: isActive ? AppColors.bgCard(isDark) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
             boxShadow: isActive
-                ? [BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 4,
-                  )]
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 4,
+                    )
+                  ]
                 : null,
           ),
           child: Column(
@@ -90,9 +94,8 @@ class _ToggleItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: isActive
-                      ? activeColor
-                      : AppColors.textSecondary(isDark),
+                  color:
+                      isActive ? activeColor : AppColors.textSecondary(isDark),
                 ),
                 textAlign: TextAlign.center,
               ),

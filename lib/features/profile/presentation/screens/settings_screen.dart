@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
 import 'package:wc2026/l10n/app_localizations.dart';
 import 'package:wc2026/shared/providers/locale_provider.dart';
@@ -16,7 +17,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  // Compteur pour débloquer le mode test (tap 5x sur la version)
   int _versionTapCount = 0;
   bool _testModeUnlocked = false;
 
@@ -31,22 +31,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppColors.bgPage(isDark),
       appBar: AppBar(
-        title: const Text('Paramètres'),
+        title: Text(l10n.settings),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
           // ── COMPTE ─────────────────────────────────────────────────────
-          _SectionHeader(title: 'Compte', isDark: isDark),
+          _SectionHeader(title: l10n.account, isDark: isDark),
           _SettingsCard(
             isDark: isDark,
             children: [
               _InfoRow(
                 icon: Icons.person_outline_rounded,
-                label: 'Pseudo',
-                value: user?.displayName ?? 'Non défini',
+                label: l10n.pseudo,
+                value: user?.displayName ?? '—',
                 isDark: isDark,
-                onTap: () => _showEditPseudoDialog(context, user),
+                onTap: () => _showEditPseudoDialog(context, user, l10n),
               ),
               _Divider(isDark: isDark),
               _InfoRow(
@@ -58,9 +58,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _Divider(isDark: isDark),
               _InfoRow(
                 icon: Icons.calendar_today_outlined,
-                label: 'Membre depuis',
+                label: l10n.memberSince,
                 value: user?.metadata.creationTime != null
-                    ? _formatDate(user!.metadata.creationTime!)
+                    ? _formatDate(user!.metadata.creationTime!, locale.languageCode)
                     : '—',
                 isDark: isDark,
               ),
@@ -70,20 +70,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 8),
 
           // ── APPARENCE ──────────────────────────────────────────────────
-          _SectionHeader(title: 'Apparence', isDark: isDark),
+          _SectionHeader(title: l10n.appearance, isDark: isDark),
           _SettingsCard(
             isDark: isDark,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
                     Icon(Icons.dark_mode_outlined,
                         size: 20, color: AppColors.textSecondary(isDark)),
                     const SizedBox(width: 12),
                     Expanded(
-                        child: Text('Thème',
+                        child: Text(l10n.darkMode,
                             style: TextStyle(
                                 fontSize: 14,
                                 color: AppColors.textPrimary(isDark)))),
@@ -98,7 +97,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 8),
 
           // ── LANGUE ─────────────────────────────────────────────────────
-          _SectionHeader(title: 'Langue', isDark: isDark),
+          _SectionHeader(title: l10n.language, isDark: isDark),
           _SettingsCard(
             isDark: isDark,
             children: [
@@ -131,14 +130,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: 8),
 
           // ── APPLICATION ────────────────────────────────────────────────
-
-          const SizedBox(height: 8),
-
-          _SectionHeader(title: 'Application', isDark: isDark),
+          _SectionHeader(title: l10n.application, isDark: isDark),
           _SettingsCard(
             isDark: isDark,
             children: [
-              // Tap 5x sur la version pour débloquer le mode test
               GestureDetector(
                 onTap: () {
                   setState(() => _versionTapCount++);
@@ -146,11 +141,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     setState(() => _testModeUnlocked = true);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Row(
-                          children: [
-                            Text('🧪 Mode test débloqué !'),
-                          ],
-                        ),
+                        content: Text(l10n.testModeUnlocked),
                         backgroundColor: Colors.deepPurple,
                         duration: const Duration(seconds: 2),
                       ),
@@ -159,7 +150,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
                 child: _InfoRow(
                   icon: Icons.info_outline_rounded,
-                  label: 'Version',
+                  label: l10n.appVersion,
                   value: _versionTapCount >= 3 && !_testModeUnlocked
                       ? 'Encore ${5 - _versionTapCount}x...'
                       : '1.0.0',
@@ -169,7 +160,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               _Divider(isDark: isDark),
               _InfoRow(
                 icon: Icons.sports_soccer_rounded,
-                label: 'Tournoi',
+                label: l10n.tournament,
                 value: 'FIFA World Cup 2026',
                 isDark: isDark,
               ),
@@ -179,14 +170,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // ── MODE TEST (débloqué après 5 taps) ─────────────────────────
           if (_testModeUnlocked) ...[
             const SizedBox(height: 8),
-            _SectionHeader(title: '🧪 Développement', isDark: isDark),
+            _SectionHeader(title: l10n.testMode, isDark: isDark),
             _SettingsCard(
               isDark: isDark,
               children: [
                 _InfoRow(
                   icon: Icons.science_outlined,
-                  label: 'Simulateur de matchs',
-                  value: 'Modifier statut Firestore',
+                  label: l10n.testModeSubtitle,
+                  value: '',
                   isDark: isDark,
                   onTap: () => Navigator.push(
                     context,
@@ -204,26 +195,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  String _formatDate(DateTime date) {
-    const months = [
-      '',
-      'janvier',
-      'février',
-      'mars',
-      'avril',
-      'mai',
-      'juin',
-      'juillet',
-      'août',
-      'septembre',
-      'octobre',
-      'novembre',
-      'décembre'
-    ];
-    return '${date.day} ${months[date.month]} ${date.year}';
+  /// Formate la date selon la locale active
+  String _formatDate(DateTime date, String languageCode) {
+    final locale = languageCode == 'ar'
+        ? 'ar'
+        : languageCode == 'en'
+            ? 'en'
+            : 'fr';
+    return DateFormat.yMMMMd(locale).format(date);
   }
 
-  void _showEditPseudoDialog(BuildContext context, User? user) {
+  void _showEditPseudoDialog(BuildContext context, User? user, AppLocalizations l10n) {
     final controller = TextEditingController(text: user?.displayName ?? '');
     bool isLoading = false;
 
@@ -231,7 +213,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setState) => AlertDialog(
-          title: const Text('Modifier le pseudo'),
+          title: Text(l10n.editPseudo),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -239,9 +221,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 controller: controller,
                 maxLength: 30,
                 autofocus: true,
-                decoration: const InputDecoration(
-                  hintText: 'Ton pseudo...',
-                  prefixIcon: Icon(Icons.person_outline_rounded),
+                decoration: InputDecoration(
+                  hintText: l10n.pseudoHint,
+                  prefixIcon: const Icon(Icons.person_outline_rounded),
                 ),
               ),
             ],
@@ -249,7 +231,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Annuler'),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: isLoading
@@ -270,7 +252,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           Navigator.pop(ctx);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: const Text('Pseudo mis à jour !'),
+                                content: Text(l10n.pseudoUpdated),
                                 backgroundColor: AppColors.accent),
                           );
                         }
@@ -284,7 +266,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       height: 16,
                       child: CircularProgressIndicator(
                           color: Colors.white, strokeWidth: 2))
-                  : const Text('Enregistrer'),
+                  : Text(l10n.save),
             ),
           ],
         ),

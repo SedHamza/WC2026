@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../../matches/domain/entities/match_entity.dart';
 import '../widgets/match_hero_banner.dart';
 import '../widgets/pronostic_card.dart';
@@ -39,9 +41,6 @@ class _MatchDetailScreenState extends ConsumerState<MatchDetailScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // ← On watch matchesProvider pour avoir le score live à jour
-    // Si le match est dans la liste, on prend la version fraîche
-    // Sinon on garde widget.match comme fallback
     final matchesAsync = ref.watch(matchesProvider);
     final liveMatch = matchesAsync.maybeWhen(
       data: (matches) {
@@ -66,18 +65,14 @@ class _MatchDetailScreenState extends ConsumerState<MatchDetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Banner avec score live mis à jour
             MatchHeroBanner(match: liveMatch),
-
-            // PronosticCard avec le match live
             PronosticCard(
               matchId: liveMatch.id,
               homeTeamName: liveMatch.homeTeamName,
               awayTeamName: liveMatch.awayTeamName,
               matchStarted: liveMatch.isLive || liveMatch.isFinished,
-              match: liveMatch, // ← score et statut toujours à jour
+              match: liveMatch,
             ),
-
             _MatchInfoCard(match: liveMatch),
             const SizedBox(height: 24),
           ],
@@ -96,23 +91,15 @@ class _MatchInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final locale = Localizations.localeOf(context).languageCode;
     final local = match.utcDate.toLocal();
-    const months = [
-      '',
-      'janvier',
-      'février',
-      'mars',
-      'avril',
-      'mai',
-      'juin',
-      'juillet',
-      'août',
-      'septembre',
-      'octobre',
-      'novembre',
-      'décembre'
-    ];
+
+    // Format date selon la locale active
+    final formattedDate = DateFormat.yMMMMd(locale).format(local);
+    final formattedTime =
+        '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,7 +114,7 @@ class _MatchInfoCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
             child: Text(
-              'INFORMATIONS',
+              l10n.matchInfo.toUpperCase(),
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
@@ -138,30 +125,35 @@ class _MatchInfoCard extends StatelessWidget {
           ),
           Divider(height: 1, color: AppColors.border(isDark)),
           _InfoRow(
-              label: 'Compétition',
-              value: 'FIFA World Cup 2026',
-              isDark: isDark),
-          _InfoRow(label: 'Phase', value: match.formattedStage, isDark: isDark),
+            label: l10n.competition,
+            value: 'FIFA World Cup 2026',
+            isDark: isDark,
+          ),
+          _InfoRow(
+            label: l10n.stage,
+            value: match.getFormattedStage(context),
+            isDark: isDark,
+          ),
           if (match.group != null)
             _InfoRow(
-              label: 'Groupe',
-              value: 'Groupe ${match.group!.replaceAll('GROUP_', '')}',
+              label: l10n.groupShort,
+              value: l10n.group(match.group!.replaceAll('GROUP_', '')),
               isDark: isDark,
             ),
           if (match.matchday != null)
             _InfoRow(
-                label: 'Journée',
-                value: 'Journée ${match.matchday}',
-                isDark: isDark),
+              label: l10n.matchday(match.matchday.toString()),
+              value: match.matchday.toString(),
+              isDark: isDark,
+            ),
           _InfoRow(
-            label: 'Date',
-            value: '${local.day} ${months[local.month]} ${local.year}',
+            label: l10n.date,
+            value: formattedDate,
             isDark: isDark,
           ),
           _InfoRow(
-            label: 'Heure',
-            value:
-                '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}',
+            label: l10n.time,
+            value: formattedTime,
             isDark: isDark,
             isLast: true,
           ),

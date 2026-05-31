@@ -18,14 +18,14 @@ final pronosticRepositoryProvider = Provider<PronosticRepository>((ref) {
   return PronosticRepositoryImpl();
 });
 
-final currentUserIdProvider = Provider<String>((ref) {
-  return FirebaseAuth.instance.currentUser?.uid ?? '';
+final currentUserIdProvider = Provider<String?>((ref) {
+  return FirebaseAuth.instance.currentUser?.uid;
 });
 
 final pronosticProvider =
     FutureProvider.family<PronosticEntity?, String>((ref, matchId) async {
   final userId = ref.watch(currentUserIdProvider);
-  if (userId.isEmpty) return null;
+  if (userId == null) return null; // ← null au lieu de isEmpty
   return ref.watch(pronosticRepositoryProvider).getPronostic(matchId, userId);
 });
 
@@ -158,8 +158,9 @@ class PronosticNotifier extends StateNotifier<PronosticFormState> {
 final pronosticNotifierProvider =
     StateNotifierProvider.family<PronosticNotifier, PronosticFormState, String>(
   (ref, matchId) {
-    final userId = ref.read(currentUserIdProvider);
+    final userId =
+        ref.read(currentUserIdProvider) ?? ''; // ← fallback '' ici seulement
     final repository = ref.read(pronosticRepositoryProvider);
-    return PronosticNotifier(repository, matchId, userId, ref); // ← passe ref
+    return PronosticNotifier(repository, matchId, userId, ref);
   },
 );

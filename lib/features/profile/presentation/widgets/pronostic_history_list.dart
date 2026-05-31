@@ -360,7 +360,7 @@ class _DetailModal extends StatelessWidget {
                   color: AppColors.textPrimary(isDark))),
           const SizedBox(height: 2),
           Text(
-            '${match.formattedStage} · ${match.isFinished ? "${l10n.finished} ${match.homeScore}-${match.awayScore}" : match.isLive ? l10n.inProgress : l10n.pending}',
+            '${match.getFormattedStage(context)} · ${match.isFinished ? "${l10n.finished} ${match.homeScore}-${match.awayScore}" : match.isLive ? l10n.inProgress : l10n.pending}',
             style:
                 TextStyle(fontSize: 11, color: AppColors.textSecondary(isDark)),
           ),

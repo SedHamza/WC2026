@@ -8,19 +8,32 @@ class RoomRepositoryImpl implements RoomRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // ── Génère un code unique WC26-XXXX ────────────────────────────────────────
-  String _generateCode() {
+  Future<String> _generateUniqueCode() async {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     final rand = Random.secure();
-    final code =
-        List.generate(4, (_) => chars[rand.nextInt(chars.length)]).join();
-    return 'WC26-$code';
+
+    while (true) {
+      final code =
+          List.generate(4, (_) => chars[rand.nextInt(chars.length)]).join();
+      final fullCode = 'WC26-$code';
+
+      // Vérifie que ce code n'existe pas déjà en Firestore
+      final existing = await _db
+          .collection('rooms')
+          .where('code', isEqualTo: fullCode)
+          .limit(1)
+          .get();
+
+      if (existing.docs.isEmpty) return fullCode;
+      // Sinon on régénère un nouveau code
+    }
   }
 
   // ── Crée une room ──────────────────────────────────────────────────────────
   @override
   Future<RoomEntity> createRoom(
       String name, String userId, String displayName) async {
-    final code = _generateCode();
+    final code = await _generateUniqueCode();
     final docRef = _db.collection('rooms').doc();
 
     final room = RoomEntity(

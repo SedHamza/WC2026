@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import '../../../matches/domain/entities/match_entity.dart';
 
 class MatchHeroBanner extends StatelessWidget {
@@ -11,10 +13,13 @@ class MatchHeroBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.primary, const Color(0xFF1a3a6b)],
+          colors: [AppColors.primary, Color(0xFF1a3a6b)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -23,7 +28,7 @@ class MatchHeroBanner extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            match.formattedStage,
+            match.getFormattedStage(context),
             style: const TextStyle(
               color: Colors.white60,
               fontSize: 11,
@@ -39,7 +44,7 @@ class MatchHeroBanner extends StatelessWidget {
                   crest: match.homeTeamCrest,
                 ),
               ),
-              _ScoreWidget(match: match),
+              _ScoreWidget(match: match, l10n: l10n),
               Expanded(
                 child: _TeamWidget(
                   name: match.awayTeamName,
@@ -50,7 +55,7 @@ class MatchHeroBanner extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            _formatDateTime(match.utcDate),
+            _formatDateTime(match.utcDate, locale),
             style: const TextStyle(
               color: Colors.white60,
               fontSize: 11,
@@ -61,25 +66,12 @@ class MatchHeroBanner extends StatelessWidget {
     );
   }
 
-  String _formatDateTime(DateTime date) {
+  String _formatDateTime(DateTime date, String locale) {
     final local = date.toLocal();
-    const months = [
-      '',
-      'janvier',
-      'février',
-      'mars',
-      'avril',
-      'mai',
-      'juin',
-      'juillet',
-      'août',
-      'septembre',
-      'octobre',
-      'novembre',
-      'décembre'
-    ];
-    return '${local.day} ${months[local.month]} ${local.year} · '
+    final datePart = DateFormat.yMMMMd(locale).format(local);
+    final timePart =
         '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
+    return '$datePart · $timePart';
   }
 }
 
@@ -141,8 +133,9 @@ class _TeamWidget extends StatelessWidget {
 
 class _ScoreWidget extends StatelessWidget {
   final MatchEntity match;
+  final AppLocalizations l10n;
 
-  const _ScoreWidget({required this.match});
+  const _ScoreWidget({required this.match, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
@@ -162,9 +155,9 @@ class _ScoreWidget extends StatelessWidget {
               ),
             )
           else
-            const Text(
-              'VS',
-              style: TextStyle(
+            Text(
+              l10n.vs,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w800,
                 color: Colors.white54,
@@ -173,7 +166,8 @@ class _ScoreWidget extends StatelessWidget {
           if (match.isLive)
             Container(
               margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: AppColors.secondary,
                 borderRadius: BorderRadius.circular(10),
@@ -188,9 +182,9 @@ class _ScoreWidget extends StatelessWidget {
               ),
             ),
           if (match.isFinished)
-            const Text(
-              'Terminé',
-              style: TextStyle(
+            Text(
+              l10n.finished,
+              style: const TextStyle(
                 color: Colors.white54,
                 fontSize: 10,
               ),

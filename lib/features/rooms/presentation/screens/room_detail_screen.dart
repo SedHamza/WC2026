@@ -56,6 +56,7 @@ class _RoomDetailContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final rank = room.getRank(currentUserId);
     final matchesAsync = ref.watch(matchesProvider);
@@ -89,9 +90,7 @@ class _RoomDetailContent extends ConsumerWidget {
                         onTap: () {
                           Clipboard.setData(ClipboardData(text: room.code));
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    AppLocalizations.of(context)!.codeCopied)),
+                            SnackBar(content: Text(l10n.codeCopied)),
                           );
                         },
                         child: Container(
@@ -126,11 +125,11 @@ class _RoomDetailContent extends ConsumerWidget {
                     children: [
                       _HeroStat(
                           value: '${room.memberCount}',
-                          label: AppLocalizations.of(context)!.members),
+                          label: l10n.members),
                       const SizedBox(width: 24),
                       _HeroStat(
                           value: _rankText(rank),
-                          label: AppLocalizations.of(context)!.myRank),
+                          label: l10n.myRank),
                     ],
                   ),
                 ],
@@ -143,14 +142,13 @@ class _RoomDetailContent extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              _SectionTitle(title: AppLocalizations.of(context)!.leaderboard),
+              _SectionTitle(title: l10n.leaderboard),
               _LeaderboardWidget(
                 room: room,
                 currentUserId: currentUserId,
               ),
               const SizedBox(height: 12),
-              _SectionTitle(
-                  title: AppLocalizations.of(context)!.memberPronostics),
+              _SectionTitle(title: l10n.memberPronostics),
               matchesAsync.maybeWhen(
                 data: (matches) => _PronosticsWidget(
                   room: room,
@@ -167,7 +165,7 @@ class _RoomDetailContent extends ConsumerWidget {
                   icon: Icon(Icons.exit_to_app_rounded,
                       color: AppColors.secondary, size: 18),
                   label: Text(
-                    'Quitter la room',
+                    l10n.leaveRoom,
                     style: TextStyle(color: AppColors.secondary),
                   ),
                   style: OutlinedButton.styleFrom(
@@ -188,23 +186,23 @@ class _RoomDetailContent extends ConsumerWidget {
   }
 
   String _rankText(int rank) {
-    if (rank == 1) return '🥇 1er';
-    if (rank == 2) return '🥈 2ème';
-    if (rank == 3) return '🥉 3ème';
-    return '${rank}ème';
+    if (rank == 1) return '🥇 $rank';
+    if (rank == 2) return '🥈 $rank';
+    if (rank == 3) return '🥉 $rank';
+    return '$rank';
   }
 
   void _confirmLeave(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.leaveRoomTitle),
-        content:
-            Text(AppLocalizations.of(context)!.leaveRoomConfirm(room.name)),
+        title: Text(l10n.leaveRoomTitle),
+        content: Text(l10n.leaveRoomConfirm(room.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -220,7 +218,7 @@ class _RoomDetailContent extends ConsumerWidget {
               backgroundColor: AppColors.secondary,
               foregroundColor: Colors.white,
             ),
-            child: Text(AppLocalizations.of(context)!.leave),
+            child: Text(l10n.leave),
           ),
         ],
       ),
@@ -250,7 +248,7 @@ class _LeaderboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ← isDark récupéré ici dans build()
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final sorted = room.sortedMembers;
 
@@ -281,11 +279,11 @@ class _LeaderboardWidget extends StatelessWidget {
                         textAlign: TextAlign.center)),
                 const SizedBox(width: 8),
                 Expanded(
-                    child: Text(AppLocalizations.of(context)!.team,
+                    child: Text(l10n.team,
                         style: TextStyle(
                             fontSize: 10,
                             color: AppColors.textSecondary(isDark)))),
-                Text(AppLocalizations.of(context)!.points,
+                Text(l10n.points,
                     style: TextStyle(
                         fontSize: 10, color: AppColors.textSecondary(isDark))),
               ],
@@ -350,7 +348,7 @@ class _LeaderboardWidget extends StatelessWidget {
                         ),
                         if (isMe)
                           Text(
-                            AppLocalizations.of(context)!.me,
+                            l10n.me,
                             style: TextStyle(
                               fontSize: 10,
                               color: AppColors.primary,
@@ -393,6 +391,7 @@ class _PronosticsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, Map<String, PronosticEntity>>>(
       future: Future.wait(
         room.members.map((member) async {
@@ -412,12 +411,12 @@ class _PronosticsWidget extends ConsumerWidget {
         final allMatchIds = pronosticsMap.values.expand((m) => m.keys).toSet();
 
         if (allMatchIds.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(16),
+          return Padding(
+            padding: const EdgeInsets.all(16),
             child: EmptyState(
               emoji: '🎯',
-              message: 'Aucun pronostic encore',
-              subtitle: 'Soyez le premier à pronostiquer !',
+              message: l10n.noPronosticsYet,
+              subtitle: l10n.beFirstToPronostic,
             ),
           );
         }
@@ -465,7 +464,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ← isDark récupéré ici dans build()
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isVisible = match.isFinished || match.isLive;
 
@@ -528,7 +527,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                           ? '● LIVE'
                           : match.isFinished
                               ? '${match.homeScore}-${match.awayScore}'
-                              : AppLocalizations.of(context)!.modify,
+                              : l10n.modify,
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -585,7 +584,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                       width: 70,
                       child: Text(
                         isMe
-                            ? '${member.firstName} (${AppLocalizations.of(context)!.me})'
+                            ? '${member.firstName} (${l10n.me})'
                             : member.firstName,
                         style: TextStyle(
                           fontSize: 11,
@@ -606,6 +605,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                         isVisible: isVisible,
                         match: match,
                         isDark: isDark,
+                        l10n: l10n,
                       ),
                     ),
                     if (isVisible && pronostic != null)
@@ -663,12 +663,11 @@ class _MatchPronosticsCard extends ConsumerWidget {
     required bool isVisible,
     required MatchEntity match,
     required bool isDark,
+    required AppLocalizations l10n,
   }) {
     if (pronostic == null) {
       return Text(
-        isMe
-            ? AppLocalizations.of(context)!.noPronostic
-            : AppLocalizations.of(context)!.didNotPronostic,
+        isMe ? l10n.noPronostic : l10n.didNotPronostic,
         style: TextStyle(
           fontSize: 10,
           color: AppColors.textHint(isDark),
@@ -679,7 +678,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
 
     if (!isVisible && !isMe) {
       return Text(
-        AppLocalizations.of(context)!.visibleAfterStart,
+        l10n.visibleAfterStart,
         style: TextStyle(
           fontSize: 10,
           color: AppColors.textHint(isDark),
@@ -689,7 +688,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
     }
 
     return Text(
-      _formatPronostic(pronostic, match, context),
+      _formatPronostic(pronostic, match, l10n),
       style: TextStyle(
         fontSize: 11,
         color: AppColors.textPrimary(isDark),
@@ -699,11 +698,10 @@ class _MatchPronosticsCard extends ConsumerWidget {
   }
 
   String _formatPronostic(
-      PronosticEntity p, MatchEntity match, BuildContext context) {
+      PronosticEntity p, MatchEntity match, AppLocalizations l10n) {
     if (p.isExactMode) {
-      return 'Exact : ${p.homeScore ?? 0}-${p.awayScore ?? 0}';
+      return '${l10n.exactScoreMode} : ${p.homeScore ?? 0}-${p.awayScore ?? 0}';
     }
-    final l10n = AppLocalizations.of(context)!;
     final parts = <String>[];
     if (p.winner != null && p.winner != -1) {
       final winnerName = p.winner == 1
@@ -733,7 +731,6 @@ class _SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ← isDark récupéré ici dans build()
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
