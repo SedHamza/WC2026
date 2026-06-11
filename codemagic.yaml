@@ -12,6 +12,7 @@ workflows:
       - name: Configure Google Sign-In
         script: |
           PLIST=$CM_BUILD_DIR/ios/Runner/Info.plist
+          /usr/libexec/PlistBuddy -c "Delete :GIDClientID" $PLIST 2>/dev/null || true
           /usr/libexec/PlistBuddy -c "Add :GIDClientID string 193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com" $PLIST
       - name: Build iOS
         script: |
