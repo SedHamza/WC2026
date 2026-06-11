@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
 import 'package:wc2026/features/pronostics/presentation/screens/match_detail_screen.dart';
+import 'package:wc2026/features/rooms/presentation/screens/member_profile_screen.dart';
 import 'package:wc2026/shared/widgets/empty_state.dart';
 import 'package:wc2026/l10n/app_localizations.dart';
 import '../providers/room_provider.dart';
@@ -124,12 +125,9 @@ class _RoomDetailContent extends ConsumerWidget {
                   Row(
                     children: [
                       _HeroStat(
-                          value: '${room.memberCount}',
-                          label: l10n.members),
+                          value: '${room.memberCount}', label: l10n.members),
                       const SizedBox(width: 24),
-                      _HeroStat(
-                          value: _rankText(rank),
-                          label: l10n.myRank),
+                      _HeroStat(value: _rankText(rank), label: l10n.myRank),
                     ],
                   ),
                 ],
@@ -294,79 +292,98 @@ class _LeaderboardWidget extends StatelessWidget {
             final member = e.value;
             final isMe = member.userId == currentUserId;
 
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: isMe ? AppColors.infoBg(isDark) : null,
-                border: Border(
-                  top: BorderSide(color: AppColors.border(isDark), width: 0.5),
+            return GestureDetector(
+              // ← Navigation vers le profil du membre
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MemberProfileScreen(
+                    userId: member.userId,
+                    displayName: member.displayName,
+                    totalPoints: member.totalPoints,
+                    rank: rank,
+                  ),
                 ),
               ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 32,
-                    child: Text(
-                      rank <= 3 ? _rankIcons[rank - 1] : '$rank',
-                      style: TextStyle(
-                        fontSize: rank <= 3 ? 16 : 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary(isDark),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: isMe ? AppColors.infoBg(isDark) : null,
+                  border: Border(
+                    top:
+                        BorderSide(color: AppColors.border(isDark), width: 0.5),
                   ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _colors[e.key % _colors.length],
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      member.initials.substring(0, 1),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          member.displayName,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 32,
+                      child: Text(
+                        rank <= 3 ? _rankIcons[rank - 1] : '$rank',
+                        style: TextStyle(
+                          fontSize: rank <= 3 ? 16 : 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textSecondary(isDark),
                         ),
-                        if (isMe)
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _colors[e.key % _colors.length],
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        member.initials.substring(0, 1),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            l10n.me,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: AppColors.primary,
+                            member.displayName,
+                            style: const TextStyle(
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                      ],
+                          if (isMe)
+                            Text(
+                              l10n.me,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${member.totalPoints}',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                    Text(
+                      '${member.totalPoints}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 6),
+                    Icon(Icons.chevron_right_rounded,
+                        size: 16, color: AppColors.textSecondary(isDark)),
+                  ],
+                ),
               ),
             );
           }),
@@ -625,11 +642,12 @@ class _MatchPronosticsCard extends ConsumerWidget {
                         child: Text(
                           () {
                             if (pronostic.isCalculated)
-                              return '${pronostic.points}pts';
+                              return '${pronostic.points}/${pronostic.potentialPoints} pts';
                             if (match.isLive && match.homeScore != null) {
                               final livePts = pronostic.calculatePoints(
                                   match.homeScore!, match.awayScore ?? 0);
-                              return '🔴 ${livePts}pts';
+                              final maxPts = pronostic.potentialPoints;
+                              return '🔴 $livePts/$maxPts pts';
                             }
                             return '—pts';
                           }(),
@@ -677,13 +695,20 @@ class _MatchPronosticsCard extends ConsumerWidget {
     }
 
     if (!isVisible && !isMe) {
-      return Text(
-        l10n.visibleAfterStart,
-        style: TextStyle(
-          fontSize: 10,
-          color: AppColors.textHint(isDark),
-          fontStyle: FontStyle.italic,
-        ),
+      return Row(
+        children: [
+          Icon(Icons.check_circle_outline_rounded,
+              size: 12, color: AppColors.accent),
+          const SizedBox(width: 4),
+          Text(
+            '✅ A pronostiqué',
+            style: TextStyle(
+              fontSize: 10,
+              color: AppColors.accent,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       );
     }
 

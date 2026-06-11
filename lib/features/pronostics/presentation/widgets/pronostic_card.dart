@@ -132,7 +132,6 @@ class PronosticCard extends ConsumerWidget {
               ),
             ),
           ] else ...[
-            // ── Formulaire pronostic ──────────────────────────────────────
             PronosticToggle(
                 selected: state.type,
                 onChanged: notifier.setType,
@@ -237,13 +236,14 @@ class PronosticCard extends ConsumerWidget {
       {bool hasPronostic = false}) {
     if (match?.isFinished == true && hasPronostic && match!.homeScore != null) {
       final pts = _calcPoints(state, match!.homeScore!, match!.awayScore!);
+      final maxPts = _calcMaxPoints(state);
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         decoration: BoxDecoration(
           color: pts > 0 ? AppColors.accent : AppColors.textSecondary(isDark),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text('$pts pts ✓',
+        child: Text('$pts/$maxPts pts ✓',
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 11,
@@ -252,7 +252,8 @@ class PronosticCard extends ConsumerWidget {
     }
     if (match?.isLive == true && hasPronostic && match!.homeScore != null) {
       final pts = _calcPoints(state, match!.homeScore!, match!.awayScore!);
-      return _PulsingBadge(points: pts);
+      final maxPts = _calcMaxPoints(state);
+      return _PulsingBadge(points: pts, maxPoints: maxPts);
     }
     if (matchStarted && !hasPronostic) {
       return const SizedBox.shrink();
@@ -280,6 +281,10 @@ class PronosticCard extends ConsumerWidget {
         minGoals: state.minGoals);
     return e.livePoints(home, away);
   }
+
+  int _calcMaxPoints(PronosticFormState state) {
+    return state.potentialPoints;
+  }
 }
 
 // ── LIVE BANNER ───────────────────────────────────────────────────────────────
@@ -299,6 +304,7 @@ class _LiveScoreBanner extends StatelessWidget {
     final away = match.awayScore ?? 0;
     final entity = _buildEntity();
     final detail = entity.livePointsDetail(home, away);
+    final maxPts = entity.potentialPoints;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -324,7 +330,8 @@ class _LiveScoreBanner extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       color: AppColors.live)),
               const Spacer(),
-              Text(l10n.livePoints(detail.total.toString()),
+              // ← Format pts/max pts live
+              Text('🔴 ${detail.total}/$maxPts pts',
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -381,6 +388,7 @@ class _FinalResultBanner extends StatelessWidget {
         minGoals: state.minGoals);
     final detail = entity.livePointsDetail(home, away);
     final total = detail.total;
+    final maxPts = entity.potentialPoints;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -413,7 +421,8 @@ class _FinalResultBanner extends StatelessWidget {
                           ? AppColors.successDark
                           : AppColors.textSecondary(isDark))),
               const Spacer(),
-              Text('$total pts',
+              // ← Format pts/max pts final
+              Text('$total/$maxPts pts',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -518,11 +527,12 @@ class _Row extends StatelessWidget {
               child: Text(label,
                   style: TextStyle(
                       fontSize: 11, color: AppColors.textSecondary(isDark)))),
+          // ← Format +pts/max pts
           Text(
               isOk
-                  ? '+$points pts'
+                  ? '+$points/$max pts'
                   : isNo
-                      ? '+0 pts'
+                      ? '+0/$max pts'
                       : '±$max pts',
               style: TextStyle(
                   fontSize: 11,
@@ -542,7 +552,8 @@ class _Row extends StatelessWidget {
 
 class _PulsingBadge extends StatefulWidget {
   final int points;
-  const _PulsingBadge({required this.points});
+  final int maxPoints;
+  const _PulsingBadge({required this.points, required this.maxPoints});
 
   @override
   State<_PulsingBadge> createState() => _PulsingBadgeState();
@@ -571,14 +582,14 @@ class _PulsingBadgeState extends State<_PulsingBadge>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return FadeTransition(
       opacity: _anim,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         decoration: BoxDecoration(
             color: AppColors.live, borderRadius: BorderRadius.circular(12)),
-        child: Text(l10n.livePoints(widget.points.toString()),
+        // ← Format pts/max pts live dans le badge
+        child: Text('🔴 ${widget.points}/${widget.maxPoints} pts live',
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 11,

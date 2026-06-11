@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -84,8 +86,9 @@ class AuthNotifier extends StateNotifier<User?> {
   Future<String?> signInWithGoogle() async {
     try {
       await GoogleSignIn.instance.initialize(
-        serverClientId:
-            '193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com',
+        serverClientId: Platform.isIOS
+            ? '193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com'
+            : '193867110649-9lmfsnf7t9jbadthnaqp40t9i7slkbf6.apps.googleusercontent.com',
       );
 
       final googleUser = await GoogleSignIn.instance.authenticate();
