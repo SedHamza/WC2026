@@ -20,9 +20,7 @@ class AuthNotifier extends StateNotifier<User?> {
   Future<void> _createProfileIfNeeded(User user) async {
     await _pronosticRepo.createUserProfile(
       user.uid,
-      user.displayName ??
-          user.email?.split('@')[0] ??
-          'Utilisateur',
+      user.displayName ?? user.email?.split('@')[0] ?? 'Utilisateur',
       user.email ?? '',
     );
   }
@@ -34,8 +32,7 @@ class AuthNotifier extends StateNotifier<User?> {
     required String password,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -57,8 +54,8 @@ class AuthNotifier extends StateNotifier<User?> {
     required String lastName,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -87,13 +84,16 @@ class AuthNotifier extends StateNotifier<User?> {
   Future<String?> signInWithGoogle() async {
     try {
       await GoogleSignIn.instance.initialize(
-        serverClientId: '193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com',
+        serverClientId:
+            '193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com',
       );
+
       final googleUser = await GoogleSignIn.instance.authenticate();
       final googleAuth = googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
+
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
@@ -106,7 +106,7 @@ class AuthNotifier extends StateNotifier<User?> {
     } on FirebaseAuthException catch (e) {
       return _handleAuthError(e.code);
     } catch (e) {
-      return 'Erreur Google Sign In';
+      return 'Erreur Google Sign In: $e';
     }
   }
 
