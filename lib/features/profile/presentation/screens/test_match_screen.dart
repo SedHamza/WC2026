@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wc2026/core/constants/app_colors.dart';
 import 'package:wc2026/features/matches/domain/entities/match_entity.dart';
+import 'package:wc2026/l10n/app_localizations.dart';
 import 'package:wc2026/shared/providers/repository_providers.dart';
 import 'package:wc2026/features/rooms/data/repositories/room_repository_impl.dart';
 import 'package:wc2026/shared/widgets/loading_widget.dart';
@@ -127,7 +128,7 @@ class _TestMatchScreenState extends ConsumerState<TestMatchScreen> {
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Annuler')),
+              child: Text(AppLocalizations.of(context)!.cancel)),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -466,8 +467,9 @@ class _MatchTestCardState extends State<_MatchTestCard> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Annuler')),
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
