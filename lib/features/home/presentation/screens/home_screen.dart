@@ -268,7 +268,10 @@ class _HomePage extends ConsumerWidget {
                     ),
                   ),
 
-                const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: MediaQuery.of(context).padding.bottom + 16),
+                ),
               ],
             ),
           );
@@ -549,8 +552,8 @@ class _MatchesPage extends ConsumerStatefulWidget {
 class _MatchesPageState extends ConsumerState<_MatchesPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  String _selectedGroup = 'Tous';
-  String _selectedStage = 'Tous';
+  String _selectedGroup = 'ALL';
+  String _selectedStage = 'ALL';
   String _searchQuery = '';
   DateTime? _selectedDate;
   final TextEditingController _searchController = TextEditingController();
@@ -579,7 +582,7 @@ class _MatchesPageState extends ConsumerState<_MatchesPage>
       }
       switch (_tabController.index) {
         case 0:
-          if (_selectedGroup != 'Tous') {
+          if (_selectedGroup != 'ALL') {
             final matchGroup = m.group
                     ?.replaceAll('GROUP_', '')
                     .replaceAll('Group ', '')
@@ -589,7 +592,7 @@ class _MatchesPageState extends ConsumerState<_MatchesPage>
           }
           return m.stage == 'GROUP_STAGE';
         case 1:
-          if (_selectedStage != 'Tous') return m.stage == _selectedStage;
+          if (_selectedStage != 'ALL') return m.stage == _selectedStage;
           return m.stage != 'GROUP_STAGE';
         case 2:
           if (_selectedDate != null) {

@@ -35,7 +35,7 @@ class AppColors {
   static const Color borderStrongLight = Color(0xFFD1D5DB);  // Bordure forte
 
   // ── BORDURES DARK ─────────────────────────────────────────────────────────
-  static const Color borderDark = Color(0xFF1E2433);         // Bordure normale
+static const Color borderDark = Color(0xFF2A3347);
   static const Color borderStrongDark = Color(0xFF374151);   // Bordure forte
 
   // ── SÉMANTIQUES (identiques dans les deux modes) ──────────────────────────
