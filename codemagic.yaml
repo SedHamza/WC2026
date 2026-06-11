@@ -9,6 +9,10 @@ workflows:
     scripts:
       - name: Get packages
         script: flutter pub get
+      - name: Configure Google Sign-In
+        script: |
+          PLIST=$CM_BUILD_DIR/ios/Runner/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :GIDClientID string 193867110649-qre2c5jeqjrrpkjkqk06ljl2sdvstmi1.apps.googleusercontent.com" $PLIST
       - name: Build iOS
         script: |
           flutter build ios --release --no-codesign
