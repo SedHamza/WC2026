@@ -695,21 +695,21 @@ class _MatchPronosticsCard extends ConsumerWidget {
     }
 
     if (!isVisible && !isMe) {
-      return Row(
-        children: [
-          Icon(Icons.check_circle_outline_rounded,
-              size: 12, color: AppColors.accent),
-          const SizedBox(width: 4),
-          Text(
-            '✅ A pronostiqué',
-            style: TextStyle(
-              fontSize: 10,
-              color: AppColors.accent,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      );
+return Row(
+  children: [
+    Icon(Icons.check_circle_outline_rounded,
+        size: 12, color: AppColors.accent),
+    const SizedBox(width: 4),
+    Text(
+      l10n.hasPronostic,
+      style: TextStyle(
+        fontSize: 10,
+        color: AppColors.accent,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ],
+);
     }
 
     return Text(

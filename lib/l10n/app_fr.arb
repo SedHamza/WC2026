@@ -211,5 +211,7 @@
   "@livePoints": { "placeholders": { "pts": {} } },
   "otherPtsMax": "jusqu'à 19 pts",
   "maxGoalsFormula": "(7 - valeur) × 2 pts",
-  "minGoalsFormula": "valeur × 2 pts"
+  "minGoalsFormula": "valeur × 2 pts",
+  "hasPronostic": "A pronostiqué"
+
 }

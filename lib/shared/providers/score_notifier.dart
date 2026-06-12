@@ -83,7 +83,7 @@ class ScoreNotifier extends StateNotifier<ScoreState> {
   Timer? _timer;
   Set<String> _previousLiveMatchIds = {};
 
-  static const _timerInterval = Duration(seconds: 60);
+  static const _timerInterval = Duration(seconds: 30);
 
   ScoreNotifier(this._ref) : super(const ScoreState());
 

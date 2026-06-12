@@ -211,5 +211,7 @@
   "@livePoints": { "placeholders": { "pts": {} } },
   "otherPtsMax": "حتى 19 نقطة",
   "maxGoalsFormula": "(7 - القيمة) × 2 نقطة",
-"minGoalsFormula": "القيمة × 2 نقطة"
+  "minGoalsFormula": "القيمة × 2 نقطة",
+  "hasPronostic": "تم التوقع"
+
 }

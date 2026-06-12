@@ -1269,6 +1269,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'value × 2 pts'**
   String get minGoalsFormula;
+
+  /// No description provided for @hasPronostic.
+  ///
+  /// In en, this message translates to:
+  /// **'Predicted'**
+  String get hasPronostic;
 }
 
 class _AppLocalizationsDelegate

@@ -626,4 +626,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get minGoalsFormula => 'القيمة × 2 نقطة';
+
+  @override
+  String get hasPronostic => 'تم التوقع';
 }

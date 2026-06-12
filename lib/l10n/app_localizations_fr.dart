@@ -628,4 +628,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get minGoalsFormula => 'valeur × 2 pts';
+
+  @override
+  String get hasPronostic => 'A pronostiqué';
 }
