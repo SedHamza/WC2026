@@ -99,14 +99,14 @@ class GroupStandingSection extends ConsumerWidget {
             children: [
               _buildLegendItem(
                 AppColors.successBg(isDark),
-                AppColors.successDark,
+                AppColors.accentText(isDark),
                 l10n.qualified,
                 isDark,
               ),
               const SizedBox(width: 16),
               _buildLegendItem(
                 AppColors.warningBg(isDark),
-                AppColors.warningDark,
+                AppColors.warningText(isDark),
                 l10n.possibleThird,
                 isDark,
               ),
@@ -195,10 +195,10 @@ class GroupStandingSection extends ConsumerWidget {
 
     if (team.isQualified) {
       bgColor = AppColors.successBg(isDark);
-      posColor = AppColors.successDark;
+      posColor = AppColors.accentText(isDark);
     } else if (team.isPossibleThird) {
       bgColor = AppColors.warningBg(isDark);
-      posColor = AppColors.warningDark;
+      posColor = AppColors.warningText(isDark);
     }
 
     return Container(
@@ -243,7 +243,7 @@ class GroupStandingSection extends ConsumerWidget {
               style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary),
+                  color: AppColors.infoText(isDark)),
               textAlign: TextAlign.center,
             ),
           ),

@@ -25,7 +25,7 @@ class MatchCard extends StatelessWidget {
       statusColor = AppColors.finished;
       statusLabel = l10n.finished;
     } else {
-      statusColor = AppColors.upcoming;
+      statusColor = AppColors.infoText(isDark);
       statusLabel = _formatDate(match.utcDate);
     }
 
@@ -223,29 +223,34 @@ class _TeamWidget extends StatelessWidget {
   Widget _buildImage() {
     if (crest == null || crest!.isEmpty) {
       return Center(
-        child: Icon(Icons.flag_rounded, size: 28,
-            color: AppColors.textSecondary(isDark)),
+        child: Icon(Icons.flag_rounded,
+            size: 28, color: AppColors.textSecondary(isDark)),
       );
     }
     if (crest!.endsWith('.svg')) {
-      return SvgPicture.network(crest!, fit: BoxFit.cover,
+      return SvgPicture.network(crest!,
+          fit: BoxFit.cover,
           placeholderBuilder: (_) => Center(
-            child: SizedBox(width: 20, height: 20,
-                child: CircularProgressIndicator(
-                    strokeWidth: 2, color: AppColors.primary)),
-          ));
+                child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: AppColors.primary)),
+              ));
     }
     return CachedNetworkImage(
       imageUrl: crest!,
       fit: BoxFit.cover,
       placeholder: (_, __) => Center(
-        child: SizedBox(width: 20, height: 20,
+        child: SizedBox(
+            width: 20,
+            height: 20,
             child: CircularProgressIndicator(
                 strokeWidth: 2, color: AppColors.primary)),
       ),
       errorWidget: (_, __, ___) => Center(
-        child: Icon(Icons.flag_rounded, size: 28,
-            color: AppColors.textSecondary(isDark)),
+        child: Icon(Icons.flag_rounded,
+            size: 28, color: AppColors.textSecondary(isDark)),
       ),
     );
   }

@@ -80,14 +80,14 @@ class RoomCard extends StatelessWidget {
                   _StatItem(
                     value: '${member?.totalPoints ?? 0}',
                     label: l10n.myPoints,
-                    valueColor: AppColors.primary,
+                    valueColor: AppColors.infoText(isDark),
                     isDark: isDark,
                   ),
                   const SizedBox(width: 16),
                   _StatItem(
                     value: _rankText(rank),
                     label: l10n.myRank,
-                    valueColor: _rankColor(rank),
+                    valueColor: _rankColor(rank, isDark),
                     isDark: isDark,
                   ),
                   const Spacer(),
@@ -102,7 +102,7 @@ class RoomCard extends StatelessWidget {
                     '→',
                     style: TextStyle(
                       fontSize: 11,
-                      color: AppColors.primary,
+                      color: AppColors.infoText(isDark),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -122,11 +122,11 @@ class RoomCard extends StatelessWidget {
     return '$rank';
   }
 
-  Color _rankColor(int rank) {
-    if (rank == 1) return AppColors.warning;
+  Color? _rankColor(int rank, bool isDark) {
+    if (rank == 1) return AppColors.warningText(isDark);
     if (rank == 2) return AppColors.finished;
-    if (rank == 3) return AppColors.warningDark;
-    return AppColors.textSecondaryLight;
+    if (rank == 3) return AppColors.warningText(isDark);
+    return null; // _StatItem utilisera textPrimary(isDark) par défaut
   }
 }
 

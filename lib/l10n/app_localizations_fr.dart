@@ -204,10 +204,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get otherPronostics => 'Autres pronostics';
 
   @override
-  String get exactScorePts => '25 pts';
+  String get exactScorePts => '31 pts';
 
   @override
-  String get otherPtsMax => 'jusqu\'à 29 pts';
+  String get otherPtsMax => 'jusqu\'à 31 pts';
 
   @override
   String get confirmPronostic => 'Confirmer le pronostic';
@@ -247,7 +247,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get exactResult => 'Résultat exact → 25 points';
+  String get exactResult => 'Résultat exact → 31 points';
 
   @override
   String get myRooms => 'Mes Rooms';
@@ -645,4 +645,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get no => 'No';
+
+  @override
+  String get upcomingToday => 'À venir aujourd\'hui';
 }

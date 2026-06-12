@@ -239,8 +239,8 @@ class _HomePage extends ConsumerWidget {
                 if (upcomingMatches.isNotEmpty) ...[
                   SliverToBoxAdapter(
                     child: _SectionHeader(
-                      label: '🕐 À VENIR AUJOURD\'HUI',
-                      color: AppColors.primary,
+                      label: '🕐${l10n.upcomingToday.toUpperCase()}',
+                      color: AppColors.infoText(isDark),
                       count: upcomingMatches.length,
                       isDark: isDark,
                     ),

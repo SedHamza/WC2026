@@ -204,10 +204,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get otherPronostics => 'توقعات أخرى';
 
   @override
-  String get exactScorePts => '25 نقطة';
+  String get exactScorePts => '31 نقطة';
 
   @override
-  String get otherPtsMax => 'حتى 29 نقطة';
+  String get otherPtsMax => 'حتى 31 نقطة';
 
   @override
   String get confirmPronostic => 'تأكيد التوقع';
@@ -247,7 +247,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get exactResult => 'نتيجة دقيقة → 29 نقطة';
+  String get exactResult => 'نتيجة دقيقة → 31 نقطة';
 
   @override
   String get myRooms => 'غرفي';
@@ -643,4 +643,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no => 'لا';
+
+  @override
+  String get upcomingToday => 'قادم اليوم';
 }

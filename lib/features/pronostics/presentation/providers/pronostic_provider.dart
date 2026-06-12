@@ -60,7 +60,7 @@ class PronosticFormState {
     if (winner != -1) pts += 5;
     if (maxGoals != -1) pts += ((7 - maxGoals) * 3).clamp(0, 21);
     if (minGoals != -1) pts += (minGoals * 3).clamp(0, 21);
-    if (bothTeamsScore != -1) pts += 3;
+    if (bothTeamsScore != -1) pts += 5;
     return pts;
   }
 

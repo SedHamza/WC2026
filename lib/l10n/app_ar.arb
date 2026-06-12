@@ -219,5 +219,6 @@
   "no": "لا",
   "@bothTeamsScoreLabel": {
     "placeholders": {"choice": {"type": "Object"}}
-  }
+  },
+  "upcomingToday": "قادم اليوم"
 }

@@ -161,14 +161,14 @@ class _RoomDetailContent extends ConsumerWidget {
                 child: OutlinedButton.icon(
                   onPressed: () => _confirmLeave(context, ref),
                   icon: Icon(Icons.exit_to_app_rounded,
-                      color: AppColors.secondary, size: 18),
+                      color: AppColors.dangerText(isDark), size: 18),
                   label: Text(
                     l10n.leaveRoom,
-                    style: TextStyle(color: AppColors.secondary),
+                    style: TextStyle(color: AppColors.dangerText(isDark)),
                   ),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 44),
-                    side: BorderSide(color: AppColors.secondary),
+                    side: BorderSide(color: AppColors.dangerText(isDark)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -550,10 +550,10 @@ class _MatchPronosticsCard extends ConsumerWidget {
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
                         color: match.isLive
-                            ? AppColors.secondary
+                            ? AppColors.dangerText(isDark)
                             : match.isFinished
-                                ? AppColors.successDark
-                                : AppColors.primary,
+                                ? AppColors.accentText(isDark)
+                                : AppColors.infoText(isDark),
                       ),
                     ),
                   ),
@@ -657,7 +657,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                             fontWeight: FontWeight.w600,
                             color: pronostic.isCalculated
                                 ? pronostic.points > 0
-                                    ? AppColors.successDark
+                                    ? AppColors.accentText(isDark)
                                     : AppColors.textSecondary(isDark)
                                 : match.isLive && match.homeScore != null
                                     ? AppColors.live
@@ -699,13 +699,13 @@ class _MatchPronosticsCard extends ConsumerWidget {
       return Row(
         children: [
           Icon(Icons.check_circle_outline_rounded,
-              size: 12, color: AppColors.accent),
+              size: 12, color: AppColors.accentText(isDark)),
           const SizedBox(width: 4),
           Text(
             l10n.hasPronostic,
             style: TextStyle(
               fontSize: 10,
-              color: AppColors.accent,
+              color: AppColors.accentText(isDark),
               fontWeight: FontWeight.w500,
             ),
           ),

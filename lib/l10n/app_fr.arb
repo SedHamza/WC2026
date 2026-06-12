@@ -219,6 +219,7 @@
   "no": "No",
   "@bothTeamsScoreLabel": {
     "placeholders": {"choice": {"type": "Object"}}
-  }
+  },
+  "upcomingToday": "À venir aujourd'hui"
 
 }

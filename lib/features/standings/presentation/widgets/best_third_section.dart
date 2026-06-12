@@ -49,7 +49,7 @@ class BestThirdSection extends StatelessWidget {
           child: Row(
             children: [
               _buildLegendItem(AppColors.successBg(isDark),
-                  AppColors.successDark, l10n.qualifiedFor32, isDark),
+                  AppColors.accentText(isDark), l10n.qualifiedFor32, isDark),
               const SizedBox(width: 16),
               _buildLegendItem(AppColors.bgSubtle(isDark),
                   AppColors.borderStrong(isDark), l10n.eliminated, isDark),
@@ -155,7 +155,7 @@ class BestThirdSection extends StatelessWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
                       color: isQualified
-                          ? AppColors.successDark
+                          ? AppColors.accentText(isDark)
                           : AppColors.textSecondary(isDark)),
                   textAlign: TextAlign.center)),
           const SizedBox(width: 4),
@@ -166,7 +166,7 @@ class BestThirdSection extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: isQualified
-                          ? AppColors.successDark
+                          ? AppColors.accentText(isDark)
                           : AppColors.textSecondary(isDark)),
                   textAlign: TextAlign.center)),
           const SizedBox(width: 6),
@@ -193,8 +193,9 @@ class BestThirdSection extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color:
-                          isQualified ? AppColors.accent : AppColors.primary),
+                      color: isQualified
+                          ? AppColors.accentText(isDark)
+                          : AppColors.infoText(isDark)),
                   textAlign: TextAlign.center)),
         ],
       ),

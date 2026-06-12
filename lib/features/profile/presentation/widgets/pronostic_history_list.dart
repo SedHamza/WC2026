@@ -241,7 +241,7 @@ class _HistoryRow extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w700,
               color: pts > 0
-                  ? AppColors.successDark
+                  ? AppColors.accentText(isDark)
                   : AppColors.textSecondary(isDark)),
         ),
       );
@@ -375,6 +375,8 @@ class _DetailModal extends StatelessWidget {
         : (match.awayScore ?? 0) > (match.homeScore ?? 0)
             ? 2
             : 0;
+    final realBoth =
+        ((match.homeScore ?? 0) > 0 && (match.awayScore ?? 0) > 0) ? 1 : 0;
 
     final displayPts = pronostic.isCalculated
         ? pronostic.points
@@ -424,8 +426,8 @@ class _DetailModal extends StatelessWidget {
                   ? (pronostic.points == 31 ? '+31/31 pts ✅' : '+0/31 pts ❌')
                   : null,
               ptsColor: pronostic.points == 31
-                  ? AppColors.successDark
-                  : AppColors.errorDark,
+                  ? AppColors.accentText(isDark)
+                  : AppColors.dangerText(isDark),
               isDark: isDark,
             )
           else ...[
@@ -443,8 +445,8 @@ class _DetailModal extends StatelessWidget {
                         : '+0/5 pts ❌')
                     : null,
                 ptsColor: pronostic.winner == realWinner
-                    ? AppColors.successDark
-                    : AppColors.errorDark,
+                    ? AppColors.accentText(isDark)
+                    : AppColors.dangerText(isDark),
                 isDark: isDark,
               ),
             if (pronostic.maxGoals != null && pronostic.maxGoals != -1)
@@ -459,8 +461,8 @@ class _DetailModal extends StatelessWidget {
                         : '+0/${((7 - pronostic.maxGoals!) * 3).clamp(0, 21)} pts ❌')
                     : null,
                 ptsColor: totalReal <= (pronostic.maxGoals ?? 99)
-                    ? AppColors.successDark
-                    : AppColors.errorDark,
+                    ? AppColors.accentText(isDark)
+                    : AppColors.dangerText(isDark),
                 isDark: isDark,
               ),
             if (pronostic.minGoals != null && pronostic.minGoals != -1)
@@ -475,8 +477,26 @@ class _DetailModal extends StatelessWidget {
                         : '+0/${(pronostic.minGoals! * 3).clamp(0, 21)} pts ❌')
                     : null,
                 ptsColor: totalReal >= (pronostic.minGoals ?? 0)
-                    ? AppColors.successDark
-                    : AppColors.errorDark,
+                    ? AppColors.accentText(isDark)
+                    : AppColors.dangerText(isDark),
+                isDark: isDark,
+              ),
+            if (pronostic.bothTeamsScore != null &&
+                pronostic.bothTeamsScore != -1)
+              _DetailRow(
+                label: l10n.bothTeamsScoreLabel(
+                    pronostic.bothTeamsScore == 1 ? l10n.yes : l10n.no),
+                value: pronostic.isCalculated
+                    ? (realBoth == 1 ? l10n.yes : l10n.no)
+                    : l10n.pending,
+                pts: pronostic.isCalculated
+                    ? (pronostic.bothTeamsScore == realBoth
+                        ? '+5/5 pts ✅'
+                        : '+0/5 pts ❌')
+                    : null,
+                ptsColor: pronostic.bothTeamsScore == realBoth
+                    ? AppColors.accentText(isDark)
+                    : AppColors.dangerText(isDark),
                 isDark: isDark,
               ),
           ],
@@ -611,14 +631,14 @@ class _Chip extends StatelessWidget {
     switch (status) {
       case _ChipStatus.correct:
         bg = AppColors.successBg(isDark);
-        textColor = AppColors.successDark;
-        border = AppColors.successDark;
+        textColor = AppColors.accentText(isDark);
+        border = AppColors.accentText(isDark);
         prefix = '✓ ';
         break;
       case _ChipStatus.wrong:
         bg = AppColors.errorBg(isDark);
-        textColor = AppColors.errorDark;
-        border = AppColors.errorDark;
+        textColor = AppColors.dangerText(isDark);
+        border = AppColors.dangerText(isDark);
         prefix = '✗ ';
         break;
       case _ChipStatus.pending:

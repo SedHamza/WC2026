@@ -51,10 +51,13 @@ class AppColors {
 
   static const Color warning = Color(0xFFF59E0B);
   static const Color warningDark = Color(0xFFFBBF24);
+  static const Color warningTextLight =
+      Color(0xFFB45309); // Amber foncé (light mode)
   static const Color warningBgLight = Color(0xFFFFFBEB);
   static const Color warningBgDark = Color(0xFF1C1200);
 
   static const Color info = Color(0xFF3B82F6);
+  static const Color infoDark = Color(0xFF60A5FA);
   static const Color infoBgLight = Color(0xFFEEF2FF);
   static const Color infoBgDark = Color(0xFF0C1A3D);
 
@@ -88,4 +91,13 @@ class AppColors {
   static Color warningBg(bool isDark) =>
       isDark ? warningBgDark : warningBgLight;
   static Color infoBg(bool isDark) => isDark ? infoBgDark : infoBgLight;
+
+  // ── TEXTE "ACCENT" SELON LE MODE ──────────────────────────────────────────
+  // Light mode : couleurs de marque (déjà excellent contraste sur fonds clairs)
+  // Dark mode  : variantes claires (évite le texte quasi-invisible)
+  static Color infoText(bool isDark) => isDark ? infoDark : primary;
+  static Color accentText(bool isDark) => isDark ? successDark : accent;
+  static Color dangerText(bool isDark) => isDark ? errorDark : secondary;
+  static Color warningText(bool isDark) =>
+      isDark ? warningDark : warningTextLight;
 }

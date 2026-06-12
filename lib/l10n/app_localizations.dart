@@ -481,13 +481,13 @@ abstract class AppLocalizations {
   /// No description provided for @exactScorePts.
   ///
   /// In en, this message translates to:
-  /// **'25 pts'**
+  /// **'31 pts'**
   String get exactScorePts;
 
   /// No description provided for @otherPtsMax.
   ///
   /// In en, this message translates to:
-  /// **'up to 29 pts'**
+  /// **'up to 31 pts'**
   String get otherPtsMax;
 
   /// No description provided for @confirmPronostic.
@@ -559,7 +559,7 @@ abstract class AppLocalizations {
   /// No description provided for @exactResult.
   ///
   /// In en, this message translates to:
-  /// **'Exact score → 25 points'**
+  /// **'Exact score → 31 points'**
   String get exactResult;
 
   /// No description provided for @myRooms.
@@ -1299,6 +1299,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no;
+
+  /// No description provided for @upcomingToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming up today'**
+  String get upcomingToday;
 }
 
 class _AppLocalizationsDelegate

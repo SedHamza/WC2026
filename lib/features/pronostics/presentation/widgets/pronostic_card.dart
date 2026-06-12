@@ -49,8 +49,8 @@ class PronosticCard extends ConsumerWidget {
           color: match?.isLive == true
               ? AppColors.live
               : match?.isFinished == true
-                  ? AppColors.accent
-                  : AppColors.primary,
+                  ? AppColors.accentText(isDark)
+                  : AppColors.infoText(isDark),
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(14),
@@ -67,7 +67,7 @@ class PronosticCard extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: AppColors.infoText(isDark),
                 ),
               ),
               _buildPointsBadge(state, isDark, hasPronostic: hasPronostic),
@@ -93,13 +93,13 @@ class PronosticCard extends ConsumerWidget {
               child: Row(
                 children: [
                   Icon(Icons.lock_rounded,
-                      size: 14, color: AppColors.secondary),
+                      size: 14, color: AppColors.dangerText(isDark)),
                   const SizedBox(width: 6),
                   Text(
                     l10n.lockedMatch,
                     style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.secondary,
+                        color: AppColors.dangerText(isDark),
                         fontWeight: FontWeight.w500),
                   ),
                 ],
@@ -214,12 +214,12 @@ class PronosticCard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.check_circle_rounded,
-                        size: 14, color: AppColors.accent),
+                        size: 14, color: AppColors.accentText(isDark)),
                     const SizedBox(width: 4),
                     Text(l10n.pronosticSaved,
                         style: TextStyle(
                             fontSize: 11,
-                            color: AppColors.accent,
+                            color: AppColors.accentText(isDark),
                             fontWeight: FontWeight.w500)),
                   ],
                 ),
@@ -400,7 +400,7 @@ class _FinalResultBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
             color: total > 0
-                ? AppColors.successDark.withOpacity(0.3)
+                ? AppColors.accentText(isDark).withOpacity(0.3)
                 : AppColors.borderStrong(isDark)),
       ),
       child: Column(
@@ -411,7 +411,7 @@ class _FinalResultBanner extends StatelessWidget {
                   total > 0 ? Icons.check_circle_rounded : Icons.cancel_rounded,
                   size: 14,
                   color: total > 0
-                      ? AppColors.successDark
+                      ? AppColors.accentText(isDark)
                       : AppColors.textSecondary(isDark)),
               const SizedBox(width: 6),
               Text(l10n.finalResult(home.toString(), away.toString()),
@@ -419,7 +419,7 @@ class _FinalResultBanner extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: total > 0
-                          ? AppColors.successDark
+                          ? AppColors.accentText(isDark)
                           : AppColors.textSecondary(isDark))),
               const Spacer(),
               // ← Format pts/max pts final
@@ -428,7 +428,7 @@ class _FinalResultBanner extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: total > 0
-                          ? AppColors.successDark
+                          ? AppColors.accentText(isDark)
                           : AppColors.textSecondary(isDark))),
             ],
           ),
@@ -490,7 +490,7 @@ class _DetailRows extends StatelessWidget {
                   state.bothTeamsScore == 1 ? l10n.yes : l10n.no),
               correct: detail.bttsCorrect,
               points: detail.bttsPoints,
-              max: 3,
+              max: 5,
               isDark: isDark),
       ],
     );
@@ -527,9 +527,9 @@ class _Row extends StatelessWidget {
                       : Icons.remove_rounded,
               size: 14,
               color: isOk
-                  ? AppColors.successDark
+                  ? AppColors.accentText(isDark)
                   : isNo
-                      ? AppColors.errorDark
+                      ? AppColors.dangerText(isDark)
                       : AppColors.textSecondary(isDark)),
           const SizedBox(width: 6),
           Expanded(
@@ -547,9 +547,9 @@ class _Row extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: isOk
-                      ? AppColors.successDark
+                      ? AppColors.accentText(isDark)
                       : isNo
-                          ? AppColors.errorDark
+                          ? AppColors.dangerText(isDark)
                           : AppColors.textSecondary(isDark))),
         ],
       ),

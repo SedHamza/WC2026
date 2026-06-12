@@ -64,7 +64,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: RefreshIndicator(
-        color: AppColors.primary,
+        color: AppColors.infoText(isDark),
         onRefresh: () async {
           await ref.read(scoreNotifierProvider.notifier).refreshMyProfile();
         },
@@ -136,11 +136,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     await ref.read(authProvider.notifier).signOut();
                     if (context.mounted) context.go('/login');
                   },
-                  icon: Icon(Icons.logout_rounded, color: AppColors.secondary),
+                  icon: Icon(Icons.logout_rounded,
+                      color: AppColors.dangerText(isDark)),
                   label: Text(l10n.signOut,
-                      style: TextStyle(color: AppColors.secondary)),
+                      style: TextStyle(color: AppColors.dangerText(isDark))),
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: AppColors.secondary),
+                    side: BorderSide(color: AppColors.dangerText(isDark)),
                     minimumSize: const Size(double.infinity, 48),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
