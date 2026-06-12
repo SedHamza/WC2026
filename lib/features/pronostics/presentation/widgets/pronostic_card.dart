@@ -137,7 +137,6 @@ class PronosticCard extends ConsumerWidget {
                 onChanged: notifier.setType,
                 enabled: enabled),
             const SizedBox(height: 16),
-
             if (state.type == PronosticType.exact)
               ExactScoreWidget(
                 homeTeamName: homeTeamName,
@@ -155,15 +154,15 @@ class PronosticCard extends ConsumerWidget {
                 winner: state.winner,
                 maxGoals: state.maxGoals,
                 minGoals: state.minGoals,
+                bothTeamsScore: state.bothTeamsScore,
                 onWinnerChanged: notifier.setWinner,
                 onMaxGoalsChanged: notifier.setMaxGoals,
                 onMinGoalsChanged: notifier.setMinGoals,
+                onBothTeamsScoreChanged: notifier.setBothTeamsScore,
                 potentialPoints: state.potentialPoints,
                 enabled: enabled,
               ),
-
             const SizedBox(height: 14),
-
             if (enabled) ...[
               SizedBox(
                 width: double.infinity,
@@ -208,7 +207,6 @@ class PronosticCard extends ConsumerWidget {
                 ),
               ],
             ],
-
             if (state.isSaved && !matchStarted)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
@@ -278,7 +276,8 @@ class PronosticCard extends ConsumerWidget {
         awayScore: state.awayScore,
         winner: state.winner,
         maxGoals: state.maxGoals,
-        minGoals: state.minGoals);
+        minGoals: state.minGoals,
+        bothTeamsScore: state.bothTeamsScore);
     return e.livePoints(home, away);
   }
 
@@ -358,7 +357,8 @@ class _LiveScoreBanner extends StatelessWidget {
       awayScore: state.awayScore,
       winner: state.winner,
       maxGoals: state.maxGoals,
-      minGoals: state.minGoals);
+      minGoals: state.minGoals,
+      bothTeamsScore: state.bothTeamsScore);
 }
 
 // ── FINAL BANNER ──────────────────────────────────────────────────────────────
@@ -385,7 +385,8 @@ class _FinalResultBanner extends StatelessWidget {
         awayScore: state.awayScore,
         winner: state.winner,
         maxGoals: state.maxGoals,
-        minGoals: state.minGoals);
+        minGoals: state.minGoals,
+        bothTeamsScore: state.bothTeamsScore);
     final detail = entity.livePointsDetail(home, away);
     final total = detail.total;
     final maxPts = entity.potentialPoints;
@@ -457,7 +458,7 @@ class _DetailRows extends StatelessWidget {
           label: l10n.exactScoreLabel,
           correct: detail.exactCorrect,
           points: detail.exactPoints,
-          max: 25,
+          max: 31,
           isDark: isDark);
     }
     return Column(
@@ -474,14 +475,22 @@ class _DetailRows extends StatelessWidget {
               label: l10n.maxGoalsLabel2(state.maxGoals.toString()),
               correct: detail.maxGoalsCorrect,
               points: detail.maxGoalsPoints,
-              max: ((7 - state.maxGoals!) * 2).clamp(0, 14),
+              max: ((7 - state.maxGoals!) * 3).clamp(0, 21),
               isDark: isDark),
         if (state.minGoals != null && state.minGoals != -1)
           _Row(
               label: l10n.minGoalsLabel2(state.minGoals.toString()),
               correct: detail.minGoalsCorrect,
               points: detail.minGoalsPoints,
-              max: (state.minGoals! * 2).clamp(0, 14),
+              max: (state.minGoals! * 3).clamp(0, 21),
+              isDark: isDark),
+        if (state.bothTeamsScore != -1)
+          _Row(
+              label: l10n.bothTeamsScoreLabel(
+                  state.bothTeamsScore == 1 ? l10n.yes : l10n.no),
+              correct: detail.bttsCorrect,
+              points: detail.bttsPoints,
+              max: 3,
               isDark: isDark),
       ],
     );

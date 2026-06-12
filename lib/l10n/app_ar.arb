@@ -65,8 +65,8 @@
   "myPronostic": "توقعي",
   "exactScore": "النتيجة الدقيقة",
   "otherPronostics": "توقعات أخرى",
-  "exactScorePts": "25 نقطة",
-  "otherPtsMax": "حتى 19 نقطة",
+  "exactScorePts": "31 نقطة",
+  "otherPtsMax": "حتى 31 نقطة",
   "confirmPronostic": "تأكيد التوقع",
   "updatePronostic": "تحديث",
   "pronosticSaved": "تم حفظ التوقع",
@@ -80,7 +80,7 @@
   "@potentialPts": { "placeholders": { "pts": {} } },
   "totalEstimated": "الإجمالي المتوقع → {pts} نقطة",
   "@totalEstimated": { "placeholders": { "pts": {} } },
-  "exactResult": "نتيجة دقيقة → 25 نقطة",
+  "exactResult": "نتيجة دقيقة → 31 نقطة",
   "myRooms": "غرفي",
   "createRoom": "إنشاء غرفة",
   "joinRoom": "الانضمام",
@@ -209,9 +209,15 @@
   "@currentScore": { "placeholders": { "home": {}, "away": {} } },
   "livePoints": "🔴 {pts} نقطة مباشر",
   "@livePoints": { "placeholders": { "pts": {} } },
-  "otherPtsMax": "حتى 19 نقطة",
-  "maxGoalsFormula": "(7 - القيمة) × 2 نقطة",
-  "minGoalsFormula": "القيمة × 2 نقطة",
-  "hasPronostic": "تم التوقع"
-
+  "otherPtsMax": "حتى 31 نقطة",
+  "maxGoalsFormula": "(7 - القيمة) × 3 نقطة",
+  "minGoalsFormula": "القيمة × 3 نقطة",
+  "hasPronostic": "تم التوقع",
+  "bothTeamsScore": "هل سيسجل كل الفريقين؟",
+  "bothTeamsScoreLabel": "تسجيل الفريقين: {choice}",
+  "yes": "نعم",
+  "no": "لا",
+  "@bothTeamsScoreLabel": {
+    "placeholders": {"choice": {"type": "Object"}}
+  }
 }

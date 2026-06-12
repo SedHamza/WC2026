@@ -38,6 +38,7 @@ class PronosticFormState {
   final int winner;
   final int maxGoals;
   final int minGoals;
+  final int bothTeamsScore;
   final bool isSaving;
   final bool isSaved;
 
@@ -48,16 +49,18 @@ class PronosticFormState {
     this.winner = -1,
     this.maxGoals = -1,
     this.minGoals = -1,
+    this.bothTeamsScore = -1,
     this.isSaving = false,
     this.isSaved = false,
   });
 
   int get potentialPoints {
-    if (type == PronosticType.exact) return 25;
+    if (type == PronosticType.exact) return 31;
     int pts = 0;
     if (winner != -1) pts += 5;
-    if (maxGoals != -1) pts += ((7 - maxGoals) * 2).clamp(0, 14);
-    if (minGoals != -1) pts += (minGoals * 2).clamp(0, 14);
+    if (maxGoals != -1) pts += ((7 - maxGoals) * 3).clamp(0, 21);
+    if (minGoals != -1) pts += (minGoals * 3).clamp(0, 21);
+    if (bothTeamsScore != -1) pts += 3;
     return pts;
   }
 
@@ -68,6 +71,7 @@ class PronosticFormState {
     int? winner,
     int? maxGoals,
     int? minGoals,
+    int? bothTeamsScore,
     bool? isSaving,
     bool? isSaved,
   }) {
@@ -78,6 +82,7 @@ class PronosticFormState {
       winner: winner ?? this.winner,
       maxGoals: maxGoals ?? this.maxGoals,
       minGoals: minGoals ?? this.minGoals,
+      bothTeamsScore: bothTeamsScore ?? this.bothTeamsScore,
       isSaving: isSaving ?? this.isSaving,
       isSaved: isSaved ?? this.isSaved,
     );
@@ -104,6 +109,7 @@ class PronosticNotifier extends StateNotifier<PronosticFormState> {
       winner: existing.winner ?? -1,
       maxGoals: existing.maxGoals ?? -1,
       minGoals: existing.minGoals ?? -1,
+      bothTeamsScore: existing.bothTeamsScore ?? -1,
       isSaved: true,
     );
   }
@@ -112,6 +118,7 @@ class PronosticNotifier extends StateNotifier<PronosticFormState> {
   void setHomeScore(int v) => state = state.copyWith(homeScore: v.clamp(0, 20));
   void setAwayScore(int v) => state = state.copyWith(awayScore: v.clamp(0, 20));
   void setWinner(int v) => state = state.copyWith(winner: v);
+  void setBothTeamsScore(int v) => state = state.copyWith(bothTeamsScore: v);
 
   void setMaxGoals(int v) {
     if (state.minGoals != -1 && v != -1 && v < state.minGoals) return;
@@ -138,6 +145,8 @@ class PronosticNotifier extends StateNotifier<PronosticFormState> {
         winner: state.type == PronosticType.other ? state.winner : null,
         maxGoals: state.type == PronosticType.other ? state.maxGoals : null,
         minGoals: state.type == PronosticType.other ? state.minGoals : null,
+        bothTeamsScore:
+            state.type == PronosticType.other ? state.bothTeamsScore : null,
       );
 
       await _repository.savePronostic(pronostic);

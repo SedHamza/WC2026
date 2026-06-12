@@ -487,7 +487,7 @@ abstract class AppLocalizations {
   /// No description provided for @otherPtsMax.
   ///
   /// In en, this message translates to:
-  /// **'up to 19 pts'**
+  /// **'up to 29 pts'**
   String get otherPtsMax;
 
   /// No description provided for @confirmPronostic.
@@ -1261,13 +1261,13 @@ abstract class AppLocalizations {
   /// No description provided for @maxGoalsFormula.
   ///
   /// In en, this message translates to:
-  /// **'(7 - value) × 2 pts'**
+  /// **'(7 - value) × 3 pts'**
   String get maxGoalsFormula;
 
   /// No description provided for @minGoalsFormula.
   ///
   /// In en, this message translates to:
-  /// **'value × 2 pts'**
+  /// **'value × 3 pts'**
   String get minGoalsFormula;
 
   /// No description provided for @hasPronostic.
@@ -1275,6 +1275,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Predicted'**
   String get hasPronostic;
+
+  /// No description provided for @bothTeamsScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Will both teams score?'**
+  String get bothTeamsScore;
+
+  /// No description provided for @bothTeamsScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'BTTS: {choice}'**
+  String bothTeamsScoreLabel(Object choice);
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
 }
 
 class _AppLocalizationsDelegate

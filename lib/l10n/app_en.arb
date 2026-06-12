@@ -65,8 +65,8 @@
   "myPronostic": "My Prediction",
   "exactScore": "Exact score",
   "otherPronostics": "Other predictions",
-  "exactScorePts": "25 pts",
-  "otherPtsMax": "up to 19 pts",
+  "exactScorePts": "31 pts",
+  "otherPtsMax": "up to 31 pts",
   "confirmPronostic": "Confirm prediction",
   "updatePronostic": "Update",
   "pronosticSaved": "Prediction saved",
@@ -80,7 +80,7 @@
   "@potentialPts": { "placeholders": { "pts": {} } },
   "totalEstimated": "Estimated total → {pts} points",
   "@totalEstimated": { "placeholders": { "pts": {} } },
-  "exactResult": "Exact score → 25 points",
+  "exactResult": "Exact score → 31 points",
   "myRooms": "My Rooms",
   "createRoom": "Create room",
   "joinRoom": "Join",
@@ -209,9 +209,16 @@
   "@currentScore": { "placeholders": { "home": {}, "away": {} } },
   "livePoints": "🔴 {pts} pts live",
   "@livePoints": { "placeholders": { "pts": {} } },
-  "otherPtsMax": "up to 19 pts",
-  "maxGoalsFormula": "(7 - value) × 2 pts",
-"minGoalsFormula": "value × 2 pts",
-"hasPronostic": "Predicted"
+  "otherPtsMax": "up to 31 pts",
+  "maxGoalsFormula": "(7 - value) × 3 pts",
+  "minGoalsFormula": "value × 3 pts",
+  "hasPronostic": "Predicted",
+  "bothTeamsScore": "Will both teams score?",
+  "bothTeamsScoreLabel": "BTTS: {choice}",
+  "yes": "Yes",
+  "no": "No",
+  "@bothTeamsScoreLabel": {
+    "placeholders": {"choice": {"type": "Object"}}
+  }
 
 }

@@ -5,6 +5,7 @@ import 'package:wc2026/core/constants/app_colors.dart';
 import 'package:wc2026/features/matches/domain/entities/match_entity.dart';
 import 'package:wc2026/l10n/app_localizations.dart';
 import 'package:wc2026/shared/providers/repository_providers.dart';
+import 'package:wc2026/features/pronostics/data/models/pronostic_model.dart';
 import 'package:wc2026/features/rooms/data/repositories/room_repository_impl.dart';
 import 'package:wc2026/shared/widgets/loading_widget.dart';
 
@@ -301,33 +302,10 @@ class _MatchTestCardState extends State<_MatchTestCard> {
         final data = pronosticDoc.data()!;
         if (data['isCalculated'] == true) continue;
 
-        // Calcul des points
+        // Calcul des points — délègue à PronosticEntity (source unique de vérité)
+        final pronostic = PronosticModel.fromFirestore(data);
         final type = data['type'] == 'exact' ? 'exact' : 'other';
-        int points = 0;
-
-        if (type == 'exact') {
-          final pHome = data['homeScore'] as int? ?? 0;
-          final pAway = data['awayScore'] as int? ?? 0;
-          if (pHome == home && pAway == away) points = 25;
-        } else {
-          final totalGoals = home + away;
-          final realWinner = home > away
-              ? 1
-              : away > home
-                  ? 2
-                  : 0;
-          final winner = data['winner'] as int? ?? -1;
-          final maxGoals = data['maxGoals'] as int? ?? -1;
-          final minGoals = data['minGoals'] as int? ?? -1;
-
-          if (winner != -1 && winner == realWinner) points += 5;
-          if (maxGoals != -1 && totalGoals <= maxGoals) {
-            points += ((7 - maxGoals) * 2).clamp(0, 14);
-          }
-          if (minGoals != -1 && totalGoals >= minGoals) {
-            points += (minGoals * 2).clamp(0, 14);
-          }
-        }
+        final points = pronostic.calculatePoints(home, away);
 
         // Batch update pronostic + user stats
         final batch = db.batch();
@@ -343,7 +321,7 @@ class _MatchTestCardState extends State<_MatchTestCard> {
           'totalPoints': FieldValue.increment(points),
         };
 
-        if (type == 'exact' && points == 25) {
+        if (type == 'exact' && points == 31) {
           statsUpdate['exactScoreCount'] = FieldValue.increment(1);
         }
         if (type == 'other') {

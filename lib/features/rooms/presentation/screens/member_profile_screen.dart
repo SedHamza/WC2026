@@ -5,6 +5,7 @@ import 'package:wc2026/features/pronostics/presentation/providers/pronostic_prov
 import 'package:wc2026/l10n/app_localizations.dart';
 import 'package:wc2026/features/pronostics/domain/entities/user_stats_entity.dart';
 import 'package:wc2026/features/pronostics/domain/entities/pronostic_entity.dart';
+import 'package:wc2026/shared/providers/repository_providers.dart';
 import 'package:wc2026/shared/widgets/loading_widget.dart';
 import 'package:wc2026/features/profile/presentation/widgets/pronostic_history_list.dart';
 
@@ -27,6 +28,7 @@ class MemberProfileScreen extends ConsumerWidget {
   final String displayName;
   final int totalPoints;
   final int rank;
+  final bool isOwnProfile;
 
   const MemberProfileScreen({
     super.key,
@@ -34,6 +36,7 @@ class MemberProfileScreen extends ConsumerWidget {
     required this.displayName,
     required this.totalPoints,
     required this.rank,
+    this.isOwnProfile = false,
   });
 
   String get _initials {
@@ -165,7 +168,10 @@ class MemberProfileScreen extends ConsumerWidget {
                         ),
                       ),
                     )
-                  : PronosticHistoryList(pronostics: pronostics),
+                  : PronosticHistoryList(
+                      pronostics: pronostics,
+                      hideUpcomingDetails: !isOwnProfile,
+                    ),
             ),
           ),
 

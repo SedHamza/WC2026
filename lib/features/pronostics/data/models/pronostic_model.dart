@@ -8,14 +8,13 @@ class PronosticModel {
       id: json['id'] ?? '',
       matchId: json['matchId'] ?? '',
       userId: json['userId'] ?? '',
-      type: json['type'] == 'exact'
-          ? PronosticType.exact
-          : PronosticType.other,
+      type: json['type'] == 'exact' ? PronosticType.exact : PronosticType.other,
       homeScore: json['homeScore'],
       awayScore: json['awayScore'],
       winner: json['winner'],
       maxGoals: json['maxGoals'],
       minGoals: json['minGoals'],
+      bothTeamsScore: json['bothTeamsScore'],
       points: json['points'] ?? 0,
       isCalculated: json['isCalculated'] ?? false,
       createdAt: json['createdAt'] != null
@@ -35,10 +34,11 @@ class PronosticModel {
       'winner': p.winner,
       'maxGoals': p.maxGoals,
       'minGoals': p.minGoals,
+      'bothTeamsScore': p.bothTeamsScore,
       'points': p.points,
       'isCalculated': p.isCalculated,
-      'createdAt': p.createdAt?.toIso8601String() ??
-          DateTime.now().toIso8601String(),
+      'createdAt':
+          p.createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
     };
   }
 
@@ -77,8 +77,8 @@ class PronosticModel {
       'minGoalsCorrectCount': s.minGoalsCorrectCount,
       'bestMatchId': s.bestMatchId,
       'bestMatchPoints': s.bestMatchPoints,
-      'createdAt': s.createdAt?.toIso8601String() ??
-          DateTime.now().toIso8601String(),
+      'createdAt':
+          s.createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
     };
   }
 }

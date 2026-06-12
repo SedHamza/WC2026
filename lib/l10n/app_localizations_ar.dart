@@ -207,7 +207,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exactScorePts => '25 نقطة';
 
   @override
-  String get otherPtsMax => 'حتى 19 نقطة';
+  String get otherPtsMax => 'حتى 29 نقطة';
 
   @override
   String get confirmPronostic => 'تأكيد التوقع';
@@ -247,7 +247,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get exactResult => 'نتيجة دقيقة → 25 نقطة';
+  String get exactResult => 'نتيجة دقيقة → 29 نقطة';
 
   @override
   String get myRooms => 'غرفي';
@@ -622,11 +622,25 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get maxGoalsFormula => '(7 - القيمة) × 2 نقطة';
+  String get maxGoalsFormula => '(7 - القيمة) × 3 نقطة';
 
   @override
-  String get minGoalsFormula => 'القيمة × 2 نقطة';
+  String get minGoalsFormula => 'القيمة × 3 نقطة';
 
   @override
   String get hasPronostic => 'تم التوقع';
+
+  @override
+  String get bothTeamsScore => 'هل سيسجل كل الفريقين؟';
+
+  @override
+  String bothTeamsScoreLabel(Object choice) {
+    return 'تسجيل الفريقين: $choice';
+  }
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
 }

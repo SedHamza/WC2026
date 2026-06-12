@@ -302,6 +302,7 @@ class _LeaderboardWidget extends StatelessWidget {
                     displayName: member.displayName,
                     totalPoints: member.totalPoints,
                     rank: rank,
+                    isOwnProfile: isMe,
                   ),
                 ),
               ),
@@ -695,21 +696,21 @@ class _MatchPronosticsCard extends ConsumerWidget {
     }
 
     if (!isVisible && !isMe) {
-return Row(
-  children: [
-    Icon(Icons.check_circle_outline_rounded,
-        size: 12, color: AppColors.accent),
-    const SizedBox(width: 4),
-    Text(
-      l10n.hasPronostic,
-      style: TextStyle(
-        fontSize: 10,
-        color: AppColors.accent,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-  ],
-);
+      return Row(
+        children: [
+          Icon(Icons.check_circle_outline_rounded,
+              size: 12, color: AppColors.accent),
+          const SizedBox(width: 4),
+          Text(
+            l10n.hasPronostic,
+            style: TextStyle(
+              fontSize: 10,
+              color: AppColors.accent,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      );
     }
 
     return Text(
@@ -741,6 +742,9 @@ return Row(
     }
     if (p.minGoals != null && p.minGoals != -1) {
       parts.add('Min≥${p.minGoals}');
+    }
+    if (p.bothTeamsScore != null && p.bothTeamsScore != -1) {
+      parts.add(p.bothTeamsScore == 1 ? 'BTTS✓' : 'BTTS✗');
     }
     if (parts.isEmpty) return '';
     return parts.join(' · ');

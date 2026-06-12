@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +170,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
 
           // ── MODE TEST (débloqué après 5 taps) ─────────────────────────
-          if (_testModeUnlocked) ...[
+          if (_testModeUnlocked && Platform.isIOS) ...[
             const SizedBox(height: 8),
             _SectionHeader(title: l10n.testMode, isDark: isDark),
             _SettingsCard(

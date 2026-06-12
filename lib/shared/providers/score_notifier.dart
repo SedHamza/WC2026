@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wc2026/features/matches/domain/entities/match_entity.dart';
 import 'package:wc2026/features/pronostics/domain/entities/pronostic_entity.dart';
+import 'package:wc2026/features/pronostics/data/models/pronostic_model.dart';
 import 'package:wc2026/features/pronostics/domain/entities/user_stats_entity.dart';
 import 'package:wc2026/features/pronostics/presentation/providers/pronostic_provider.dart';
 import 'package:wc2026/features/rooms/data/repositories/room_repository_impl.dart';
@@ -313,7 +314,7 @@ class ScoreNotifier extends StateNotifier<ScoreState> {
               : 0;
       final type = pronosticData['type'] == 'exact' ? 'exact' : 'other';
 
-      if (type == 'exact' && points == 25) {
+      if (type == 'exact' && points == 31) {
         statsUpdate['exactScoreCount'] = FieldValue.increment(1);
       }
       if (type == 'other') {
@@ -438,33 +439,11 @@ class ScoreNotifier extends StateNotifier<ScoreState> {
   // CALCUL DES POINTS (logique métier)
   // ─────────────────────────────────────────────────────────────────────────
 
+  // Délègue le calcul à PronosticEntity.calculatePoints() — source unique de
+  // vérité pour la logique de points (évite toute duplication/désync).
   int _computePoints(Map<String, dynamic> data, int homeScore, int awayScore) {
-    final type = data['type'] == 'exact' ? 'exact' : 'other';
-    final totalGoals = homeScore + awayScore;
-    final realWinner = homeScore > awayScore
-        ? 1
-        : awayScore > homeScore
-            ? 2
-            : 0;
-    int pts = 0;
-
-    if (type == 'exact') {
-      final pHome = (data['homeScore'] as num?)?.toInt() ?? 0;
-      final pAway = (data['awayScore'] as num?)?.toInt() ?? 0;
-      if (pHome == homeScore && pAway == awayScore) pts = 25;
-    } else {
-      final winner = (data['winner'] as num?)?.toInt() ?? -1;
-      final maxGoals = (data['maxGoals'] as num?)?.toInt() ?? -1;
-      final minGoals = (data['minGoals'] as num?)?.toInt() ?? -1;
-      if (winner != -1 && winner == realWinner) pts += 5;
-      if (maxGoals != -1 && totalGoals <= maxGoals) {
-        pts += ((7 - maxGoals) * 2).clamp(0, 14);
-      }
-      if (minGoals != -1 && totalGoals >= minGoals) {
-        pts += (minGoals * 2).clamp(0, 14);
-      }
-    }
-    return pts;
+    final pronostic = PronosticModel.fromFirestore(data);
+    return pronostic.calculatePoints(homeScore, awayScore);
   }
 }
 

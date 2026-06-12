@@ -207,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exactScorePts => '25 pts';
 
   @override
-  String get otherPtsMax => 'up to 19 pts';
+  String get otherPtsMax => 'up to 29 pts';
 
   @override
   String get confirmPronostic => 'Confirm prediction';
@@ -623,11 +623,25 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get maxGoalsFormula => '(7 - value) × 2 pts';
+  String get maxGoalsFormula => '(7 - value) × 3 pts';
 
   @override
-  String get minGoalsFormula => 'value × 2 pts';
+  String get minGoalsFormula => 'value × 3 pts';
 
   @override
   String get hasPronostic => 'Predicted';
+
+  @override
+  String get bothTeamsScore => 'Will both teams score?';
+
+  @override
+  String bothTeamsScoreLabel(Object choice) {
+    return 'BTTS: $choice';
+  }
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 }

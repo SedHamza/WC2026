@@ -10,7 +10,15 @@ import 'package:wc2026/l10n/app_localizations.dart';
 class PronosticHistoryList extends ConsumerWidget {
   final List<PronosticEntity> pronostics;
 
-  const PronosticHistoryList({super.key, required this.pronostics});
+  /// Si true, masque les détails des pronostics pour les matchs
+  /// pas encore commencés (utilisé sur le profil d'un autre membre)
+  final bool hideUpcomingDetails;
+
+  const PronosticHistoryList({
+    super.key,
+    required this.pronostics,
+    this.hideUpcomingDetails = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,6 +50,7 @@ class PronosticHistoryList extends ConsumerWidget {
               pronostic: entry.value,
               match: match,
               isLast: entry.key == pronostics.length - 1,
+              hideUpcomingDetails: hideUpcomingDetails,
             );
           }).toList(),
         ),
@@ -57,12 +66,17 @@ class _HistoryRow extends StatelessWidget {
   final PronosticEntity pronostic;
   final MatchEntity match;
   final bool isLast;
+  final bool hideUpcomingDetails;
 
   const _HistoryRow({
     required this.pronostic,
     required this.match,
     this.isLast = false,
+    this.hideUpcomingDetails = false,
   });
+
+  /// True si on doit masquer les détails de ce pronostic
+  bool get _isHidden => hideUpcomingDetails && match.isUpcoming;
 
   String _statusText(AppLocalizations l10n) {
     if (match.isFinished) return l10n.finished;
@@ -76,7 +90,6 @@ class _HistoryRow extends StatelessWidget {
   int _displayPoints() {
     if (pronostic.isCalculated) return pronostic.points;
     if (match.isLive && match.homeScore != null) {
-      // Calcul local direct depuis le score actuel — pas besoin du provider
       return pronostic.calculatePoints(match.homeScore!, match.awayScore ?? 0);
     }
     return 0;
@@ -90,7 +103,7 @@ class _HistoryRow extends StatelessWidget {
     final hasPoints = pronostic.isCalculated || match.isLive;
 
     return GestureDetector(
-      onTap: () => _showDetail(context),
+      onTap: _isHidden ? null : () => _showDetail(context),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
@@ -111,13 +124,15 @@ class _HistoryRow extends StatelessWidget {
                   height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: pronostic.isCalculated
-                        ? (pronostic.points > 0
-                            ? AppColors.accent
-                            : AppColors.textSecondary(isDark))
-                        : match.isLive
-                            ? AppColors.live
-                            : AppColors.warning,
+                    color: _isHidden
+                        ? AppColors.textHint(isDark)
+                        : pronostic.isCalculated
+                            ? (pronostic.points > 0
+                                ? AppColors.accent
+                                : AppColors.textSecondary(isDark))
+                            : match.isLive
+                                ? AppColors.live
+                                : AppColors.warning,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -133,44 +148,76 @@ class _HistoryRow extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 // Badge points
-                _buildBadge(hasPoints, displayPts, isDark),
+                if (_isHidden)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.check_circle_outline_rounded,
+                          size: 12, color: AppColors.accent),
+                      const SizedBox(width: 4),
+                      Text(
+                        l10n.hasPronostic,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  _buildBadge(hasPoints, displayPts, isDark),
               ],
             ),
-            const SizedBox(height: 6),
 
-            // Chips pronostic
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: _buildChips(l10n, isDark),
-            ),
-            const SizedBox(height: 4),
-
-            // Ligne status
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                children: [
-                  Text(
-                    'Max : $_maxPossible pts · ${_statusText(l10n)}',
-                    style: TextStyle(
-                        fontSize: 10, color: AppColors.textHint(isDark)),
-                  ),
-                  const Spacer(),
-                  if (match.isUpcoming)
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => MatchDetailScreen(match: match))),
-                      child: Text(l10n.modify,
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                ],
+            // ── Détails masqués pour les matchs pas commencés ─────────────
+            if (!_isHidden) ...[
+              const SizedBox(height: 6),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: _buildChips(l10n, isDark),
               ),
-            ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Row(
+                  children: [
+                    Text(
+                      'Max : $_maxPossible pts · ${_statusText(l10n)}',
+                      style: TextStyle(
+                          fontSize: 10, color: AppColors.textHint(isDark)),
+                    ),
+                    const Spacer(),
+                    if (match.isUpcoming)
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    MatchDetailScreen(match: match))),
+                        child: Text(l10n.modify,
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                  ],
+                ),
+              ),
+            ] else ...[
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  l10n.visibleAfterStart,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: AppColors.textHint(isDark),
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -179,7 +226,7 @@ class _HistoryRow extends StatelessWidget {
 
   Widget _buildBadge(bool hasPoints, int pts, bool isDark) {
     if (pronostic.isCalculated) {
-      // Points définitifs
+      final maxPts = pronostic.potentialPoints;
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
@@ -189,7 +236,7 @@ class _HistoryRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          '$pts pts',
+          '$pts/$maxPts pts',
           style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -201,7 +248,7 @@ class _HistoryRow extends StatelessWidget {
     }
 
     if (match.isLive) {
-      // Points live provisoires
+      final maxPts = pronostic.potentialPoints;
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
@@ -209,14 +256,13 @@ class _HistoryRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          '🔴 $pts pts',
+          '🔴 $pts/$maxPts pts',
           style: TextStyle(
               fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.live),
         ),
       );
     }
 
-    // En attente
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -233,7 +279,7 @@ class _HistoryRow extends StatelessWidget {
 
   Widget _buildChips(AppLocalizations l10n, bool isDark) {
     if (pronostic.isExactMode) {
-      final correct = pronostic.isCalculated && pronostic.points == 25;
+      final correct = pronostic.isCalculated && pronostic.points == 31;
       return Wrap(spacing: 6, children: [
         _Chip(
           label:
@@ -330,17 +376,17 @@ class _DetailModal extends StatelessWidget {
             ? 2
             : 0;
 
-    // Points à afficher dans le modal — calcul local direct
     final displayPts = pronostic.isCalculated
         ? pronostic.points
         : (match.isLive && match.homeScore != null)
             ? pronostic.calculatePoints(match.homeScore!, match.awayScore ?? 0)
             : 0;
+    final maxPts = pronostic.potentialPoints;
     final ptsLabel = pronostic.isCalculated
-        ? '$displayPts / ${pronostic.potentialPoints} pts max'
+        ? '$displayPts/$maxPts pts'
         : match.isLive
-            ? '🔴 $displayPts pts live (provisoire)'
-            : '— / ${pronostic.potentialPoints} pts max';
+            ? '🔴 $displayPts/$maxPts pts'
+            : '—/$maxPts pts';
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -375,9 +421,9 @@ class _DetailModal extends StatelessWidget {
               label: l10n.predictedScore,
               value: '${pronostic.homeScore} - ${pronostic.awayScore}',
               pts: pronostic.isCalculated
-                  ? (pronostic.points == 25 ? '+25 pts ✅' : '+0 pt ❌')
+                  ? (pronostic.points == 31 ? '+31/31 pts ✅' : '+0/31 pts ❌')
                   : null,
-              ptsColor: pronostic.points == 25
+              ptsColor: pronostic.points == 31
                   ? AppColors.successDark
                   : AppColors.errorDark,
               isDark: isDark,
@@ -392,7 +438,9 @@ class _DetailModal extends StatelessWidget {
                         ? match.awayTeamName
                         : l10n.draw,
                 pts: pronostic.isCalculated
-                    ? (pronostic.winner == realWinner ? '+5 pts ✅' : '+0 pt ❌')
+                    ? (pronostic.winner == realWinner
+                        ? '+5/5 pts ✅'
+                        : '+0/5 pts ❌')
                     : null,
                 ptsColor: pronostic.winner == realWinner
                     ? AppColors.successDark
@@ -407,8 +455,8 @@ class _DetailModal extends StatelessWidget {
                     : l10n.pending,
                 pts: pronostic.isCalculated
                     ? (totalReal <= pronostic.maxGoals!
-                        ? '+${(7 - pronostic.maxGoals!) * 2} pts ✅'
-                        : '+0 pt ❌')
+                        ? '+${((7 - pronostic.maxGoals!) * 3).clamp(0, 21)}/${((7 - pronostic.maxGoals!) * 3).clamp(0, 21)} pts ✅'
+                        : '+0/${((7 - pronostic.maxGoals!) * 3).clamp(0, 21)} pts ❌')
                     : null,
                 ptsColor: totalReal <= (pronostic.maxGoals ?? 99)
                     ? AppColors.successDark
@@ -423,8 +471,8 @@ class _DetailModal extends StatelessWidget {
                     : l10n.pending,
                 pts: pronostic.isCalculated
                     ? (totalReal >= pronostic.minGoals!
-                        ? '+${pronostic.minGoals! * 2} pts ✅'
-                        : '+0 pt ❌')
+                        ? '+${(pronostic.minGoals! * 3).clamp(0, 21)}/${(pronostic.minGoals! * 3).clamp(0, 21)} pts ✅'
+                        : '+0/${(pronostic.minGoals! * 3).clamp(0, 21)} pts ❌')
                     : null,
                 ptsColor: totalReal >= (pronostic.minGoals ?? 0)
                     ? AppColors.successDark

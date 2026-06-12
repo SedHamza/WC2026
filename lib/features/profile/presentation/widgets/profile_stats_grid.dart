@@ -46,7 +46,7 @@ class ProfileStatsGrid extends StatelessWidget {
               _StatBox(
                 value: '${stats.successRate.toStringAsFixed(0)}%',
                 label: l10n.successRate,
-                color: AppColors.primary,
+                color: isDark? const Color.fromARGB(255, 18, 78, 228):AppColors.primary,
                 bgColor: AppColors.infoBg(isDark),
                 isDark: isDark,
               ),
