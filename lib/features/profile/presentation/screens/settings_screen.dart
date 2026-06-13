@@ -62,7 +62,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 icon: Icons.calendar_today_outlined,
                 label: l10n.memberSince,
                 value: user?.metadata.creationTime != null
-                    ? _formatDate(user!.metadata.creationTime!, locale.languageCode)
+                    ? _formatDate(
+                        user!.metadata.creationTime!, locale.languageCode)
                     : '—',
                 isDark: isDark,
               ),
@@ -77,7 +78,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             isDark: isDark,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
                     Icon(Icons.dark_mode_outlined,
@@ -120,7 +122,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       ref.read(localeProvider.notifier).setLocale('en')),
               _Divider(isDark: isDark),
               _LangOption(
-                  flag: 'MA',
+                  flag: '🇲🇦',
                   label: 'العربية',
                   isSelected: locale.languageCode == 'ar',
                   isDark: isDark,
@@ -207,7 +209,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return DateFormat.yMMMMd(locale).format(date);
   }
 
-  void _showEditPseudoDialog(BuildContext context, User? user, AppLocalizations l10n) {
+  void _showEditPseudoDialog(
+      BuildContext context, User? user, AppLocalizations l10n) {
     final controller = TextEditingController(text: user?.displayName ?? '');
     bool isLoading = false;
 
@@ -474,7 +477,8 @@ class _LangOption extends StatelessWidget {
                         fontWeight:
                             isSelected ? FontWeight.w600 : FontWeight.w400))),
             if (isSelected)
-              Icon(Icons.check_rounded, size: 20, color: AppColors.infoText(isDark)),
+              Icon(Icons.check_rounded,
+                  size: 20, color: AppColors.infoText(isDark)),
           ],
         ),
       ),
