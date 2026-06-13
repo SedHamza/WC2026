@@ -1305,6 +1305,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coming up today'**
   String get upcomingToday;
+
+  /// No description provided for @attack.
+  ///
+  /// In en, this message translates to:
+  /// **'Attack'**
+  String get attack;
+
+  /// No description provided for @defence.
+  ///
+  /// In en, this message translates to:
+  /// **'Defence'**
+  String get defence;
+
+  /// No description provided for @topAttacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Top attacks'**
+  String get topAttacks;
+
+  /// No description provided for @worstAttacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Weakest attacks'**
+  String get worstAttacks;
+
+  /// No description provided for @topDefences.
+  ///
+  /// In en, this message translates to:
+  /// **'Top defences'**
+  String get topDefences;
+
+  /// No description provided for @worstDefences.
+  ///
+  /// In en, this message translates to:
+  /// **'Weakest defences'**
+  String get worstDefences;
+
+  /// No description provided for @goalsScoredShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} goals'**
+  String goalsScoredShort(int count);
+
+  /// No description provided for @goalsConcededShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} conceded'**
+  String goalsConcededShort(int count);
+
+  /// No description provided for @teamStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Team stats'**
+  String get teamStats;
+
+  /// No description provided for @matchesPlayedShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} matches played'**
+  String matchesPlayedShort(int count);
 }
 
 class _AppLocalizationsDelegate

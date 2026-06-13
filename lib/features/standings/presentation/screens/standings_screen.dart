@@ -49,7 +49,7 @@ class _StandingsScreenState extends ConsumerState<StandingsScreen>
           isScrollable: true,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white60,
-          indicatorColor: AppColors.secondary,
+          indicatorColor: AppColors.warningDark,
           indicatorWeight: 3,
           tabAlignment: TabAlignment.start,
           tabs: [

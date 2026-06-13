@@ -646,4 +646,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get upcomingToday => 'قادم اليوم';
+
+  @override
+  String get attack => 'هجوم';
+
+  @override
+  String get defence => 'دفاع';
+
+  @override
+  String get topAttacks => 'أفضل الهجمات';
+
+  @override
+  String get worstAttacks => 'أضعف الهجمات';
+
+  @override
+  String get topDefences => 'أفضل الدفاعات';
+
+  @override
+  String get worstDefences => 'أضعف الدفاعات';
+
+  @override
+  String goalsScoredShort(int count) {
+    return '$count أهداف';
+  }
+
+  @override
+  String goalsConcededShort(int count) {
+    return '$count مستقبلة';
+  }
+
+  @override
+  String get teamStats => 'إحصائيات الفرق';
+
+  @override
+  String matchesPlayedShort(int count) {
+    return '$count مباريات';
+  }
 }

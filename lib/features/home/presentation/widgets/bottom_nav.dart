@@ -33,11 +33,36 @@ class BottomNav extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _NavItem(icon: Icons.home_rounded, label: l10n.home, index: 0, currentIndex: currentIndex, onTap: onTap),
-              _NavItem(icon: Icons.sports_soccer_rounded, label: l10n.matches, index: 1, currentIndex: currentIndex, onTap: onTap),
-              _NavItem(icon: Icons.emoji_events_rounded, label: l10n.rooms, index: 2, currentIndex: currentIndex, onTap: onTap),
-              _NavItem(icon: Icons.leaderboard_rounded, label: l10n.standings, index: 3, currentIndex: currentIndex, onTap: onTap),
-              _NavItem(icon: Icons.person_rounded, label: l10n.profile, index: 4, currentIndex: currentIndex, onTap: onTap),
+              _NavItem(
+                  icon: Icons.home_rounded,
+                  label: l10n.home,
+                  index: 0,
+                  currentIndex: currentIndex,
+                  onTap: onTap),
+              _NavItem(
+                  icon: Icons.sports_soccer_rounded,
+                  label: l10n.matches,
+                  index: 1,
+                  currentIndex: currentIndex,
+                  onTap: onTap),
+              _NavItem(
+                  icon: Icons.emoji_events_rounded,
+                  label: l10n.rooms,
+                  index: 2,
+                  currentIndex: currentIndex,
+                  onTap: onTap),
+              _NavItem(
+                  icon: Icons.leaderboard_rounded,
+                  label: l10n.standings,
+                  index: 3,
+                  currentIndex: currentIndex,
+                  onTap: onTap),
+              _NavItem(
+                  icon: Icons.person_rounded,
+                  label: l10n.profile,
+                  index: 4,
+                  currentIndex: currentIndex,
+                  onTap: onTap),
             ],
           ),
         ),
@@ -74,7 +99,7 @@ class _NavItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withOpacity(0.15)
+              ? AppColors.infoText(isDark).withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -85,7 +110,7 @@ class _NavItem extends StatelessWidget {
               icon,
               size: 22,
               color: isActive
-                  ? AppColors.primary
+                  ? AppColors.infoText(isDark)
                   : AppColors.textSecondary(isDark),
             ),
             const SizedBox(height: 3),
@@ -95,7 +120,7 @@ class _NavItem extends StatelessWidget {
                 fontSize: 10,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                 color: isActive
-                    ? AppColors.primary
+                    ? AppColors.infoText(isDark)
                     : AppColors.textSecondary(isDark),
               ),
             ),

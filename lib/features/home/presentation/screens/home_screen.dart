@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:wc2026/features/home/presentation/widgets/attack_defence_section.dart';
 import 'package:wc2026/features/matches/presentation/widgets/date_filter.dart';
 import 'package:wc2026/features/matches/presentation/widgets/group_filter.dart';
 import 'package:wc2026/features/matches/presentation/widgets/match_card.dart';
@@ -166,7 +167,7 @@ class _HomePage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final todayAsync = ref.watch(todayMatchesProvider);
-
+    final allMatchesAsync = ref.watch(matchesProvider);
     return Scaffold(
       backgroundColor: AppColors.bgPage(isDark),
       appBar: AppBar(
@@ -207,7 +208,7 @@ class _HomePage extends ConsumerWidget {
           }
 
           return RefreshIndicator(
-            color: AppColors.primary,
+            color: AppColors.infoText(isDark),
             onRefresh: () async {
               ref.refresh(todayMatchesProvider);
               await ref.read(scoreNotifierProvider.notifier).forceRefresh();
@@ -268,6 +269,14 @@ class _HomePage extends ConsumerWidget {
                     ),
                   ),
 
+                SliverToBoxAdapter(
+                  child: AttackDefenceSection(
+                    matches: allMatchesAsync.maybeWhen(
+                      data: (m) => m,
+                      orElse: () => <MatchEntity>[],
+                    ),
+                  ),
+                ),
                 SliverToBoxAdapter(
                   child: SizedBox(
                       height: MediaQuery.of(context).padding.bottom + 16),

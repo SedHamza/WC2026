@@ -140,7 +140,7 @@ class _RoomCreatedDialog extends StatelessWidget {
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
+                  color: AppColors.infoText(isDark),
                   letterSpacing: 2),
             ),
           ),

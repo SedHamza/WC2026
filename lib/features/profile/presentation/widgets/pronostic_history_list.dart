@@ -128,11 +128,11 @@ class _HistoryRow extends StatelessWidget {
                         ? AppColors.textHint(isDark)
                         : pronostic.isCalculated
                             ? (pronostic.points > 0
-                                ? AppColors.accent
+                                ? AppColors.accentText(isDark)
                                 : AppColors.textSecondary(isDark))
                             : match.isLive
                                 ? AppColors.live
-                                : AppColors.warning,
+                                : AppColors.warningText(isDark),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -153,13 +153,13 @@ class _HistoryRow extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.check_circle_outline_rounded,
-                          size: 12, color: AppColors.accent),
+                          size: 12, color: AppColors.accentText(isDark)),
                       const SizedBox(width: 4),
                       Text(
                         l10n.hasPronostic,
                         style: TextStyle(
                           fontSize: 10,
-                          color: AppColors.accent,
+                          color: AppColors.accentText(isDark),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -198,7 +198,7 @@ class _HistoryRow extends StatelessWidget {
                         child: Text(l10n.modify,
                             style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.primary,
+                                color: AppColors.infoText(isDark),
                                 fontWeight: FontWeight.w600)),
                       ),
                   ],
@@ -273,7 +273,7 @@ class _HistoryRow extends StatelessWidget {
           style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: AppColors.warningDark)),
+              color: AppColors.warningText(isDark))),
     );
   }
 
@@ -517,14 +517,16 @@ class _DetailModal extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color:
-                            match.isLive ? AppColors.live : AppColors.primary)),
+                        color: match.isLive
+                            ? AppColors.live
+                            : AppColors.infoText(isDark))),
                 Text(ptsLabel,
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color:
-                            match.isLive ? AppColors.live : AppColors.primary)),
+                        color: match.isLive
+                            ? AppColors.live
+                            : AppColors.infoText(isDark))),
               ],
             ),
           ),

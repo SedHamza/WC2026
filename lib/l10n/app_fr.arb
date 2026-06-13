@@ -220,6 +220,26 @@
   "@bothTeamsScoreLabel": {
     "placeholders": {"choice": {"type": "Object"}}
   },
-  "upcomingToday": "À venir aujourd'hui"
-
+  "upcomingToday": "À venir aujourd'hui",
+  "attack": "Attaque",
+  "defence": "Défense",
+  "topAttacks": "Meilleures attaques",
+  "worstAttacks": "Attaques les plus faibles",
+  "topDefences": "Meilleures défenses",
+  "worstDefences": "Défenses les plus faibles",
+  "goalsScoredShort": "{count} buts",
+    "@goalsScoredShort": {
+      "placeholders": { "count": { "type": "int" } }
+    },
+    "goalsConcededShort": "{count} encaissés",
+    "@goalsConcededShort": {
+      "placeholders": { "count": { "type": "int" } }
+  },
+  "teamStats": "Statistiques des équipes",
+  "matchesPlayedShort": "{count} matchs joués",
+  "@matchesPlayedShort": {
+    "placeholders": { "count": { "type": "int" } }
+  }
 }
+
+

@@ -322,7 +322,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: Text(
                   l10n.login,
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: AppColors.infoText(
+                        Theme.of(context).brightness == Brightness.dark),
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),

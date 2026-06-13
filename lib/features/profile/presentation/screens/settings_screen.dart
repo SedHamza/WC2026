@@ -474,7 +474,7 @@ class _LangOption extends StatelessWidget {
                         fontWeight:
                             isSelected ? FontWeight.w600 : FontWeight.w400))),
             if (isSelected)
-              Icon(Icons.check_rounded, size: 20, color: AppColors.primary),
+              Icon(Icons.check_rounded, size: 20, color: AppColors.infoText(isDark)),
           ],
         ),
       ),

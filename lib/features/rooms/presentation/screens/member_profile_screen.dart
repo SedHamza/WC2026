@@ -262,25 +262,25 @@ class _StatsSection extends StatelessWidget {
               _StatBox(
                 value: '${stats.exactScoreCount}',
                 label: l10n.exactScores,
-                color: AppColors.accent,
+                color: AppColors.accentText(isDark),
                 bgColor: AppColors.successBg(isDark),
               ),
               _StatBox(
                 value: '${stats.successRate.toStringAsFixed(0)}%',
                 label: l10n.successRate,
-                color: AppColors.primary,
+                color: AppColors.infoText(isDark),
                 bgColor: AppColors.infoBg(isDark),
               ),
               _StatBox(
                 value: '${stats.bestMatchPoints}',
                 label: l10n.bestMatch,
-                color: AppColors.warning,
+                color: AppColors.warningText(isDark),
                 bgColor: AppColors.warningBg(isDark),
               ),
               _StatBox(
                 value: '${stats.winnerCorrectCount}',
                 label: l10n.correctWinners,
-                color: AppColors.secondary,
+                color: AppColors.dangerText(isDark),
                 bgColor: AppColors.errorBg(isDark),
               ),
             ],
@@ -311,7 +311,7 @@ class _StatItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: AppColors.primary,
+            color: AppColors.infoText(isDark),
           ),
         ),
         const SizedBox(height: 2),

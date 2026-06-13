@@ -648,4 +648,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get upcomingToday => 'À venir aujourd\'hui';
+
+  @override
+  String get attack => 'Attaque';
+
+  @override
+  String get defence => 'Défense';
+
+  @override
+  String get topAttacks => 'Meilleures attaques';
+
+  @override
+  String get worstAttacks => 'Attaques les plus faibles';
+
+  @override
+  String get topDefences => 'Meilleures défenses';
+
+  @override
+  String get worstDefences => 'Défenses les plus faibles';
+
+  @override
+  String goalsScoredShort(int count) {
+    return '$count buts';
+  }
+
+  @override
+  String goalsConcededShort(int count) {
+    return '$count encaissés';
+  }
+
+  @override
+  String get teamStats => 'Statistiques des équipes';
+
+  @override
+  String matchesPlayedShort(int count) {
+    return '$count matchs joués';
+  }
 }

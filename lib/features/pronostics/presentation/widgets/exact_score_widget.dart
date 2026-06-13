@@ -98,7 +98,7 @@ class ExactScoreWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: AppColors.primary,
+              color: AppColors.infoText(isDark),
             ),
             textAlign: TextAlign.center,
           ),

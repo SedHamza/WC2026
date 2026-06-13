@@ -220,5 +220,24 @@
   "@bothTeamsScoreLabel": {
     "placeholders": {"choice": {"type": "Object"}}
   },
-  "upcomingToday": "قادم اليوم"
+  "upcomingToday": "قادم اليوم",
+  "attack": "هجوم",
+  "defence": "دفاع",
+  "topAttacks": "أفضل الهجمات",
+  "worstAttacks": "أضعف الهجمات",
+  "topDefences": "أفضل الدفاعات",
+  "worstDefences": "أضعف الدفاعات",
+  "goalsScoredShort": "{count} أهداف",
+  "@goalsScoredShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "goalsConcededShort": "{count} مستقبلة",
+  "@goalsConcededShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "teamStats": "إحصائيات الفرق",
+  "matchesPlayedShort": "{count} مباريات",
+  "@matchesPlayedShort": {
+    "placeholders": { "count": { "type": "int" } }
+  }
 }

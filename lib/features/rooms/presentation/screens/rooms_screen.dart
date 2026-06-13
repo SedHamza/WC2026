@@ -56,7 +56,7 @@ class _RoomsScreenState extends ConsumerState<RoomsScreen> {
         ],
       ),
       body: RefreshIndicator(
-        color: AppColors.primary,
+        color: AppColors.infoText(isDark),
         onRefresh: () async {
           await _calculateAllMembers();
           ref.refresh(userRoomsProvider);

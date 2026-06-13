@@ -365,7 +365,7 @@ class _LeaderboardWidget extends StatelessWidget {
                               l10n.me,
                               style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.primary,
+                                color: AppColors.infoText(isDark),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -377,7 +377,7 @@ class _LeaderboardWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
+                        color: AppColors.infoText(isDark),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -509,7 +509,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: match.isUpcoming
-                ? AppColors.primary.withOpacity(0.3)
+                ? AppColors.infoText(isDark).withOpacity(0.3)
                 : AppColors.border(isDark),
           ),
         ),
@@ -607,7 +607,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 11,
                           color: isMe
-                              ? AppColors.primary
+                              ? AppColors.infoText(isDark)
                               : AppColors.textSecondary(isDark),
                           fontWeight: isMe ? FontWeight.w500 : FontWeight.w400,
                         ),
@@ -661,7 +661,7 @@ class _MatchPronosticsCard extends ConsumerWidget {
                                     : AppColors.textSecondary(isDark)
                                 : match.isLive && match.homeScore != null
                                     ? AppColors.live
-                                    : AppColors.warningDark,
+                                    : AppColors.warningText(isDark),
                           ),
                         ),
                       ),

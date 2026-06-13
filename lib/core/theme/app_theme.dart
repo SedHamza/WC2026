@@ -200,13 +200,36 @@ class AppTheme {
         indicatorSize: TabBarIndicatorSize.tab,
       ),
 
-      // ── BOTTOM NAV ────────────────────────────────────────────────────────
+      // ── BOTTOM NAV (Material 2 fallback) ─────────────────────────────────
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppColors.bgCard(isDark),
         selectedItemColor: AppColors.infoText(isDark),
         unselectedItemColor: AppColors.textSecondary(isDark),
         elevation: 0,
         type: BottomNavigationBarType.fixed,
+      ),
+
+      // ── NAVIGATION BAR (Material 3) ───────────────────────────────────────
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: AppColors.bgCard(isDark),
+        indicatorColor: AppColors.infoText(isDark).withOpacity(0.15),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return IconThemeData(color: AppColors.infoText(isDark));
+          }
+          return IconThemeData(color: AppColors.textSecondary(isDark));
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return TextStyle(
+                color: AppColors.infoText(isDark),
+                fontSize: 11,
+                fontWeight: FontWeight.w600);
+          }
+          return TextStyle(
+              color: AppColors.textSecondary(isDark), fontSize: 11);
+        }),
+        elevation: 0,
       ),
 
       // ── SNACKBAR ──────────────────────────────────────────────────────────

@@ -88,7 +88,7 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 2,
-                  color: AppColors.primary),
+                  color: AppColors.infoText(isDark)),
               decoration: InputDecoration(
                 hintText: l10n.roomCodeHint,
                 hintStyle: TextStyle(
