@@ -120,7 +120,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       ref.read(localeProvider.notifier).setLocale('en')),
               _Divider(isDark: isDark),
               _LangOption(
-                  flag: '🇸🇦',
+                  flag: 'MA',
                   label: 'العربية',
                   isSelected: locale.languageCode == 'ar',
                   isDark: isDark,
