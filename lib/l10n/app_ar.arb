@@ -239,5 +239,8 @@
   "matchesPlayedShort": "{count} مباريات",
   "@matchesPlayedShort": {
     "placeholders": { "count": { "type": "int" } }
-  }
+  },
+  "seeAll": "عرض الكل",
+  "allAttacks": "ترتيب الهجمات",
+  "allDefences": "ترتيب الدفاعات"
 }

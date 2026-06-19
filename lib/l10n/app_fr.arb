@@ -239,7 +239,10 @@
   "matchesPlayedShort": "{count} matchs joués",
   "@matchesPlayedShort": {
     "placeholders": { "count": { "type": "int" } }
-  }
+  },
+  "seeAll": "Voir tout",
+  "allAttacks": "Classement des attaques",
+  "allDefences": "Classement des défenses"
 }
 
 

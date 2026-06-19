@@ -439,10 +439,14 @@ class _PronosticsWidget extends ConsumerWidget {
           );
         }
 
-        final pronosticMatches = matches
-            .where((m) => allMatchIds.contains(m.id))
-            .toList()
-          ..sort((a, b) => b.utcDate.compareTo(a.utcDate));
+        final pronosticMatches =
+            matches.where((m) => allMatchIds.contains(m.id)).toList()
+              ..sort((a, b) {
+                // Les matchs en direct passent toujours en premier
+                if (a.isLive && !b.isLive) return -1;
+                if (!a.isLive && b.isLive) return 1;
+                return b.utcDate.compareTo(a.utcDate);
+              });
 
         return Column(
           children: pronosticMatches

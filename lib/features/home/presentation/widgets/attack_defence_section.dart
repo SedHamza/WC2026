@@ -61,6 +61,7 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
 
     List<MapEntry<String, _TeamGoalStats>> top5;
     List<MapEntry<String, _TeamGoalStats>> worst5;
+    List<MapEntry<String, _TeamGoalStats>> fullSortedBest;
 
     if (_showAttack) {
       // Top : plus de buts d'abord, et en cas d'égalité, moins de matchs joués
@@ -71,6 +72,7 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
           return a.value.played.compareTo(b.value.played);
         });
       top5 = sortedTop.take(5).toList();
+      fullSortedBest = sortedTop;
 
       // Pires : moins de buts d'abord, et en cas d'égalité, plus de matchs
       // joués (moins efficace sur la durée)
@@ -89,6 +91,7 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
           return b.value.played.compareTo(a.value.played);
         });
       top5 = sortedTop.take(5).toList();
+      fullSortedBest = sortedTop;
 
       // Pires : plus de buts concédés d'abord, et en cas d'égalité, moins
       // de matchs joués (encore plus fragile)
@@ -100,19 +103,43 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
       worst5 = sortedWorst.take(5).toList();
     }
 
+    void openFullList() {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => _FullRankingModal(
+          entries: fullSortedBest,
+          showAttack: _showAttack,
+          isDark: isDark,
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Titre de section ────────────────────────────────────────────
-          Text(
-            l10n.teamStats.toUpperCase(),
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textSecondary(isDark),
-              letterSpacing: 0.5,
+          // ── Titre de section (cliquable) ─────────────────────────────────
+          GestureDetector(
+            onTap: openFullList,
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              children: [
+                Text(
+                  l10n.teamStats.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textSecondary(isDark),
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(Icons.chevron_right_rounded,
+                    size: 16, color: AppColors.textSecondary(isDark)),
+              ],
             ),
           ),
           const SizedBox(height: 10),
@@ -142,13 +169,29 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
           const SizedBox(height: 16),
 
           // ── Top 5 ───────────────────────────────────────────────────────
-          Text(
-            _showAttack ? l10n.topAttacks : l10n.topDefences,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary(isDark),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _showAttack ? l10n.topAttacks : l10n.topDefences,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textSecondary(isDark),
+                ),
+              ),
+              GestureDetector(
+                onTap: openFullList,
+                child: Text(
+                  l10n.seeAll,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.infoText(isDark),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 6),
           _TeamList(
@@ -161,13 +204,29 @@ class _AttackDefenceSectionState extends State<AttackDefenceSection> {
           const SizedBox(height: 16),
 
           // ── Pires 5 ─────────────────────────────────────────────────────
-          Text(
-            _showAttack ? l10n.worstAttacks : l10n.worstDefences,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary(isDark),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _showAttack ? l10n.worstAttacks : l10n.worstDefences,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textSecondary(isDark),
+                ),
+              ),
+              GestureDetector(
+                onTap: openFullList,
+                child: Text(
+                  l10n.seeAll,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.infoText(isDark),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 6),
           _TeamList(
@@ -395,6 +454,152 @@ class _TeamFlag extends StatelessWidget {
         style: const TextStyle(
             fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600),
       ),
+    );
+  }
+}
+
+// ── MODAL CLASSEMENT COMPLET ──────────────────────────────────────────────────
+
+class _FullRankingModal extends StatelessWidget {
+  final List<MapEntry<String, _TeamGoalStats>> entries;
+  final bool showAttack;
+  final bool isDark;
+
+  const _FullRankingModal({
+    required this.entries,
+    required this.showAttack,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.75,
+      minChildSize: 0.4,
+      maxChildSize: 0.92,
+      expand: false,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: AppColors.bgPage(isDark),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            children: [
+              // Poignée + titre
+              const SizedBox(height: 8),
+              Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.border(isDark),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      showAttack ? l10n.allAttacks : l10n.allDefences,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary(isDark),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(Icons.close_rounded,
+                          size: 22, color: AppColors.textSecondary(isDark)),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1, color: AppColors.border(isDark)),
+
+              // Liste complète
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  itemCount: entries.length,
+                  itemBuilder: (context, i) {
+                    final rank = i + 1;
+                    final teamName = entries[i].key;
+                    final teamStats = entries[i].value;
+                    final value =
+                        showAttack ? teamStats.scored : teamStats.conceded;
+
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: AppColors.border(isDark), width: 0.5),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 24,
+                            child: Text(
+                              '$rank',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textSecondary(isDark)),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          _TeamFlag(crest: teamStats.crest, teamName: teamName),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  teamName,
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  l10n.matchesPlayedShort(teamStats.played),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: AppColors.textHint(isDark),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            showAttack
+                                ? l10n.goalsScoredShort(value)
+                                : l10n.goalsConcededShort(value),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary(isDark),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

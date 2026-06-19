@@ -1365,6 +1365,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} matches played'**
   String matchesPlayedShort(int count);
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @allAttacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Attack rankings'**
+  String get allAttacks;
+
+  /// No description provided for @allDefences.
+  ///
+  /// In en, this message translates to:
+  /// **'Defence rankings'**
+  String get allDefences;
 }
 
 class _AppLocalizationsDelegate

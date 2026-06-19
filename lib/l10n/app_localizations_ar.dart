@@ -682,4 +682,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String matchesPlayedShort(int count) {
     return '$count مباريات';
   }
+
+  @override
+  String get seeAll => 'عرض الكل';
+
+  @override
+  String get allAttacks => 'ترتيب الهجمات';
+
+  @override
+  String get allDefences => 'ترتيب الدفاعات';
 }

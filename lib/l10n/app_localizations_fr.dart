@@ -684,4 +684,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String matchesPlayedShort(int count) {
     return '$count matchs joués';
   }
+
+  @override
+  String get seeAll => 'Voir tout';
+
+  @override
+  String get allAttacks => 'Classement des attaques';
+
+  @override
+  String get allDefences => 'Classement des défenses';
 }
